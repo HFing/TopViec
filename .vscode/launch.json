@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TopViecApplication<TopViec>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.hfing.TopViec.TopViecApplication",
+            "projectName": "TopViec",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
