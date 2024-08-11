@@ -7,8 +7,8 @@
                 <div data-w-id="c1f46375-416a-e1fd-79e1-2ba39e96c173" class="footer-content-top"
                     style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                     <div class="footer-main-content"><a href="/home" class="footer-logo-container w-inline-block"><img
-                                src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60da7a7b304772e2954fe9e4_job-board-x-logo-webflow-template-2.svg"
-                                alt="Job Board X Webflow Template - Logo" class="footer-logo"></a>
+                                src="/client/img/imgclient/logoTopViec.png" alt="Top Viec - Logo"
+                                class="footer-logo"></a>
                         <p class="paragraph footer-main-content-paragraph">Join our newsletter and receive the best job
                             openings of the week, right on your inbox.</p>
                     </div>
@@ -89,8 +89,8 @@
                                             class="footer-nav-link">Licenses</a></li>
                                     <li class="footer-nav-item"><a href="/utility-pages/changelog"
                                             class="footer-nav-link">Changelog</a></li>
-                                    <li class="footer-nav-item"><a href="https://brixtemplates.com/more-templates"
-                                            class="footer-nav-link special">Browse more templates</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link special">HFing</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -169,9 +169,9 @@
             <div class="container-default w-container">
                 <div data-w-id="da3c1876-1f27-b0aa-1431-bb4267681389" class="footer-content-bottom"
                     style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                    <div class="footer-small-print">© Copyright Job Board X - Designed by <a
-                            href="https://brixtemplates.com/" target="_blank">BRIX Templates</a> - Powered by <a
-                            href="https://webflow.com/" target="_blank">Webflow</a></div>
+                    <div class="footer-small-print">© Copyright HFing - Designed by <a
+                            href="https://www.facebook.com/HFing2209/" target="_blank">HFing</a> - Powered by <a
+                            href="https://www.facebook.com/HFing2209/" target="_blank">HFing</a></div>
                     <div class="footer-social-media-wrapper"><a href="https://www.facebook.com/" target="_blank"
                             class="image-wrapper social-media-link facebook w-inline-block"></a><a
                             href="https://twitter.com/" target="_blank"

@@ -6,13 +6,12 @@
             <div class="container-default w-container">
                 <div class="header-wrapper">
                     <div class="split-content header-right"><a href="/home" aria-current="page"
-                            class="brand w-nav-brand w--current"><img
-                                src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60da7a7b304772e2954fe9e4_job-board-x-logo-webflow-template-2.svg"
-                                alt="Job Board X Webflow Template - Logo" class="header-logo"></a></div>
+                            class="brand w-nav-brand w--current"><img src="/client/img/imgclient/logoTopViec.png"
+                                alt="Top Viec - Logo" class="header-logo"></a></div>
                     <div class="split-content header-center">
                         <nav role="navigation" class="nav-menu w-nav-menu">
                             <ul role="list" class="header-navigation">
-                                <li class="nav-item-wrapper"><a href="/home" aria-current="page"
+                                <li class="nav-item-wrapper"><a href="/" aria-current="page"
                                         class="nav-link w--current">Home</a></li>
                                 <li class="nav-item-wrapper"><a href="/about" class="nav-link">About</a></li>
                                 <li class="nav-item-wrapper">
