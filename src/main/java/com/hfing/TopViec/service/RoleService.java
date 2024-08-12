@@ -22,4 +22,8 @@ public class RoleService {
     public Role findById(Long id) {
         return roleRepository.findById(id).orElse(null);
     }
+
+    public Role findByName(String name) {
+        return roleRepository.findByName(name);
+    }
 }
