@@ -1,11 +1,10 @@
-package com.hfing.TopViec.controller;
+package com.hfing.TopViec.controller.client;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class hello {
+public class HomePageController {
     @GetMapping("/")
     public String helloTest() {
         return "client/homepage/show";
@@ -20,5 +19,4 @@ public class hello {
     public String getLogInPage() {
         return "client/auth/login";
     }
-
 }

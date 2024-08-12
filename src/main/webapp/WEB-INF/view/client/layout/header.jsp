@@ -5,7 +5,7 @@
             class="header w-nav">
             <div class="container-default w-container">
                 <div class="header-wrapper">
-                    <div class="split-content header-right"><a href="/home" aria-current="page"
+                    <div class="split-content header-right"><a href="/" aria-current="page"
                             class="brand w-nav-brand w--current"><img src="/client/img/imgclient/logoTopViec.png"
                                 alt="Top Viec - Logo" class="header-logo"></a></div>
                     <div class="split-content header-center">
