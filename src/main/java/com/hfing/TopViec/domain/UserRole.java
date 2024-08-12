@@ -24,7 +24,6 @@ public class UserRole {
     @JoinColumn(name = "roleId", nullable = false)
     private Role role;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -48,4 +47,5 @@ public class UserRole {
     public void setRole(Role role) {
         this.role = role;
     }
+
 }

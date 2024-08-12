@@ -11,10 +11,20 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="" />
                 <meta name="author" content="" />
-                <title>Dashboard - SB Admin</title>
-                <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+                <title>Dashboard</title>
                 <link href="/admin/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    }); 
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -88,11 +98,12 @@
                                                     <form:checkbox path="isVerifyEmail" class="form-check-input" />
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Role Name:</label>
-                                                    <form:select path="role.id" class="form-control">
-                                                        <form:options items="${roles}" itemValue="id"
-                                                            itemLabel="name" />
-                                                    </form:select>
+                                                    <label for="roleName" class="form-label">Role:</label>
+                                                    <select name="roleId" class="form-control" id="roleId">
+                                                        <c:forEach var="role" items="${roles}">
+                                                            <option value="${role.id}">${role.name}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label for="avatarFile" class="form-label">Avatar:</label>
