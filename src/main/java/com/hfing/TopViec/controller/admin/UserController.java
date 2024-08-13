@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,13 +19,9 @@ import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
 
-import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -32,14 +29,15 @@ public class UserController {
     private final UploadService uploadService;
     private final RoleService roleService;
     private final UserRoleService userRoleService;
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserController(UserService userService, UploadService uploadService, RoleService roleService,
-            UserRoleService userRoleService) {
+            UserRoleService userRoleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.roleService = roleService;
         this.userRoleService = userRoleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/admin/user")
@@ -63,6 +61,9 @@ public class UserController {
         // Handle file upload
         String avString = this.uploadService.handleSaveUploadFile(file, "avatar");
         newUser.setAvatarUrl(avString);
+
+        // Encode password
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         // Set roleName
         Role role = roleService.findById(roleId);
@@ -136,7 +137,7 @@ public class UserController {
             currentUser.setPhone(newUser.getPhone());
             currentUser.setRoleName(roleService.findById(roleId).getName());
             currentUser.setIsActive(newUser.getIsActive());
-            currentUser.setPassword(newUser.getPassword());
+            currentUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             currentUser.setIsVerifyEmail(newUser.getIsVerifyEmail());
             currentUser.setHasCompany(newUser.getHasCompany());
             currentUser.setEmailNotificationActive(newUser.getEmailNotificationActive());

@@ -50,7 +50,6 @@
                                                     <li class="list-group-item">Email: ${user.email}</li>
                                                     <li class="list-group-item">FullName: ${user.fullName}</li>
                                                     <li class="list-group-item">Phone: ${user.phone}</li>
-                                                    <li class="list-group-item">Password: ${user.password}</li>
                                                     <li class="list-group-item">Active:
                                                         <c:choose>
                                                             <c:when test="${user.isActive}">
