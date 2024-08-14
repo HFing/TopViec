@@ -64,25 +64,31 @@
                             </div>
                             <div class="post-job-form-block w-form">
                                 <form id="wf-form-Free-Job-Form" name="wf-form-Free-Job-Form" data-name="Free Job Form"
-                                    method="get" class="post-job-form" data-wf-page-id="60ca143dde310e3e2c03c510"
-                                    data-wf-element-id="3ac0706c-cc69-3f77-3395-db52c0cd1ac9"
-                                    aria-label="Free Job Form">
+                                    method="post" class="post-job-form" data-wf-page-id="60ca143dde310e3e2c03c510"
+                                    data-wf-element-id="3ac0706c-cc69-3f77-3395-db52c0cd1ac9" aria-label="Free Job Form"
+                                    action="/login">
                                     <div class="card post-job-form-card">
                                         <div class="w-layout-grid card-post-job-form-grid">
-                                            <div class="input-wrapper"><label for="Email-3">Email
-                                                    Address</label><input class="input w-input" maxlength="256"
-                                                    name="Email" data-name="Email" placeholder="What is your email?"
-                                                    type="email" id="email" wfd-id="id1"></div>
-                                            <div class="input-wrapper"><label for="name">Password</label><input
-                                                    class="input w-input" placeholder="What is your password?"
-                                                    type="password" id="name" wfd-id="id0">
+                                            <div class="input-wrapper">
+                                                <label for="username">Email Address</label>
+                                                <input class="input w-input" name="username" data-name="Email"
+                                                    placeholder="What is your email?" type="email" id="username"
+                                                    wfd-id="id1" />
                                             </div>
-
+                                            <div class="input-wrapper">
+                                                <label for="password">Password</label>
+                                                <input class="input w-input" placeholder="What is your password?"
+                                                    type="password" id="password" wfd-id="id0" name="password">
+                                            </div>
+                                            <div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+                                            </div>
                                         </div>
-                                    </div><input type="submit" data-wait="Please wait..."
-                                        class="button-primary post-job-form-button w-button" value="Submit for approval"
+                                    </div>
+                                    <input type="submit" data-wait="Please wait..."
+                                        class="button-primary post-job-form-button w-button" value="Log In"
                                         wfd-id="id17">
-
                                 </form>
                                 <div class="card post-job-form-card empty w-form-done" tabindex="-1" role="region"
                                     aria-label="Free Job Form success">
@@ -90,10 +96,7 @@
                                         reviewed and if it meets the requirements, it will be approved by one of our
                                         moderators</div>
                                 </div>
-                                <div class="error-message w-form-fail" tabindex="-1" role="region"
-                                    aria-label="Free Job Form failure">
-                                    <div>Oops! Something went wrong.</div>
-                                </div>
+
                             </div>
                         </div>
 

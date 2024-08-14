@@ -5382,6 +5382,17 @@ figcaption {
     margin-bottom: 0;
 }
 
+
+.nav-link-dropdown:hover .dropdown-list {
+    display: block !important;
+    opacity: 1 !important;
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) !important;
+    height: auto !important;
+}
+
+
+
+
 .title.card-changelog {
     justify-content: center;
     align-items: center;
