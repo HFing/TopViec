@@ -2,8 +2,6 @@ package com.hfing.TopViec.controller.client;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 public class HomePageController {
@@ -21,9 +19,10 @@ public class HomePageController {
     public String getLogInPage() {
         return "client/auth/login";
     }
+
     @GetMapping("/404")
     public String getPageDeny() {
         return "client/auth/404";
     }
-    
+
 }
