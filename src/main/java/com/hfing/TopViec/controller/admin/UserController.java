@@ -68,7 +68,6 @@ public class UserController {
         // Set roleName
         Role role = roleService.findById(roleId);
         newUser.setRoleName(role.getName());
-
         newUser.setCreateAt(LocalDateTime.now());
 
         // Save the new user

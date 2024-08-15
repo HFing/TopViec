@@ -168,6 +168,34 @@ input[type="checkbox"],
 input[type="radio"] {
     box-sizing: border-box;
     padding: 0;
+    cursor: pointer;
+}
+
+.invalid-feedback {
+    color: red;
+}
+
+.input-error {
+    border: 1px solid red !important;
+}
+
+
+input[type="checkbox"]:checked+.w-checkbox-input {
+    background-color: #0061ff;
+    /* Màu xanh khi được chọn */
+    border-color: #0061ff;
+}
+
+input[type="checkbox"]:checked+.w-checkbox-input::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -7033,6 +7061,7 @@ figcaption {
     margin-bottom: 0;
     padding-left: 0;
     display: flex;
+    cursor: pointer;
 }
 
 .checkbox {

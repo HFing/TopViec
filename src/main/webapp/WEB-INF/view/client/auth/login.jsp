@@ -87,13 +87,14 @@
                                                             <label for="username">Email Address</label>
                                                             <input class="input w-input" name="username"
                                                                 data-name="Email" placeholder="What is your email?"
-                                                                type="email" id="username" wfd-id="id1" />
+                                                                type="email" id="username" wfd-id="id1" required="" />
                                                         </div>
                                                         <div class="input-wrapper">
                                                             <label for="password">Password</label>
                                                             <input class="input w-input"
                                                                 placeholder="What is your password?" type="password"
-                                                                id="password" wfd-id="id0" name="password">
+                                                                id="password" wfd-id="id0" name="password"
+                                                                required="" />
                                                         </div>
                                                         <div>
                                                             <input type="hidden" name="${_csrf.parameterName}"
@@ -105,14 +106,7 @@
                                                     class="button-primary post-job-form-button w-button" value="Log In"
                                                     wfd-id="id17">
                                             </form>
-                                            <div class="card post-job-form-card empty w-form-done" tabindex="-1"
-                                                role="region" aria-label="Free Job Form success">
-                                                <div class="success-message post-job-form-card">Your free job post will
-                                                    be
-                                                    reviewed and if it meets the requirements, it will be approved by
-                                                    one of our
-                                                    moderators</div>
-                                            </div>
+
 
                                         </div>
                                     </div>

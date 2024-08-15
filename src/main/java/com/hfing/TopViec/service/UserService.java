@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hfing.TopViec.domain.User;
+import com.hfing.TopViec.domain.dto.RegisterDTO;
 import com.hfing.TopViec.repository.UserRepository;
 
 @Service
@@ -34,4 +35,17 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    public boolean checkEmailExist(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullName(registerDTO.getFullName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        return user;
+    }
+
 }
