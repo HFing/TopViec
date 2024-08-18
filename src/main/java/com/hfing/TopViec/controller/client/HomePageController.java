@@ -20,6 +20,7 @@ import com.hfing.TopViec.service.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomePageController {
@@ -82,6 +83,11 @@ public class HomePageController {
     @GetMapping("/404")
     public String getPageDeny() {
         return "client/auth/404";
+    }
+
+    @GetMapping("/register_recruiter")
+    public String getRegisterRecruiterPage() {
+        return "client/auth/register_recruiter";
     }
 
 }

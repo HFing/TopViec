@@ -3,6 +3,7 @@ package com.hfing.TopViec.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +32,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserRole> userRoles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoCompany> infoCompanies;
 
     public Long getId() {
         return id;
