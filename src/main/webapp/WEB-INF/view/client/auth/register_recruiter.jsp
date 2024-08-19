@@ -12,6 +12,7 @@
                 <script type="text/javascript">
                     !function (o, c) { var n = c.documentElement, t = " w-mod-"; n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch") }(window, document);
                 </script>
+
             </head>
 
             <body>
@@ -76,44 +77,37 @@
                                             </div>
                                         </div>
                                         <div class="post-job-form-block w-form">
-                                            <form id="wf-form-Free-Job-Form" name="wf-form-Free-Job-Form"
-                                                data-name="Free Job Form" method="get" class="post-job-form"
-                                                data-wf-page-id="60ca143dde310e3e2c03c510"
-                                                data-wf-element-id="3ac0706c-cc69-3f77-3395-db52c0cd1ac9"
-                                                aria-label="Free Job Form">
+                                            <form:form id="wf-form-Free-Job-Form" name="wf-form-Free-Job-Form"
+                                                method="post" class="post-job-form" modelAttribute="registerRecruiter">
                                                 <div class="card post-job-form-card">
                                                     <div class="w-layout-grid card-post-job-form-grid">
                                                         <div class="input-wrapper">
-                                                            <label for="Name-2">Full name<span
-                                                                    class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input" maxlength="256"
-                                                                placeholder="What is your name?" type="text"
-                                                                required="true" path="fullName" />
-
+                                                            <label for="Name-2">Full Name<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="fullName" cssClass="input w-input"
+                                                                placeholder="What is your name?" required="true" />
                                                         </div>
                                                         <div class="input-wrapper">
-                                                            <label for="Email-3">Email Address
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input " maxlength="256"
-                                                                placeholder="What is your email?" type="email"
-                                                                required="true" path="email" />
+                                                            <label for="Email-3">Email Address<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="email" cssClass="input w-input"
+                                                                maxlength="256" placeholder="What is your email?"
+                                                                type="email" required="true" />
                                                         </div>
                                                         <div class="input-wrapper">
                                                             <label for="Job-Type-Pricing">Password<span
                                                                     class="accent-secondary-5">*</span></label>
-                                                            <password class="input w-input form-control "
-                                                                placeholder="What is your password?" required="true"
-                                                                path="password" />
-
+                                                            <form:password path="password"
+                                                                cssClass="input w-input form-control"
+                                                                placeholder="What is your password?" required="true" />
                                                         </div>
                                                         <div class="input-wrapper">
                                                             <label for="Job-Type-Pricing">Confirm Password<span
                                                                     class="accent-secondary-5">*</span></label>
-                                                            <password class="input w-input "
+                                                            <form:password path="confirmPassword"
+                                                                cssClass="input w-input"
                                                                 placeholder="Enter your confirm password"
-                                                                required="true" path="confirmPassword" />
+                                                                required="true" />
                                                         </div>
                                                     </div>
                                                     <div class="divider card-post-job-form"></div>
@@ -121,98 +115,109 @@
                                                     <div class="w-layout-grid card-post-job-form-grid">
                                                         <div class="input-wrapper"
                                                             id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510">
-                                                            <label for="Company-Name-2">Company
-                                                                name<span
-                                                                    class="accent-secondary-5">*</span></label><input
-                                                                class="input w-input" maxlength="256"
-                                                                name="Company-Name" data-name="Company Name"
-                                                                placeholder="What is the company name?" type="text"
-                                                                id="company-name" required="">
+                                                            <label for="Company-Name-2">Company Name<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="companyName" cssClass="input w-input"
+                                                                maxlength="256" placeholder="What is the company name?"
+                                                                required="true" />
                                                         </div>
                                                         <div class="input-wrapper"
                                                             id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510">
-                                                            <label for="Email-3">Company Email
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input " maxlength="256"
+                                                            <label for="Email-3">Company Email<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="companyEmail" cssClass="input w-input"
+                                                                maxlength="256"
                                                                 placeholder="What is your company email?" type="email"
                                                                 required="true" />
                                                         </div>
-
                                                         <div class="input-wrapper">
-                                                            <label for="Phone-3">Company Phone Number
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input" maxlength="15"
+                                                            <label for="Phone-3">Company Phone Number<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="companyPhone" cssClass="input w-input"
+                                                                maxlength="15"
                                                                 placeholder="What is your company phone number?"
                                                                 type="tel" required="true" />
                                                         </div>
-
                                                         <div class="input-wrapper">
-                                                            <label for="Tax-3">Company Tax ID
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input" maxlength="20"
-                                                                placeholder="What is your company tax ID?" type="text"
+                                                            <label for="Tax-3">Company Tax ID<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="companyTax" cssClass="input w-input"
+                                                                maxlength="20"
+                                                                placeholder="What is your company tax ID?"
                                                                 required="true" />
                                                         </div>
-
                                                         <div class="input-wrapper">
-                                                            <label for="Established-Date">Established Date
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input" maxlength="10"
-                                                                placeholder="YYYY-MM-DD" type="date" required="true" />
+                                                            <label for="Established-Date">Established Date<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="establishedDate" cssClass="input w-input"
+                                                                maxlength="10" placeholder="YYYY-MM-DD" type="date"
+                                                                required="true" />
                                                         </div>
                                                         <div class="input-wrapper">
-                                                            <label for="Field-Operation">Field of Operation
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <input class="input w-input" maxlength="256"
+                                                            <label for="Field-Operation">Field of Operation<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="fieldOperation" cssClass="input w-input"
+                                                                maxlength="256"
                                                                 placeholder="What is your field of operation?"
-                                                                type="text" required="true" />
+                                                                required="true" />
                                                         </div>
-
                                                         <div class="input-wrapper">
-                                                            <label for="Company-Size">Company Size
-                                                                <span class="accent-secondary-5">*</span>
-                                                            </label>
-                                                            <select class="input w-input" name="Company-Size"
-                                                                id="company-size" required="true">
+                                                            <label for="Company-Size">Company Size<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:select path="companySize" cssClass="input w-input"
+                                                                required="true">
                                                                 <option value="" disabled selected>Select your company
                                                                     size</option>
-                                                                <option value="1-10">1-10 employees</option>
-                                                                <option value="11-50">11-50 employees</option>
-                                                                <option value="51-200">51-200 employees</option>
-                                                                <option value="201-500">201-500 employees</option>
-                                                                <option value="501-1000">501-1000 employees</option>
-                                                                <option value="1001+">1001+ employees</option>
-                                                            </select>
+                                                                <c:forEach var="size" items="${employeeSizes}">
+                                                                    <option value="${size.id}">${size.sizeDescription}
+                                                                    </option>
+                                                                </c:forEach>
+                                                            </form:select>
                                                         </div>
-                                                        <div class="input-wrapper"><label for="Company-Website">Company
-                                                                website<span
-                                                                    class="accent-secondary-5">*</span></label><input
-                                                                class="input w-input" maxlength="256"
-                                                                name="Company-Website" data-name="Company Website"
-                                                                placeholder="https://company.com" type="text"
-                                                                id="company-website" required=""></div>
-
-
-                                                        <div id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510"
-                                                            class="input-wrapper"><label
-                                                                for="Company-description">Company
-                                                                description<span
-                                                                    class="accent-secondary-5">*</span></label><textarea
-                                                                data-name="Company description" maxlength="5000"
-                                                                id="company-description" name="Company-description"
-                                                                required=""
-                                                                placeholder="Write your company description here. Please describe what your company does, how long it had been operating, and any other relevant information. Please write up to 1200 characters."
-                                                                class="text-area w-input"></textarea></div>
+                                                        <div class="input-wrapper">
+                                                            <label for="Company-Website">Company Website<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:input path="companyWebsite" cssClass="input w-input"
+                                                                maxlength="256" placeholder="https://company.com"
+                                                                required="true" />
+                                                        </div>
+                                                        <div class="input-wrapper">
+                                                            <label for="city">City<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:select path="cityId" id="city"
+                                                                cssClass="input w-input" onchange="fetchDistricts()">
+                                                                <option value="" disabled selected>Select your city
+                                                                </option>
+                                                                <form:options items="${cities}" itemValue="id"
+                                                                    itemLabel="name" />
+                                                            </form:select>
+                                                        </div>
+                                                        <div class="input-wrapper">
+                                                            <label for="district">District<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:select path="districtId" id="district"
+                                                                cssClass="input w-input">
+                                                                <option value="" disabled selected>Select your district
+                                                                </option>
+                                                                <!-- Options will be populated by JavaScript -->
+                                                            </form:select>
+                                                        </div>
+                                                        <div class="input-wrapper"
+                                                            id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510">
+                                                            <label for="Company-description">Company Address<span
+                                                                    class="accent-secondary-5">*</span></label>
+                                                            <form:textarea path="companyAddress"
+                                                                cssClass="text-area w-input" maxlength="5000"
+                                                                placeholder="Write your Company address here."
+                                                                required="true" />
+                                                        </div>
                                                     </div>
-                                                </div><input type="submit" data-wait="Please wait..."
+                                                </div>
+                                                <input type="submit" data-wait="Please wait..."
                                                     class="button-primary post-job-form-button w-button"
                                                     value="Register Recruiter">
-                                            </form>
+                                            </form:form>
+
                                             <!-- <div class="card post-job-form-card empty w-form-done" tabindex="-1"
                                                 role="region" aria-label="Free Job Form success">
                                                 <div class="success-message post-job-form-card">Your free job post will
@@ -241,6 +246,36 @@
                     src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
                     type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
                     crossorigin="anonymous"></script>
+
+
+
+                <script>
+                    function fetchDistricts() {
+                        var cityId = document.getElementById("city").value;
+                        var districtSelect = document.getElementById("district");
+
+                        // Clear existing options
+                        districtSelect.innerHTML = "";
+
+                        // Fetch districts based on cityId
+                        fetch('/api/districts?cityId=' + cityId)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                data.forEach(district => {
+                                    var option = document.createElement("option");
+                                    option.value = district.id;
+                                    option.text = district.name;
+                                    districtSelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching districts:', error));
+                    }
+                </script>
             </body>
 
             </html>

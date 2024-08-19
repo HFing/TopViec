@@ -1,26 +1,26 @@
 package com.hfing.TopViec.service.validator;
 
 import org.springframework.stereotype.Service;
-import com.hfing.TopViec.domain.dto.RegisterDTO;
+import com.hfing.TopViec.domain.dto.RegisterRecruiterDTO;
 import com.hfing.TopViec.service.UserService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 @Service
-public class RegisterValidator implements ConstraintValidator<RegisterChecked, RegisterDTO> {
+public class RegisterCheckedValidator implements ConstraintValidator<RegisterChecked, RegisterRecruiterDTO> {
     private final UserService userService;
 
-    public RegisterValidator(UserService userService) {
+    public RegisterCheckedValidator(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public boolean isValid(RegisterDTO user, ConstraintValidatorContext context) {
+    public boolean isValid(RegisterRecruiterDTO user, ConstraintValidatorContext context) {
         boolean valid = true;
 
         // Check if password fields match
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            context.buildConstraintViolationWithTemplate("Passwords not match")
+            context.buildConstraintViolationWithTemplate("Passwords do not match")
                     .addPropertyNode("confirmPassword")
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();

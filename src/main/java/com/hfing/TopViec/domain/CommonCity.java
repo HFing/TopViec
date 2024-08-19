@@ -2,6 +2,9 @@ package com.hfing.TopViec.domain;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "common_city")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class CommonCity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +27,7 @@ public class CommonCity {
     private String name;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<CommonDistrict> districts;
 
     public Long getId() {
@@ -47,11 +52,6 @@ public class CommonCity {
 
     public void setDistricts(Set<CommonDistrict> districts) {
         this.districts = districts;
-    }
-
-    @Override
-    public String toString() {
-        return "CommonCity [id=" + id + ", name=" + name + "]";
     }
 
 }

@@ -1,6 +1,11 @@
 package com.hfing.TopViec.controller.client;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,10 +14,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.hfing.TopViec.domain.CommonCity;
+import com.hfing.TopViec.domain.CommonDistrict;
+import com.hfing.TopViec.domain.CommonLocation;
+import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
 import com.hfing.TopViec.domain.dto.RegisterDTO;
+import com.hfing.TopViec.domain.dto.RegisterRecruiterDTO;
+import com.hfing.TopViec.service.CommonCityService;
+import com.hfing.TopViec.service.CommonDistrictService;
+import com.hfing.TopViec.service.CommonLocationService;
+import com.hfing.TopViec.service.EmployeeSizeService;
+import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
@@ -21,6 +36,8 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomePageController {
@@ -29,13 +46,25 @@ public class HomePageController {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserRoleService userRoleService;
+    private final CommonCityService cityService;
+    private final CommonDistrictService districtService;
+    private final EmployeeSizeService employeeSizeService;
+    private final CommonLocationService locationService;
+    private final InfoCompanyService infoCompanyService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
-            UserRoleService userRoleService) {
+            UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
+            EmployeeSizeService employeeSizeService, CommonLocationService locationService,
+            InfoCompanyService infoCompanyService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.userRoleService = userRoleService;
+        this.cityService = cityService;
+        this.districtService = districtService;
+        this.employeeSizeService = employeeSizeService;
+        this.locationService = locationService;
+        this.infoCompanyService = infoCompanyService;
     }
 
     @GetMapping("/")
@@ -86,8 +115,93 @@ public class HomePageController {
     }
 
     @GetMapping("/register_recruiter")
-    public String getRegisterRecruiterPage() {
+    public String getRegisterRecruiterPage(Model model) {
+        model.addAttribute("registerRecruiter", new RegisterRecruiterDTO());
+        model.addAttribute("cities", cityService.findAll());
+        model.addAttribute("employeeSizes", employeeSizeService.findAll());
         return "client/auth/register_recruiter";
     }
 
+    @GetMapping("/api/districts")
+    @ResponseBody
+    public List<CommonDistrict> getDistrictsByCityId(@RequestParam Long cityId) {
+        return districtService.findByCityId(cityId);
+    }
+
+    @PostMapping("/register_recruiter")
+    public String registerRecruiter(@Valid RegisterRecruiterDTO registerRecruiterDTO, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(error -> System.out.println(" Loi o day >>>" + error.getDefaultMessage()));
+            model.addAttribute("registerRecruiter", registerRecruiterDTO);
+            model.addAttribute("cities", cityService.findAll());
+            model.addAttribute("employeeSizes", employeeSizeService.findAll());
+            return "client/auth/register_recruiter";
+        }
+
+        // Create and save User
+        User user = new User();
+        user.setEmail(registerRecruiterDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRecruiterDTO.getPassword()));
+        user.setFullName(registerRecruiterDTO.getFullName());
+        user.setAvatarUrl("default_avatar.jpg");
+        user.setRoleName("RECRUITER");
+        user.setIsActive(true);
+        user.setHasCompany(true);
+        user.setEmailNotificationActive(true);
+        user.setCreateAt(LocalDateTime.now());
+        userService.saveUser(user);
+
+        // Ensure user is saved and has an ID
+        if (user.getId() == null) {
+            throw new IllegalStateException("User ID should not be null after saving");
+        }
+
+        // Assign Role to User
+        Role role = roleService.findByName("RECRUITER");
+        UserRole userRole = new UserRole();
+        userRole.setRole(role);
+        userRole.setUser(user);
+        userRoleService.saveUserRole(userRole);
+
+        // Create and save InfoCompany
+        InfoCompany infoCompany = new InfoCompany();
+        infoCompany.setCompanyName(registerRecruiterDTO.getCompanyName());
+        infoCompany.setCompanyEmail(registerRecruiterDTO.getCompanyEmail());
+        infoCompany.setCompanyPhone(registerRecruiterDTO.getCompanyPhone());
+        infoCompany.setTaxCode(registerRecruiterDTO.getCompanyTax());
+        infoCompany.setSince(registerRecruiterDTO.getEstablishedDate());
+        infoCompany.setFieldOperation(registerRecruiterDTO.getFieldOperation());
+        infoCompany.setEmployeeSize(employeeSizeService.findById(registerRecruiterDTO.getCompanySize()));
+        infoCompany.setWebsiteUrl(registerRecruiterDTO.getCompanyWebsite());
+        infoCompany.setCreateAt(new Date(System.currentTimeMillis()));
+
+        // Find or create CommonLocation
+        CommonCity city = cityService.findById(registerRecruiterDTO.getCityId());
+        CommonDistrict district = districtService.findById(registerRecruiterDTO.getDistrictId());
+        CommonLocation location = locationService.findByCityIdAndDistrictId(registerRecruiterDTO.getCityId(),
+                registerRecruiterDTO.getDistrictId());
+        if (location == null) {
+            location = new CommonLocation();
+            location.setCity(city);
+            location.setDistrict(district);
+            location.setAddress(registerRecruiterDTO.getCompanyAddress());
+            locationService.save(location);
+        }
+
+        // Set location and user for InfoCompany
+        infoCompany.setLocation(location);
+        infoCompany.setUser(user);
+
+        // Save InfoCompany
+        infoCompanyService.saveInfoCompany(infoCompany);
+
+        // Ensure infoCompany is saved and has an ID
+        if (infoCompany.getId() == null) {
+            throw new IllegalStateException("InfoCompany ID should not be null after saving");
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Registration successful!");
+        return "redirect:/login";
+    }
 }

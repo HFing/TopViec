@@ -16,4 +16,21 @@ public class EmployeeSize {
 
     @Column(name = "size_description", nullable = false)
     private String sizeDescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSizeDescription() {
+        return sizeDescription;
+    }
+
+    public void setSizeDescription(String sizeDescription) {
+        this.sizeDescription = sizeDescription;
+    }
+
 }

@@ -1,16 +1,11 @@
 package com.hfing.TopViec.service.validator;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import java.lang.annotation.*;
 
-@Constraint(validatedBy = RegisterValidator.class)
-@Target({ ElementType.TYPE }) // Adjusted to apply to the class level
+@Constraint(validatedBy = { RegisterValidator.class, RegisterCheckedValidator.class })
+@Target({ ElementType.TYPE }) // Apply to the class level
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RegisterChecked {
