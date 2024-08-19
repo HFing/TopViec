@@ -2,18 +2,13 @@ package com.hfing.TopViec.controller.client;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
@@ -31,9 +26,7 @@ import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -204,4 +197,5 @@ public class HomePageController {
         redirectAttributes.addFlashAttribute("message", "Registration successful!");
         return "redirect:/login";
     }
+
 }

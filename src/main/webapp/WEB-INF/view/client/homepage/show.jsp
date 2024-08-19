@@ -598,13 +598,15 @@
                                             alt="Job Board X Webflow Template - Webclip"
                                             class="image card-job-board-post-icon"></div>
                                     <div class="card-job-board-post-content">
-                                        <h4 class="title card-job-board-post">Post a job today</h4>
-                                        <p class="paragraph card-job-board-post">Lorem ipsum dolor sit amet, consectetur
-                                            adipiscing elit. Sed.</p>
+                                        <h4 class="title card-job-board-post">Get Unlimited Now</h4>
+                                        <p class="paragraph card-job-board-post">If you are a recruiter, register for
+                                            our unlimited plan to take full advantage of all our features and reach the
+                                            best candidates. Sed.</p>
                                         <div class="job-board-post-links-wrapper"><a href="/pricing"
-                                                class="button-primary small card-job-board-post w-button">Post a
-                                                featured job</a><a href="/post-a-job"
-                                                class="card-job-board-post-free-link">or post a free job</a></div>
+                                                class="button-primary small card-job-board-post w-button">Get
+                                                Unlimited</a><a href="/register_recruiter"
+                                                class="card-job-board-post-free-link">or register recruiter to post a
+                                                free job</a></div>
                                     </div>
                                 </div>
                             </div>

@@ -52,7 +52,7 @@ public class SecurityConfiguration {
                                                 .permitAll()
                                                 .requestMatchers("/", "/register/**", "/login", "/client/**", "/css/**",
                                                                 "/js/**", "/images/**", "/register_recruiter/**",
-                                                                "/api/districts")
+                                                                "/api/districts", "/pricing/**")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
