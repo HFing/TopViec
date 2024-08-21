@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="client/css/style.css">
+    <link rel="stylesheet" href="/client/css/style.css">
 </head>
 
 <body>
@@ -84,12 +84,9 @@
                                                                 alt="Facebook" class="image featured-company"></div>
                                                         <h5 class="title featured-company">Facebook</h5>
                                                     </div>
-                                                    <div class="featured-company-arrow-wrapper">
-                                                        <div class="featured-company-arrow-2"></div>
-                                                        <div class="featured-company-arrow-1"></div>
-                                                        <div class="featured-company-arrow-3"></div>
-                                                    </div>
-                                                </a></div>
+                                                    <div class="arrow">&#9654;</div>
+                                                </a>
+                                            </div>
                                             <div role="listitem" class="featured-company-item w-dyn-item"><a
                                                     href="/company/twitter"
                                                     class="featured-company-wrapper w-inline-block">
@@ -99,11 +96,7 @@
                                                                 alt="Twitter" class="image featured-company"></div>
                                                         <h5 class="title featured-company">Twitter</h5>
                                                     </div>
-                                                    <div class="featured-company-arrow-wrapper">
-                                                        <div class="featured-company-arrow-2"></div>
-                                                        <div class="featured-company-arrow-1"></div>
-                                                        <div class="featured-company-arrow-3"></div>
-                                                    </div>
+                                                    <div class="arrow">&#9654;</div>
                                                 </a></div>
                                             <div role="listitem" class="featured-company-item w-dyn-item"><a
                                                     href="/company/google"
@@ -114,11 +107,7 @@
                                                                 alt="Google" class="image featured-company"></div>
                                                         <h5 class="title featured-company">Google</h5>
                                                     </div>
-                                                    <div class="featured-company-arrow-wrapper">
-                                                        <div class="featured-company-arrow-2"></div>
-                                                        <div class="featured-company-arrow-1"></div>
-                                                        <div class="featured-company-arrow-3"></div>
-                                                    </div>
+                                                    <div class="arrow">&#9654;</div>
                                                 </a></div>
                                             <div role="listitem" class="featured-company-item w-dyn-item"><a
                                                     href="/company/youtube"
@@ -129,11 +118,7 @@
                                                                 alt="Youtube" class="image featured-company"></div>
                                                         <h5 class="title featured-company">Youtube</h5>
                                                     </div>
-                                                    <div class="featured-company-arrow-wrapper">
-                                                        <div class="featured-company-arrow-2"></div>
-                                                        <div class="featured-company-arrow-1"></div>
-                                                        <div class="featured-company-arrow-3"></div>
-                                                    </div>
+                                                    <div class="arrow">&#9654;</div>
                                                 </a></div>
                                         </div>
                                     </div>
@@ -146,6 +131,36 @@
         </div>
     </div>
 
+
+    <div class="section cta">
+        <div class="container-default w-container">
+            <div class="cta-wrapper">
+                <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec40b" class="card cta featured"
+                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                    <h2 class="title cta featured">Post a featured job</h2>
+                    <p class="paragraph cta featured">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt
+                        sit venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/pricing"
+                        class="button-primary button-white cta-featured w-button">Post a featured job</a>
+                    <div class="bg cta-shape-1"
+                        style="will-change: transform; transform: translate3d(0px, 22.292px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                    </div>
+                    <div class="bg cta-shape-2"
+                        style="will-change: transform; transform: translate3d(0px, 5.573px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                    </div>
+                    <div class="bg cta-shape-3"
+                        style="will-change: transform; transform: translate3d(0px, 11.146px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                    </div>
+                </div>
+                <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec415" class="card cta"
+                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                    <h2 class="title cta">Post a free job</h2>
+                    <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit
+                        venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
+                        class="button-primary w-button">Post a free job</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <jsp:include page="../layout/footer.jsp" />
     <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"

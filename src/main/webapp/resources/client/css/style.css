@@ -2098,6 +2098,68 @@ textarea.w-select {
     position: relative;
 }
 
+.jobs-filters-dropdown-list {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale3d(0.95, 0.95, 1);
+}
+
+.company-tabs-menu {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+}
+
+.company-tab-link {
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.company-tab-link:hover {
+    color: #007bff;
+}
+
+.company-tab-link.w--current {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+.company-tab-pane {
+    display: none;
+    padding: 20px 0;
+}
+
+.company-tab-pane.w--tab-active {
+    display: block;
+}
+
+
+
+
+/* Khi người dùng hover vào dropdown button hoặc dropdown list, hiển thị dropdown list */
+.jobs-filters-dropdown-button:hover+.jobs-filters-dropdown-list,
+.jobs-filters-dropdown-list:hover {
+    display: block;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+}
+
+/* Khi hover vào phần tử công ty, thay đổi màu chữ thành màu xanh */
+.featured-company-item:hover .title.featured-company {
+    color: rgb(0, 97, 255);
+}
+
+.featured-company-item:hover .arrow {
+    color: rgb(0, 97, 255);
+    transform: translateX(5px);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+
+
 .w-nav-button:focus {
     outline: 0;
 }

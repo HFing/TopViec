@@ -60,6 +60,16 @@ public class HomePageController {
         this.infoCompanyService = infoCompanyService;
     }
 
+    @GetMapping("/contact")
+    public String getContactPage() {
+        return "client/homepage/contact";
+    }
+
+    @GetMapping("/about")
+    public String getAboutPage() {
+        return "client/homepage/about";
+    }
+
     @GetMapping("/")
     public String getHomePage() {
         return "client/homepage/show";
