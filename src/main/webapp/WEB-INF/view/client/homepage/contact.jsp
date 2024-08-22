@@ -142,7 +142,7 @@
                 style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); opacity: 1; transform-style: preserve-3d;"
                 class="faqs-wrapper">
                 <div class="card faq">
-                    <div class="faq-content-top">
+                    <div class="faq-content-top" onclick="toggleFaq(this)">
                         <div class="faq-arrow-wrapper">
                             <div class="faq-arrow-line-1"></div>
                             <div class="faq-arrow-line-2"></div>
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <div class="card faq">
-                    <div class="faq-content-top">
+                    <div class="faq-content-top" onclick="toggleFaq(this)">
                         <div class="faq-arrow-wrapper">
                             <div class="faq-arrow-line-1"></div>
                             <div class="faq-arrow-line-2"></div>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 <div class="card faq">
-                    <div class="faq-content-top">
+                    <div class="faq-content-top" onclick="toggleFaq(this)">
                         <div class="faq-arrow-wrapper">
                             <div class="faq-arrow-line-1"></div>
                             <div class="faq-arrow-line-2"></div>
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="card faq">
-                    <div class="faq-content-top">
+                    <div class="faq-content-top" onclick="toggleFaq(this)">
                         <div class="faq-arrow-wrapper">
                             <div class="faq-arrow-line-1"></div>
                             <div class="faq-arrow-line-2"></div>
@@ -210,7 +210,7 @@
                     </div>
                 </div>
                 <div class="card faq">
-                    <div class="faq-content-top">
+                    <div class="faq-content-top" onclick="toggleFaq(this)">
                         <div class="faq-arrow-wrapper">
                             <div class="faq-arrow-line-1"></div>
                             <div class="faq-arrow-line-2"></div>
@@ -237,6 +237,22 @@
         type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
 
+    <script>
+        function toggleFaq(element) {
+            var faqBottom = element.nextElementSibling;
+            if (faqBottom.style.display === "none" || faqBottom.style.display === "") {
+                faqBottom.style.display = "block";
+                faqBottom.style.height = "auto";
+                faqBottom.style.opacity = "1";
+                faqBottom.style.transform = "translate3d(0px, 0px, 0px) scale3d(1, 1, 1)";
+            } else {
+                faqBottom.style.display = "none";
+                faqBottom.style.height = "0px";
+                faqBottom.style.opacity = "0";
+                faqBottom.style.transform = "translate3d(0px, 150%, 0px) scale3d(0.95, 0.95, 1)";
+            }
+        }
+    </script>
 </body>
 
 
