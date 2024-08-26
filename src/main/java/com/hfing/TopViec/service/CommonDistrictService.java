@@ -43,4 +43,5 @@ public class CommonDistrictService {
     public List<CommonDistrict> findByCityId(Long cityId) {
         return districtRepository.findByCityId(cityId);
     }
+
 }

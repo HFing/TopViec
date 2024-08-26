@@ -54,7 +54,9 @@
                                                     <td>${company.companyName}</td>
                                                     <td>${company.companyEmail}</td>
                                                     <td>${company.companyPhone}</td>
-                                                    <td>${company.websiteUrl}</td>
+                                                    <td>
+                                                        <a href="${company.websiteUrl}" target="_blank">Website</a>
+                                                    </td>
                                                     <td>
                                                         <a href="/admin/company/${company.id}"
                                                             class="btn btn-success">View</a>
