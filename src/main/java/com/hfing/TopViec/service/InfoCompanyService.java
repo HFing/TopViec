@@ -22,4 +22,12 @@ public class InfoCompanyService {
     public void saveInfoCompany(InfoCompany infoCompany) {
         infoCompanyRepository.save(infoCompany);
     }
+
+    public InfoCompany getCompanyById(Long id) {
+        return infoCompanyRepository.findById(id).get();
+    }
+
+    public void deleteCompanyById(Long id) {
+        infoCompanyRepository.deleteById(id);
+    }
 }

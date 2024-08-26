@@ -146,7 +146,7 @@
 
 
 
-                                                <!-- <div class="mb-3">
+                                                <div class="mb-3">
                                                     <label for="companyImageUrl" class="form-label">Company
                                                         Image:</label>
                                                     <form:input path="companyImageUrl" cssClass="form-control"
@@ -173,7 +173,7 @@
                                                     <img style="max-height: 250px; display: none;"
                                                         alt="companyCoverImageUrl preview"
                                                         id="companyCoverImageUrlPreview" />
-                                                </div> -->
+                                                </div>
 
 
 
