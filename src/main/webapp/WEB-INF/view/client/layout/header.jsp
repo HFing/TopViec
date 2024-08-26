@@ -550,15 +550,16 @@
                                     id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
                                     <div class="dropdown-nav-main-wrapper">
                                         <div class="dropdown-nav-pages-wrapper" style="padding: 10px 20px !important;">
-                                            <img src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ccaf9848061904755c13a8_icon-location-job-board-x-template.svg"
-                                                alt="Location - Job Board X Webflow Template"
-                                                class="image jobs-filters">
-                                            <div class="title h5-size dropdown-nav-title">Locations</div>
+                                            <div class="title h5-size dropdown-nav-title">Setting</div>
                                             <div class="dropdown-nav-content categories">
                                                 <div class="w-dyn-list">
                                                     <div role="list"
                                                         class="jobs-filters-dropdown-links-grid header-dropdown last w-dyn-items">
-
+                                                        <div role="listitem"
+                                                            class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                            <a href="" class="dropdown-nav-link"
+                                                                tabindex="0">Profile</a>
+                                                        </div>
                                                         <div role="listitem"
                                                             class="jobs-filters-dropdown-link-item w-dyn-item">
                                                             <form action=/logout method="post">
@@ -568,12 +569,6 @@
                                                                     style="background:none;border:none;padding:0;color:inherit;cursor:pointer;">Logout</button>
                                                             </form>
                                                         </div>
-                                                        <div role="listitem"
-                                                            class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                            <a href="/job-location-category/miami-fl"
-                                                                class="dropdown-nav-link" tabindex="0">Miami, FL</a>
-                                                        </div>
-
                                                     </div>
                                                 </div>
                                             </div>

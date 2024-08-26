@@ -13,6 +13,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                             User
                         </a>
+                        <a class="nav-link" href="/admin/company">
+                            <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
+                            Company
+                        </a>
 
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

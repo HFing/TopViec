@@ -19,7 +19,7 @@
             <p class="paragraph _404">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis semper convallis
                 euismod vestibulum in pharetra.<br></p>
             <div class="_2-buttons"><a href="/post-a-job" class="button-primary _2-buttons-button w-button">Post a
-                    job</a><a href="/home" class="button-secondary _2-buttons-button w-button">See all jobs</a></div>
+                    job</a><a href="/" class="button-secondary _2-buttons-button w-button">See all jobs</a></div>
         </div>
     </section>
     <jsp:include page="../layout/footer.jsp" />
