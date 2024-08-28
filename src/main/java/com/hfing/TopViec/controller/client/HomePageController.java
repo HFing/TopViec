@@ -196,6 +196,8 @@ public class HomePageController {
         infoCompany.setLocation(location);
         infoCompany.setUser(user);
 
+        infoCompany.setCompanyCoverImageUrl("company-cover-default.jpeg");
+        infoCompany.setCompanyImageUrl("company-default.jpg");
         // Save InfoCompany
         infoCompanyService.saveInfoCompany(infoCompany);
 

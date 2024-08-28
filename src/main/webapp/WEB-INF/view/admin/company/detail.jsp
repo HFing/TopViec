@@ -55,14 +55,22 @@
                                                     <li class="list-group-item">Name: ${company.companyName}</li>
                                                     <li class="list-group-item">Email: ${company.companyEmail}</li>
                                                     <li class="list-group-item">Phone: ${company.companyPhone}</li>
+                                                    <li class="list-group-item">Tax Code: ${company.taxCode}</li>
+                                                    <li class="list-group-item">Since: ${company.since}</li>
+                                                    <li class="list-group-item">Field Operation:
+                                                        ${company.fieldOperation}</li>
+                                                    <li class="list-group-item">Location: ${location.city.name},
+                                                        ${location.district.name}</li>
                                                     <li class="list-group-item">Website: ${company.websiteUrl}</li>
                                                     <li class="list-group-item">Description: ${company.description}</li>
+                                                    <li class="list-group-item">Employee Size: ${employeeSize}</li>
                                                     <li class="list-group-item">Created At: ${company.createAt}</li>
                                                     <li class="list-group-item">Updated At: ${company.updateAt}</li>
                                                     <li class="list-group-item">Company Image URL:
                                                         ${company.companyImageUrl}</li>
                                                     <li class="list-group-item">Company Cover Image URL:
                                                         ${company.companyCoverImageUrl}</li>
+                                                    <li class="list-group-item">User Name: ${userName}</li>
 
                                                 </ul>
                                             </div>

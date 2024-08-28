@@ -116,7 +116,15 @@ public class CompanyAdminController {
     @GetMapping("/admin/company/{id}")
     public String companyDetailPage(Model model, @PathVariable long id) {
         InfoCompany company = companyService.getCompanyById(id);
+        model.addAttribute("employeeSize", company.getEmployeeSize().getSizeDescription());
         model.addAttribute("company", company);
+        String userName = (company.getUser() != null && company.getUser().getFullName() != null)
+                ? company.getUser().getFullName()
+                : "N/A";
+        model.addAttribute("userName", userName);
+        CommonLocation location = company.getLocation();
+        model.addAttribute("location", location);
+        model.addAttribute("address", location.getAddress());
         return "admin/company/detail";
     }
 }
