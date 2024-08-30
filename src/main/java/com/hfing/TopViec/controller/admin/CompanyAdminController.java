@@ -127,4 +127,26 @@ public class CompanyAdminController {
         model.addAttribute("address", location.getAddress());
         return "admin/company/detail";
     }
+
+    @GetMapping("/admin/company/update/{id}")
+    public String getCompanyUpdate(@PathVariable Long id, Model model) {
+        InfoCompany company = companyService.getCompanyById(id);
+        model.addAttribute("existingCompany", company);
+        model.addAttribute("cities", cityService.findAll());
+        model.addAttribute("districts", districtService.findAll());
+        model.addAttribute("employeeSizes", employeeSizeService.findAll());
+
+        CommonLocation location = company.getLocation();
+        if (location != null) {
+            if (location.getCity() != null) {
+                model.addAttribute("selectedCityId", location.getCity().getId());
+            }
+            if (location.getDistrict() != null) {
+                model.addAttribute("selectedDistrictId", location.getDistrict().getId());
+            }
+        }
+
+        return "admin/company/update";
+    }
+
 }

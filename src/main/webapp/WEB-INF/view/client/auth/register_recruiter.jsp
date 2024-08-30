@@ -204,11 +204,11 @@
                                                         </div>
                                                         <div class="input-wrapper"
                                                             id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510">
-                                                            <label for="Company-description">Company Address<span
+                                                            <label for="Company-description">Company Description<span
                                                                     class="accent-secondary-5">*</span></label>
-                                                            <form:textarea path="companyAddress"
+                                                            <form:textarea path="companyDescription"
                                                                 cssClass="text-area w-input" maxlength="5000"
-                                                                placeholder="Write your Company address here."
+                                                                placeholder="Write your Company description here."
                                                                 required="true" />
                                                         </div>
                                                     </div>

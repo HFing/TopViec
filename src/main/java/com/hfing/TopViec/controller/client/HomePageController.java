@@ -177,6 +177,7 @@ public class HomePageController {
         infoCompany.setFieldOperation(registerRecruiterDTO.getFieldOperation());
         infoCompany.setEmployeeSize(employeeSizeService.findById(registerRecruiterDTO.getCompanySize()));
         infoCompany.setWebsiteUrl(registerRecruiterDTO.getCompanyWebsite());
+        infoCompany.setDescription(registerRecruiterDTO.getCompanyDescription());
         infoCompany.setCreateAt(new Date(System.currentTimeMillis()));
 
         // Find or create CommonLocation
@@ -188,7 +189,6 @@ public class HomePageController {
             location = new CommonLocation();
             location.setCity(city);
             location.setDistrict(district);
-            location.setAddress(registerRecruiterDTO.getCompanyAddress());
             locationService.save(location);
         }
 

@@ -20,7 +20,7 @@ public class RegisterRecruiterDTO {
     private Long cityId;
     private Long districtId;
     private Long companySize;
-    private String companyAddress;
+    private String companyDescription;
 
     public String getFullName() {
         return fullName;
@@ -126,12 +126,12 @@ public class RegisterRecruiterDTO {
         this.districtId = districtId;
     }
 
-    public String getCompanyAddress() {
-        return companyAddress;
+    public String getCompanyDescription() {
+        return companyDescription;
     }
 
-    public void setCompanyAddress(String companyAddress) {
-        this.companyAddress = companyAddress;
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
     }
 
     public Long getCompanySize() {

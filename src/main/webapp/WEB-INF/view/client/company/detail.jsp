@@ -109,7 +109,7 @@
                                         role="tab" aria-controls="w-tabs-0-data-w-pane-2" aria-selected="false">
                                         <div>Company perks &amp; benefits</div>
                                     </a></div>
-                                <div class="company-tabs-content w-tab-content">
+                                <!-- <div class="company-tabs-content w-tab-content">
                                     <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
                                         id="w-tabs-0-data-w-pane-0" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-0">
@@ -293,73 +293,200 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+
+                                <div class="company-tabs-content w-tab-content">
+                                    <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
+                                        id="w-tabs-0-data-w-pane-0" role="tabpanel"
+                                        aria-labelledby="w-tabs-0-data-w-tab-0">
+                                        <h2 class="title h3-size company-job-openings">Webflow job openings</h2>
+                                        <div class="w-dyn-list">
+                                            <div class="card job-empty-state w-dyn-empty">
+                                                <div class="job-empty-state-wrapper">
+                                                    <div class="image-wrapper job-empty-state-icon"><img
+                                                            alt="Search Icon - Job Board X Webflow Template"
+                                                            src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
+                                                            class="image job-empty-state"></div>
+                                                    <div class="job-empty-state-content">
+                                                        <h3 class="title h2-size job-empty-state">No job openings
+                                                            available</h3>
+                                                        <p class="paragraph job-empty-state">Want to stay up to date of
+                                                            all new job openings popin up? Subscribe to our newsletter
+                                                            to receive great jobs every week.</p>
+                                                        <div class="job-empty-state-form-block w-form">
+                                                            <form id="wf-form-Job-Empty-State-Form"
+                                                                name="wf-form-Job-Empty-State-Form"
+                                                                data-name="Job Empty State Form" method="get"
+                                                                class="job-empty-state-form"
+                                                                data-wf-page-id="60c7a4d437554c8630b53ab2"
+                                                                data-wf-element-id="93a9aff5-cc15-0ba3-947d-b091b4bbaf0b"
+                                                                aria-label="Job Empty State Form"><input
+                                                                    class="input job-empty-state w-input"
+                                                                    maxlength="256" name="Email" data-name="Email"
+                                                                    placeholder="Subscribe to our newsletter"
+                                                                    type="email" id="email" required=""><input
+                                                                    type="submit" data-wait="Please wait..."
+                                                                    class="button-primary small job-empty-state w-button"
+                                                                    value="Subscribe"></form>
+                                                            <div class="success-message w-form-done" tabindex="-1"
+                                                                role="region" aria-label="Job Empty State Form success">
+                                                                <div>Thanks for joining our newsletter.</div>
+                                                            </div>
+                                                            <div class="error-message w-form-fail" tabindex="-1"
+                                                                role="region" aria-label="Job Empty State Form failure">
+                                                                <div>Oops! Something went wrong.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="navigation" aria-label="List"
+                                                class="w-pagination-wrapper pagination"></div>
+                                        </div>
+                                    </div>
+                                    <div data-w-tab="About Company" class="company-tab-pane w-tab-pane"
+                                        id="w-tabs-0-data-w-pane-1" role="tabpanel"
+                                        aria-labelledby="w-tabs-0-data-w-tab-1">
+                                        <div class="company-about-wrapper">
+                                            <h2 class="title h3-size company-about">About the company</h2>
+                                            <div class="rich-text w-richtext">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus augue
+                                                    sagittis erat consectetur est. Blandit blandit nec <a
+                                                        href="#">mauris pulvinar</a>. Lectus duis amet tortor, sit
+                                                    tincidunt. Rhoncus tincidunt imperdiet penatibus vitae risus, vitae.
+                                                </p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus
+                                                    dictum ultrices lacus sodales nunc felis eu, consectetur arcu. Vitae
+                                                    nulla scelerisque id</p>
+                                                <ul role="list">
+                                                    <li>Neque sodales ut etiam sit amet nisl purus. Non tellus orci ac
+                                                        auctor.</li>
+                                                    <li>Adipiscing elit ut aliquam purus sit amet. Viverra suspendisse
+                                                        potenti nullam ac.</li>
+                                                    <li>Mauris commodo quis imperdiet massa tincidunt nunc pulvinar</li>
+                                                </ul>
+                                                <figure style="max-width:1306px"
+                                                    class="w-richtext-align-fullwidth w-richtext-figure-type-image">
+                                                    <div><img
+                                                            src="https://cdn.prod.website-files.com/60c77302fcfa2bdb6e595f76/60c7c4fc44bc856c896ee119_image-about-company-job-board-x.jpg"
+                                                            loading="lazy" alt=""></div>
+                                                </figure>
+                                            </div>
+                                            <div class="company-about-social-media-bottom-wrapper">
+                                                <div class="company-about-social-media-text-wrapper">
+                                                    <div class="company-about-social-media-text">Follow&nbsp;</div>
+                                                    <div class="company-about-social-media-text">Messenger</div>
+                                                </div>
+                                                <div class="company-about-social-media-wrapper"><a
+                                                        href="https://www.facebook.com/" target="_blank"
+                                                        class="image-wrapper social-media-link facebook w-inline-block"></a><a
+                                                        href="https://twitter.com/" target="_blank"
+                                                        class="image-wrapper social-media-link twitter w-inline-block"></a><a
+                                                        href="https://www.instagram.com/" target="_blank"
+                                                        class="image-wrapper social-media-link instagram w-inline-block"></a><a
+                                                        href="https://www.linkedin.com/" target="_blank"
+                                                        class="image-wrapper social-media-link linkedin w-inline-block"></a><a
+                                                        href="https://www.youtube.com/" target="_blank"
+                                                        class="image-wrapper social-media-link youtube w-inline-block"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-w-tab="Company Perks" class="company-tab-pane w-tab-pane"
+                                        id="w-tabs-0-data-w-pane-2" role="tabpanel"
+                                        aria-labelledby="w-tabs-0-data-w-tab-2">
+                                        <h2 class="title h3-size company-perks">Webflow job openings</h2>
+                                        <div class="company-perks-columns w-row">
+                                            <div class="company-perks-column-1 w-col w-col-6">
+                                                <div class="company-perks-rich-text w-richtext">
+                                                    <ul role="list">
+                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
+                                                        <li>Duis aute irure dolor in reprehenderit in voluptate</li>
+                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="company-perks-column-2 w-col w-col-6">
+                                                <div class="company-perks-rich-text w-richtext">
+                                                    <ul role="list">
+                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
+                                                        <li>Excepteur sint occaecat cupidatat non proident</li>
+                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section cta">
-                <div class="container-default w-container">
-                    <div class="cta-wrapper">
-                        <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec40b" class="card cta featured"
-                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                            <h2 class="title cta featured">Post a featured job</h2>
-                            <p class="paragraph cta featured">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Tincidunt
-                                sit venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/pricing"
-                                class="button-primary button-white cta-featured w-button">Post a featured job</a>
-                            <div class="bg cta-shape-1"
-                                style="will-change: transform; transform: translate3d(0px, 15.424px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                <div class="section cta">
+                    <div class="container-default w-container">
+                        <div class="cta-wrapper">
+                            <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec40b" class="card cta featured"
+                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                                <h2 class="title cta featured">Post a featured job</h2>
+                                <p class="paragraph cta featured">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit.
+                                    Tincidunt
+                                    sit venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a
+                                    href="/pricing" class="button-primary button-white cta-featured w-button">Post a
+                                    featured job</a>
+                                <div class="bg cta-shape-1"
+                                    style="will-change: transform; transform: translate3d(0px, 15.424px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                </div>
+                                <div class="bg cta-shape-2"
+                                    style="will-change: transform; transform: translate3d(0px, 3.856px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                </div>
+                                <div class="bg cta-shape-3"
+                                    style="will-change: transform; transform: translate3d(0px, 7.712px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                </div>
                             </div>
-                            <div class="bg cta-shape-2"
-                                style="will-change: transform; transform: translate3d(0px, 3.856px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec415" class="card cta"
+                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                                <h2 class="title cta">Post a free job</h2>
+                                <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Tincidunt
+                                    sit
+                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
+                                    class="button-primary w-button">Post a free job</a>
                             </div>
-                            <div class="bg cta-shape-3"
-                                style="will-change: transform; transform: translate3d(0px, 7.712px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                            </div>
-                        </div>
-                        <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec415" class="card cta"
-                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                            <h2 class="title cta">Post a free job</h2>
-                            <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt
-                                sit
-                                venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
-                                class="button-primary w-button">Post a free job</a>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
 
-            <jsp:include page="../layout/footer.jsp" />
-            <script
-                src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
-                type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-                crossorigin="anonymous"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const tabs = document.querySelectorAll('.company-tab-link');
-                    const panes = document.querySelectorAll('.company-tab-pane');
+                <jsp:include page="../layout/footer.jsp" />
+                <script
+                    src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
+                    type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                    crossorigin="anonymous"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const tabs = document.querySelectorAll('.company-tab-link');
+                        const panes = document.querySelectorAll('.company-tab-pane');
 
-                    tabs.forEach(tab => {
-                        tab.addEventListener('click', function (event) {
-                            event.preventDefault();
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', function (event) {
+                                event.preventDefault();
 
-                            // Remove active class from all tabs and panes
-                            tabs.forEach(t => t.classList.remove('w--current'));
-                            panes.forEach(p => p.classList.remove('w--tab-active'));
+                                // Remove active class from all tabs and panes
+                                tabs.forEach(t => t.classList.remove('w--current'));
+                                panes.forEach(p => p.classList.remove('w--tab-active'));
 
-                            // Add active class to the clicked tab and corresponding pane
-                            tab.classList.add('w--current');
-                            const paneId = tab.getAttribute('href').substring(1);
-                            document.getElementById(paneId).classList.add('w--tab-active');
+                                // Add active class to the clicked tab and corresponding pane
+                                tab.classList.add('w--current');
+                                const paneId = tab.getAttribute('href').substring(1);
+                                document.getElementById(paneId).classList.add('w--tab-active');
+                            });
                         });
                     });
-                });
-            </script>
+                </script>
         </body>
 
 
