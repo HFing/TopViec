@@ -3,6 +3,9 @@ package com.hfing.TopViec.controller.client;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,9 @@ import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,6 +116,20 @@ public class HomePageController {
     @GetMapping("/login")
     public String getLogInPage() {
         return "client/auth/login";
+    }
+
+    @GetMapping("/login-success")
+    public String loginSuccess(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email); // Giả sử bạn có phương thức này trong UserService
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("fullName", user.getFullName());
+            }
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/404")

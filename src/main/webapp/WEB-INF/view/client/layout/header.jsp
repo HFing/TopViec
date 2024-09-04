@@ -542,7 +542,7 @@
                                     aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false"
                                     role="button" tabindex="0">
                                     <a href="#" class="button-primary header-button w-button">
-                                        ${pageContext.request.userPrincipal.name}
+                                        ${sessionScope.fullName}
                                     </a>
                                 </div>
                                 <nav class="dropdown-list categories w-dropdown-list"
@@ -560,7 +560,7 @@
                                                         class="jobs-filters-dropdown-links-grid header-dropdown last w-dyn-items">
                                                         <div role="listitem"
                                                             class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                            <a href="" class="dropdown-nav-link"
+                                                            <a href="/profile" class="dropdown-nav-link"
                                                                 tabindex="0">Profile</a>
                                                         </div>
                                                         <div role="listitem"
