@@ -47,17 +47,19 @@
                                 <h1 class="mt-4">Manage Users</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active"><a href="/admin/user">User</a></li>
+                                    <li class="breadcrumb-item active"><a href="/admin/company">Company</a></li>
                                     <li class="breadcrumb-item active">Update</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Update a user</h3>
+                                            <h3>Update a company</h3>
                                             <hr />
                                             <form:form method="post" action="/admin/company/update"
                                                 modelAttribute="existingCompany" class="row"
                                                 enctype="multipart/form-data">
+
+                                                <input type="hidden" name="id" value="${existingCompany.id}" />
                                                 <div class="row mb-3">
                                                     <div class="col">
                                                         <label for="companyName" class="form-label">Company
@@ -151,7 +153,8 @@
 
                                                     <div class="col-md-6">
                                                         <label for="district" class="form-label">District:</label>
-                                                        <select id="district" name="district" class="form-control">
+                                                        <select id="district" name="district" class="form-control"
+                                                            data-selected-id="${existingCompany.location.district.id}">
                                                             <option value="" disabled>Select your district</option>
                                                             <c:forEach var="district" items="${districts}">
                                                                 <option value="${district.id}" <c:if
@@ -163,30 +166,25 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="companyImageUrl" class="form-label">Company
-                                                        Image:</label>
-                                                    <form:input path="companyImageUrl" cssClass="form-control"
-                                                        id="companyImageUrl" type="file" accept=".png, .jpg, .jpeg"
-                                                        name="companyImageUrl" />
+                                                    <label for="companyImage" class="form-label">Company Image:</label>
+                                                    <input class="form-control" type="file" id="companyImage"
+                                                        accept=".png, .jpg, .jpeg" name="companyImage" />
                                                 </div>
-
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; max-width: 50%;"
-                                                        alt="companyImageUrl preview" id="companyImageUrlPreview"
+                                                        alt="companyImage preview" id="companyImagePreview"
                                                         src="/images/company/${existingCompany.companyImageUrl}" />
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="companyCoverImageUrl" class="form-label">Company Cover
+                                                    <label for="companyCover" class="form-label">Company Cover
                                                         Image:</label>
-                                                    <form:input path="companyCoverImageUrl" cssClass="form-control"
-                                                        id="companyCoverImageUrl" type="file" accept=".png, .jpg, .jpeg"
-                                                        name="companyCoverImageUrl" />
+                                                    <input class="form-control" type="file" id="companyCover"
+                                                        accept=".png, .jpg, .jpeg" name="companyCover" />
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 350px; max-width: 80%;"
-                                                        alt="companyCoverImageUrl preview"
-                                                        id="companyCoverImageUrlPreview"
+                                                        alt="companyCover preview" id="companyCoverPreview"
                                                         src="/images/companycover/${existingCompany.companyCoverImageUrl}" />
                                                 </div>
 
@@ -249,6 +247,59 @@
                             { value: 'Email', title: 'Email' },
                         ],
                         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                    });
+                </script>
+                <script>
+                    function fetchDistricts(cityId, selectedDistrictId = null) {
+                        if (!cityId) {
+                            console.error('City ID is required');
+                            return;
+                        }
+
+                        const url = `/admin/api/districts?cityId=` + cityId;
+                        fetch(url)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                const districtSelect = document.getElementById('district');
+                                districtSelect.innerHTML = '<option value="" disabled>Select your district</option>';
+                                data.forEach(district => {
+                                    const option = document.createElement('option');
+                                    option.value = district.id;
+                                    option.textContent = district.name;
+                                    if (selectedDistrictId && district.id === parseInt(selectedDistrictId)) {
+                                        option.selected = true;
+                                    }
+                                    districtSelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching districts:', error));
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const cityDropdown = document.getElementById('city');
+                        const districtDropdown = document.getElementById('district');
+
+                        if (!cityDropdown) {
+                            console.error('City dropdown not found');
+                            return;
+                        }
+
+                        cityDropdown.addEventListener('change', function () {
+                            const cityId = this.value;
+                            fetchDistricts(cityId);
+                        });
+
+                        // Fetch districts for the initially selected city if any
+                        const initialCityId = cityDropdown.value;
+                        const initialDistrictId = districtDropdown.getAttribute('data-selected-id');
+                        if (initialCityId) {
+                            fetchDistricts(initialCityId, initialDistrictId);
+                        }
                     });
                 </script>
             </body>

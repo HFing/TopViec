@@ -1,7 +1,7 @@
 package com.hfing.TopViec.controller.admin;
 
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
+import com.hfing.TopViec.domain.EmployeeSize;
 import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.CommonDistrictService;
@@ -107,9 +109,8 @@ public class CompanyAdminController {
     }
 
     @PostMapping("/admin/company/delete")
-    public String deleteCompany(@RequestParam long id, RedirectAttributes redirectAttributes) {
+    public String deleteCompany(@RequestParam long id) {
         companyService.deleteCompanyById(id);
-        redirectAttributes.addFlashAttribute("message", "Company deleted successfully.");
         return "redirect:/admin/company";
     }
 
@@ -147,6 +148,62 @@ public class CompanyAdminController {
         }
 
         return "admin/company/update";
+    }
+
+    @PostMapping("/admin/company/update")
+    public String saveCompanyUpdate(Model model,
+            @ModelAttribute("existingCompany") InfoCompany company,
+            @RequestParam("companyCover") MultipartFile companyCover,
+            @RequestParam("companyImage") MultipartFile companyImage,
+            @RequestParam("city") Long cityId,
+            @RequestParam("district") Long districtId,
+            @RequestParam("employeeSize.id") Long employeeSizeId) {
+
+        InfoCompany existingCompany = companyService.getCompanyById(company.getId());
+
+        try {
+            if (companyCover != null && !companyCover.isEmpty()) {
+                String imgCover = this.uploadService.handleSaveUploadFile(companyCover, "companycover");
+                existingCompany.setCompanyCoverImageUrl(imgCover);
+            }
+
+            if (companyImage != null && !companyImage.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile(companyImage, "company");
+                existingCompany.setCompanyImageUrl(img);
+            }
+
+            CommonLocation location = locationService.findByCityIdAndDistrictId(cityId, districtId);
+            CommonCity city = cityService.findById(cityId);
+            CommonDistrict district = districtService.findById(districtId);
+            location.setCity(city);
+            location.setDistrict(district);
+            existingCompany.setLocation(location);
+
+            EmployeeSize employeeSize = employeeSizeService.findById(employeeSizeId);
+            existingCompany.setEmployeeSize(employeeSize);
+
+            existingCompany.setCompanyName(company.getCompanyName());
+            existingCompany.setFacebookUrl(company.getFacebookUrl());
+            existingCompany.setYoutubeUrl(company.getYoutubeUrl());
+            existingCompany.setLinkedinUrl(company.getLinkedinUrl());
+            existingCompany.setCompanyEmail(company.getCompanyEmail());
+            existingCompany.setCompanyPhone(company.getCompanyPhone());
+            existingCompany.setWebsiteUrl(company.getWebsiteUrl());
+            existingCompany.setTaxCode(company.getTaxCode());
+            existingCompany.setSince(company.getSince());
+            existingCompany.setFieldOperation(company.getFieldOperation());
+            existingCompany.setDescription(company.getDescription());
+            existingCompany.setUpdateAt(new Date(System.currentTimeMillis()));
+
+            companyService.saveInfoCompany(existingCompany);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Thêm thông báo lỗi vào model để hiển thị trên giao diện người dùng nếu cần
+            model.addAttribute("errorMessage", "An error occurred while updating the company information.");
+            return "admin/company/update"; // Trả về trang cập nhật với thông báo lỗi
+        }
+
+        return "redirect:/admin/company";
     }
 
 }

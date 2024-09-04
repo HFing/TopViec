@@ -550,6 +550,9 @@
                                     id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
                                     <div class="dropdown-nav-main-wrapper">
                                         <div class="dropdown-nav-pages-wrapper" style="padding: 10px 20px !important;">
+                                            <img src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60ca2461a2ab22bb749f85e2_icon-1-post-job-job-board-x-template.svg"
+                                                alt="Profile" class="image jobs-filters">
+
                                             <div class="title h5-size dropdown-nav-title">Setting</div>
                                             <div class="dropdown-nav-content categories">
                                                 <div class="w-dyn-list">
