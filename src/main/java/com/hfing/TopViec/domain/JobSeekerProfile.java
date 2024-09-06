@@ -33,6 +33,9 @@ public class JobSeekerProfile {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "address")
+    private String address;
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -72,5 +75,13 @@ public class JobSeekerProfile {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

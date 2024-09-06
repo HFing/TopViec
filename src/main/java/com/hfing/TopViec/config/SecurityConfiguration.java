@@ -22,6 +22,12 @@ import jakarta.servlet.DispatcherType;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
+        private final UserService userService;
+
+        public SecurityConfiguration(UserService userService) {
+                this.userService = userService;
+        }
+
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
@@ -71,6 +77,7 @@ public class SecurityConfiguration {
                                 .formLogin(formLogin -> formLogin
                                                 .loginPage("/login")
                                                 .failureUrl("/login?error")
+                                                .successHandler(new CustomAuthenticationSuccessHandler(userService))
                                                 .permitAll())
                                 .exceptionHandling(ex -> ex.accessDeniedPage("/404"));
 

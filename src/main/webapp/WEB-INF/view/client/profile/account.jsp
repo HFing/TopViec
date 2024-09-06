@@ -159,19 +159,23 @@
                                                 <div class="company-perks-column-1 w-col w-col-6">
                                                     <div class="company-perks-rich-text w-richtext">
                                                         <ul role="list">
-                                                            <li>Full Name: HFing</li>
-                                                            <li>Phone: 0234324</li>
-                                                            <li>Birthday: </li>
-                                                            <li>Gender: </li>
+                                                            <li>Full Name: ${user.fullName}</li>
+                                                            <li>Phone: ${user.phone}</li>
+                                                            <li>Birthday: ${birthday != null ? birthday : 'Not updated'}
+                                                            </li>
+                                                            <li>Gender: ${gender != null ? (gender == 1 ? 'Nam' :
+                                                                (gender == 0 ? 'Nữ' : 'Not updated')) : 'Not updated'}
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="company-perks-column-2 w-col w-col-6">
                                                     <div class="company-perks-rich-text w-richtext">
                                                         <ul role="list">
-                                                            <li>Province/City: </li>
-                                                            <li>District: </li>
-                                                            <li>Address: </li>
+                                                            <li>Province/City: ${cityName}</li>
+                                                            <li>District: ${districtName}</li>
+                                                            <li>Address: ${address != null ? address : 'Not updated'}
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -183,48 +187,71 @@
                             </div>
                         </div>
                         <div id="editProfileModal" class="modal">
-                            <div class="modal-content">
+                            <div class="modal-content card post-job-form-card">
                                 <span class="close">&times;</span>
-                                <h2>Edit Job Seeker Profile</h2>
+                                <p>Edit Job Seeker Profile</p>
                                 <form:form id="editProfileForm" action="/updateProfile" method="post"
                                     modelAttribute="jobSeekerProfile">
-                                    <div class="card post-job-form-card">
-                                        <div class="w-layout-grid card-post-job-form-grid">
-                                            <div class="input-wrapper">
-                                                <label for="fullName">Full Name<span
-                                                        class="accent-secondary-5">*</span></label>
-                                                <input type="text" name="fullName" class="input w-input"
-                                                    placeholder="What is your name?" />
-                                            </div>
-                                            <div class="input-wrapper">
-                                                <label for="phone">Phone<span
-                                                        class="accent-secondary-5">*</span></label>
-                                                <input type="text" name="phone" class="input w-input"
-                                                    placeholder="What is your phone number?" />
-                                            </div>
-                                            <div class="input-wrapper">
-                                                <label for="birthday">Birthday<span
-                                                        class="accent-secondary-5">*</span></label>
-                                                <form:input path="birthday" cssClass="input w-input"
-                                                    placeholder="YYYY-MM-DD" type="date" required="true" />
-                                            </div>
-                                            <div class="input-wrapper">
-                                                <label for="gender">Gender<span
-                                                        class="accent-secondary-5">*</span></label>
-                                                <form:input path="gender" cssClass="input w-input"
-                                                    placeholder="What is your gender?" required="true" />
-                                            </div>
 
-                                            <div class="input-wrapper">
-                                                <label for="location">Location<span
-                                                        class="accent-secondary-5">*</span></label>
-                                                <form:input path="location.address" cssClass="input w-input"
-                                                    placeholder="What is your location?" required="true" />
-                                            </div>
+                                    <div class="w-layout-grid card-post-job-form-grid">
+                                        <div class="input-wrapper">
+                                            <label for="fullName">Full Name<span
+                                                    class="accent-secondary-5">*</span></label>
+                                            <form:input path="user.fullName" id="fullName" cssClass="input w-input"
+                                                placeholder="What is your name?" value="${user.fullName}" />
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label for="phone">Phone<span class="accent-secondary-5">*</span></label>
+                                            <form:input path="user.phone" id="phone" cssClass="input w-input"
+                                                placeholder="What is your phone number?" value="${user.phone}" />
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label for="birthday">Birthday<span
+                                                    class="accent-secondary-5">*</span></label>
+                                            <form:input path="birthday" cssClass="input w-input"
+                                                placeholder="YYYY-MM-DD" type="date" required="true" />
+                                        </div>
+                                        <div class="input-wrapper">
+                                            <label for="gender">Gender<span class="accent-secondary-5">*</span></label>
+                                            <form:select path="gender" cssClass="input w-input">
+                                                <option value="" disabled selected>Select your gender</option>
+                                                <option value="1">Male</option>
+                                                <option value="0">Female</option>
+                                            </form:select>
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <label for="city">City<span class="accent-secondary-5">*</span></label>
+                                            <form:select path="location.city.id" id="city" cssClass="input w-input"
+                                                onchange="fetchDistricts()">
+                                                <option value="" disabled selected>Select your city</option>
+                                                <form:options items="${citiesProfileUpdate}" itemValue="id"
+                                                    itemLabel="name" />
+                                            </form:select>
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <label for="district">District<span
+                                                    class="accent-secondary-5">*</span></label>
+                                            <form:select path="location.district.id" id="district"
+                                                cssClass="input w-input">
+                                                <option value="" disabled selected>Select your district</option>
+                                                <!-- Options will be populated by JavaScript -->
+                                            </form:select>
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <label for="address">Address<span
+                                                    class="accent-secondary-5">*</span></label>
+                                            <input type="text" name="address" class="input w-input"
+                                                placeholder="What is your address?" />
                                         </div>
                                     </div>
+                                    <br>
                                     <input type="submit" data-wait="Please wait..."
                                         class="button-primary post-job-form-button w-button" value="Save">
+
+
                                 </form:form>
                             </div>
                         </div>
@@ -253,6 +280,33 @@
                                 if (event.target == modal) {
                                     modal.style.display = "none";
                                 }
+                            }
+                        </script>
+                        <script>
+                            function fetchDistricts() {
+                                var cityId = document.getElementById("city").value;
+                                var districtSelect = document.getElementById("district");
+
+                                // Clear existing options
+                                districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
+
+                                // Fetch districts based on cityId
+                                fetch('/api/districts?cityId=' + cityId)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok');
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        data.forEach(district => {
+                                            var option = document.createElement("option");
+                                            option.value = district.id;
+                                            option.text = district.name;
+                                            districtSelect.appendChild(option);
+                                        });
+                                    })
+                                    .catch(error => console.error('Error fetching districts:', error));
                             }
                         </script>
             </body>

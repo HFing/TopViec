@@ -542,7 +542,7 @@
                                     aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false"
                                     role="button" tabindex="0">
                                     <a href="#" class="button-primary header-button w-button">
-                                        ${sessionScope.fullName}
+                                        ${fullName}
                                     </a>
                                 </div>
                                 <nav class="dropdown-list categories w-dropdown-list"
