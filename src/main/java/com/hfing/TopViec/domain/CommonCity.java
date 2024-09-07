@@ -30,6 +30,9 @@ public class CommonCity {
     @JsonIgnore
     private Set<CommonDistrict> districts;
 
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<InfoResume> resumes;
+
     public Long getId() {
         return id;
     }
@@ -52,6 +55,14 @@ public class CommonCity {
 
     public void setDistricts(Set<CommonDistrict> districts) {
         this.districts = districts;
+    }
+
+    public Set<InfoResume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(Set<InfoResume> resumes) {
+        this.resumes = resumes;
     }
 
 }

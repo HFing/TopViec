@@ -1,5 +1,6 @@
 package com.hfing.TopViec.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.sql.Date;
@@ -35,6 +37,9 @@ public class JobSeekerProfile {
 
     @Column(name = "address")
     private String address;
+
+    @OneToOne(mappedBy = "jobSeekerProfile", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private InfoResume resume;
 
     // Getters and Setters
     public Long getId() {
@@ -84,4 +89,13 @@ public class JobSeekerProfile {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public InfoResume getResume() {
+        return resume;
+    }
+
+    public void setResume(InfoResume resume) {
+        this.resume = resume;
+    }
+
 }

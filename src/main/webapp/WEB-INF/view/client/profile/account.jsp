@@ -138,9 +138,8 @@
                                             <div>Company jobs</div>
                                         </a>
                                         <a data-w-tab="About Company" class="company-tab-link w-inline-block w-tab-link"
-                                            id="w-tabs-0-data-w-tab-1" href="#w-tabs-0-data-w-pane-1"
-                                            aria-selected="false">
-                                            <div>About the company</div>
+                                            id="w-tabs-0-data-w-tab-1" href="/profile/resume" aria-selected="false">
+                                            <div>Resume</div>
                                         </a>
                                         <a data-w-tab="Company Perks"
                                             class="company-tab-link w-inline-block w-tab-link w--current"
@@ -255,60 +254,62 @@
                                 </form:form>
                             </div>
                         </div>
-                        <jsp:include page="../layout/footer.jsp" />
-                        <script
-                            src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
-                            type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-                            crossorigin="anonymous"></script>
-                        <script>
-                            // Get the modal
-                            var modal = document.getElementById("editProfileModal");
-                            // Get the button that opens the modal
-                            var btn = document.getElementById("editProfileButton");
-                            // Get the <span> element that closes the modal
-                            var span = document.getElementsByClassName("close")[0];
-                            // When the user clicks the button, open the modal 
-                            btn.onclick = function () {
-                                modal.style.display = "block";
-                            }
-                            // When the user clicks on <span> (x), close the modal
-                            span.onclick = function () {
-                                modal.style.display = "none";
-                            }
-                            // When the user clicks anywhere outside of the modal, close it
-                            window.onclick = function (event) {
-                                if (event.target == modal) {
-                                    modal.style.display = "none";
+                    </div>
+                </div>
+                <jsp:include page="../layout/footer.jsp" />
+                <script
+                    src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
+                    type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                    crossorigin="anonymous"></script>
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById("editProfileModal");
+                    // Get the button that opens the modal
+                    var btn = document.getElementById("editProfileButton");
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("close")[0];
+                    // When the user clicks the button, open the modal 
+                    btn.onclick = function () {
+                        modal.style.display = "block";
+                    }
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                </script>
+                <script>
+                    function fetchDistricts() {
+                        var cityId = document.getElementById("city").value;
+                        var districtSelect = document.getElementById("district");
+
+                        // Clear existing options
+                        districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
+
+                        // Fetch districts based on cityId
+                        fetch('/api/districts?cityId=' + cityId)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
                                 }
-                            }
-                        </script>
-                        <script>
-                            function fetchDistricts() {
-                                var cityId = document.getElementById("city").value;
-                                var districtSelect = document.getElementById("district");
-
-                                // Clear existing options
-                                districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
-
-                                // Fetch districts based on cityId
-                                fetch('/api/districts?cityId=' + cityId)
-                                    .then(response => {
-                                        if (!response.ok) {
-                                            throw new Error('Network response was not ok');
-                                        }
-                                        return response.json();
-                                    })
-                                    .then(data => {
-                                        data.forEach(district => {
-                                            var option = document.createElement("option");
-                                            option.value = district.id;
-                                            option.text = district.name;
-                                            districtSelect.appendChild(option);
-                                        });
-                                    })
-                                    .catch(error => console.error('Error fetching districts:', error));
-                            }
-                        </script>
+                                return response.json();
+                            })
+                            .then(data => {
+                                data.forEach(district => {
+                                    var option = document.createElement("option");
+                                    option.value = district.id;
+                                    option.text = district.name;
+                                    districtSelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching districts:', error));
+                    }
+                </script>
             </body>
 
             </html>

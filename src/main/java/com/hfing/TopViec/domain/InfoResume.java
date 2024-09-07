@@ -1,0 +1,248 @@
+package com.hfing.TopViec.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import java.time.LocalDateTime;
+
+import com.hfing.TopViec.domain.enums.AcademicLevel;
+import com.hfing.TopViec.domain.enums.Experience;
+import com.hfing.TopViec.domain.enums.JobType;
+import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
+
+import jakarta.persistence.Table;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "info_resume")
+public class InfoResume {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
+    private String title;
+    private String slug;
+    private String description;
+    private BigDecimal salaryMin;
+    private BigDecimal salaryMax;
+
+    @Enumerated(EnumType.STRING)
+    private Position position;
+
+    @Enumerated(EnumType.STRING)
+    private Experience experience;
+
+    @Enumerated(EnumType.STRING)
+    private AcademicLevel academicLevel;
+
+    @Enumerated(EnumType.STRING)
+    private TypeOfWorkplace typeOfWorkplace;
+
+    @Enumerated(EnumType.STRING)
+    private JobType jobType;
+
+    private Boolean isActive;
+    private String imageUrl;
+    private String fileUrl;
+    private String publicId;
+    private String type;
+    private Long careerId;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private CommonCity city;
+
+    @OneToOne
+    @JoinColumn(name = "job_seeker_profile_id")
+    private JobSeekerProfile jobSeekerProfile;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getSalaryMin() {
+        return salaryMin;
+    }
+
+    public void setSalaryMin(BigDecimal salaryMin) {
+        this.salaryMin = salaryMin;
+    }
+
+    public BigDecimal getSalaryMax() {
+        return salaryMax;
+    }
+
+    public void setSalaryMax(BigDecimal salaryMax) {
+        this.salaryMax = salaryMax;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Experience getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
+    }
+
+    public AcademicLevel getAcademicLevel() {
+        return academicLevel;
+    }
+
+    public void setAcademicLevel(AcademicLevel academicLevel) {
+        this.academicLevel = academicLevel;
+    }
+
+    public TypeOfWorkplace getTypeOfWorkplace() {
+        return typeOfWorkplace;
+    }
+
+    public void setTypeOfWorkplace(TypeOfWorkplace typeOfWorkplace) {
+        this.typeOfWorkplace = typeOfWorkplace;
+    }
+
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(JobType jobType) {
+        this.jobType = jobType;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getCareerId() {
+        return careerId;
+    }
+
+    public void setCareerId(Long careerId) {
+        this.careerId = careerId;
+    }
+
+    public CommonCity getCity() {
+        return city;
+    }
+
+    public void setCity(CommonCity city) {
+        this.city = city;
+    }
+
+    public JobSeekerProfile getJobSeekerProfile() {
+        return jobSeekerProfile;
+    }
+
+    public void setJobSeekerProfile(JobSeekerProfile jobSeekerProfile) {
+        this.jobSeekerProfile = jobSeekerProfile;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+}
