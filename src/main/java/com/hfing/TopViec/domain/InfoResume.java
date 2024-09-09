@@ -1,15 +1,20 @@
 package com.hfing.TopViec.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
@@ -55,7 +60,10 @@ public class InfoResume {
     private String fileUrl;
     private String publicId;
     private String type;
-    private Long careerId;
+
+    @ManyToOne
+    @JoinColumn(name = "career_id")
+    private CommonCareer career;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
@@ -64,6 +72,21 @@ public class InfoResume {
     @OneToOne
     @JoinColumn(name = "job_seeker_profile_id")
     private JobSeekerProfile jobSeekerProfile;
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoExperienceDetail> experienceDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoLanguageSkill> languageSkills = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoEducationDetail> educationDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoCertificate> certificates = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoAdvancedSkill> advancedSkills = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -213,12 +236,12 @@ public class InfoResume {
         this.type = type;
     }
 
-    public Long getCareerId() {
-        return careerId;
+    public CommonCareer getCareer() {
+        return career;
     }
 
-    public void setCareerId(Long careerId) {
-        this.careerId = careerId;
+    public void setCareer(CommonCareer career) {
+        this.career = career;
     }
 
     public CommonCity getCity() {
@@ -235,6 +258,46 @@ public class InfoResume {
 
     public void setJobSeekerProfile(JobSeekerProfile jobSeekerProfile) {
         this.jobSeekerProfile = jobSeekerProfile;
+    }
+
+    public List<InfoExperienceDetail> getExperienceDetails() {
+        return experienceDetails;
+    }
+
+    public void setExperienceDetails(List<InfoExperienceDetail> experienceDetails) {
+        this.experienceDetails = experienceDetails;
+    }
+
+    public List<InfoLanguageSkill> getLanguageSkills() {
+        return languageSkills;
+    }
+
+    public void setLanguageSkills(List<InfoLanguageSkill> languageSkills) {
+        this.languageSkills = languageSkills;
+    }
+
+    public List<InfoEducationDetail> getEducationDetails() {
+        return educationDetails;
+    }
+
+    public void setEducationDetails(List<InfoEducationDetail> educationDetails) {
+        this.educationDetails = educationDetails;
+    }
+
+    public List<InfoCertificate> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(List<InfoCertificate> certificates) {
+        this.certificates = certificates;
+    }
+
+    public List<InfoAdvancedSkill> getAdvancedSkills() {
+        return advancedSkills;
+    }
+
+    public void setAdvancedSkills(List<InfoAdvancedSkill> advancedSkills) {
+        this.advancedSkills = advancedSkills;
     }
 
     public User getUser() {
