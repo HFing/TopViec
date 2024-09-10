@@ -4,6 +4,7 @@ import java.lang.ProcessHandle.Info;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,21 +28,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonLocation;
+import com.hfing.TopViec.domain.InfoAdvancedSkill;
+import com.hfing.TopViec.domain.InfoCertificate;
 import com.hfing.TopViec.domain.InfoEducationDetail;
 import com.hfing.TopViec.domain.InfoExperienceDetail;
+import com.hfing.TopViec.domain.InfoLanguageSkill;
 import com.hfing.TopViec.domain.InfoResume;
 import com.hfing.TopViec.domain.JobSeekerProfile;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
 import com.hfing.TopViec.domain.enums.JobType;
+import com.hfing.TopViec.domain.enums.Language;
 import com.hfing.TopViec.domain.enums.Position;
 import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
 import com.hfing.TopViec.service.CommonCareerService;
 import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.CommonLocationService;
+import com.hfing.TopViec.service.InfoAdvancedSkillService;
+import com.hfing.TopViec.service.InfoCertificateService;
 import com.hfing.TopViec.service.InfoEducationDetailService;
 import com.hfing.TopViec.service.InfoExperienceDetailService;
+import com.hfing.TopViec.service.InfoLanguageSkillService;
 import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
 import com.hfing.TopViec.service.UserService;
@@ -59,12 +67,17 @@ public class ProfileController {
     private final CommonCareerService commonCareerService;
     private final InfoExperienceDetailService infoExperienceDetailService;
     private final InfoEducationDetailService infoEducationDetailService;
+    private final InfoCertificateService infoCertificateService;
+    private final InfoLanguageSkillService infoLanguageSkillService;
+    private final InfoAdvancedSkillService infoAdvancedSkillService;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
             InfoResumeService infoResumeService, CommonCareerService commonCareerService,
             InfoExperienceDetailService infoExperienceDetailService,
-            InfoEducationDetailService infoEducationDetailService) {
+            InfoEducationDetailService infoEducationDetailService,
+            InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
+            InfoAdvancedSkillService infoAdvancedSkillService) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -73,6 +86,9 @@ public class ProfileController {
         this.commonCareerService = commonCareerService;
         this.infoExperienceDetailService = infoExperienceDetailService;
         this.infoEducationDetailService = infoEducationDetailService;
+        this.infoCertificateService = infoCertificateService;
+        this.infoLanguageSkillService = infoLanguageSkillService;
+        this.infoAdvancedSkillService = infoAdvancedSkillService;
     }
 
     @GetMapping("/profile")
@@ -193,7 +209,17 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/resume")
-    public String getResumePage() {
+    public String getResumePage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+        InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+
+        model.addAttribute("infoResume", infoResume);
         return "client/profile/resume";
     }
 
@@ -231,6 +257,21 @@ public class ProfileController {
 
         model.addAttribute("infoEducationDetails", new InfoEducationDetail());
 
+        if (infoResume.getCertificates() == null) {
+            infoResume.setCertificates(new ArrayList<>());
+        }
+        model.addAttribute("infoCertificate", new InfoCertificate());
+
+        if (infoResume.getLanguageSkills() == null) {
+            infoResume.setLanguageSkills(new ArrayList<>());
+        }
+        model.addAttribute("infoLanguageSkill", new InfoLanguageSkill());
+
+        if (infoResume.getAdvancedSkills() == null) {
+            infoResume.setAdvancedSkills(new ArrayList<>());
+        }
+        model.addAttribute("infoAdvancedSkill", new InfoAdvancedSkill());
+
         model.addAttribute("infoResumeShow", infoResume);
         model.addAttribute("infoResume", optionalInfoResume.orElse(new InfoResume()));
         model.addAttribute("user", user);
@@ -249,6 +290,9 @@ public class ProfileController {
         model.addAttribute("jobTypes", JobType.values());
         model.addAttribute("experienceDetails", infoResume.getExperienceDetails());
         model.addAttribute("educationDetails", infoResume.getEducationDetails());
+        model.addAttribute("certificates", infoResume.getCertificates());
+        model.addAttribute("languageSkills", infoResume.getLanguageSkills());
+        model.addAttribute("advancedSkills", infoResume.getAdvancedSkills());
         return "client/profile/resumeupdate";
     }
 
@@ -379,4 +423,128 @@ public class ProfileController {
         System.out.println(response);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/addCertificateDetail")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> addCertificateDetail(
+            @ModelAttribute InfoCertificate certificateDetail) {
+        // Lấy thông tin người dùng hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+
+        // Lấy hồ sơ của người dùng
+        InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+        if (infoResume == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Liên kết chi tiết chứng chỉ với hồ sơ
+        certificateDetail.setResume(infoResume);
+        certificateDetail.setCreateAt(LocalDateTime.now());
+
+        // Lưu chi tiết chứng chỉ vào cơ sở dữ liệu
+        infoCertificateService.save(certificateDetail);
+
+        // Tạo phản hồi
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", certificateDetail.getId());
+        response.put("name", certificateDetail.getName());
+        response.put("trainingPlaceName", certificateDetail.getTrainingPlaceName());
+        response.put("startDate", certificateDetail.getStartDate());
+        response.put("expirationDate", certificateDetail.getExpirationDate());
+        System.out.println(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/addLanguageSkillDetail")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> addLanguageSkillDetail(
+            @ModelAttribute InfoLanguageSkill languageSkillDetail) {
+        // Lấy thông tin người dùng hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+
+        // Lấy hồ sơ của người dùng
+        InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+        if (infoResume == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Liên kết chi tiết kỹ năng ngôn ngữ với hồ sơ
+        languageSkillDetail.setResume(infoResume);
+        languageSkillDetail.setCreateAt(LocalDateTime.now());
+
+        // Lưu chi tiết kỹ năng ngôn ngữ vào cơ sở dữ liệu
+        infoLanguageSkillService.save(languageSkillDetail);
+
+        // Tạo phản hồi
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", languageSkillDetail.getId());
+        response.put("language", languageSkillDetail.getLanguage().getDisplayName());
+        response.put("level", languageSkillDetail.getLevel());
+        System.out.println(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/addAdvancedSkillDetail")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> addAdvancedSkillDetail(
+            @ModelAttribute InfoAdvancedSkill advancedSkillDetail) {
+        // Lấy thông tin người dùng hiện tại
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+
+        // Lấy hồ sơ của người dùng
+        InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+        if (infoResume == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Liên kết chi tiết kỹ năng nâng cao với hồ sơ
+        advancedSkillDetail.setResume(infoResume);
+        advancedSkillDetail.setCreateAt(LocalDateTime.now());
+
+        // Lưu chi tiết kỹ năng nâng cao vào cơ sở dữ liệu
+        infoAdvancedSkillService.save(advancedSkillDetail);
+
+        // Tạo phản hồi
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", advancedSkillDetail.getId());
+        response.put("name", advancedSkillDetail.getName());
+        response.put("level", advancedSkillDetail.getLevel());
+        System.out.println(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @ModelAttribute("languages")
+    public Language[] getLanguages() {
+        return Language.values();
+    }
+
+    @ModelAttribute("levels")
+    public Map<Short, String> getLevels() {
+        Map<Short, String> levels = new LinkedHashMap<>();
+        levels.put((short) 1, "1 - Bad");
+        levels.put((short) 2, "2 - Below Average");
+        levels.put((short) 3, "3 - Average");
+        levels.put((short) 4, "4 - Good");
+        levels.put((short) 5, "5 - Excellent");
+        return levels;
+    }
+
 }

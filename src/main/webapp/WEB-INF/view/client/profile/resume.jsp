@@ -130,7 +130,10 @@
                                                             class="card-job-post-category-title-icon">
                                                         <div>Location</div>
                                                     </div>
-                                                    <div class="card-job-post-category-text">Remote</div>
+                                                    <div class="card-job-post-category-text">${infoResume.city !=
+                                                        null ? infoResume.city.name :
+                                                        'Not
+                                                        updated'}</div>
                                                 </div>
                                                 <div class="card-job-post-category-wrapper">
                                                     <div class="card-job-post-category-title-wrapper"><img
@@ -139,7 +142,11 @@
                                                             class="card-job-post-category-title-icon">
                                                         <div>Level</div>
                                                     </div>
-                                                    <div class="card-job-post-category-text">Senior</div>
+                                                    <div class="card-job-post-category-text"> ${infoResume.position !=
+                                                        null ? infoResume.position
+                                                        :
+                                                        'Not
+                                                        updated'}</div>
                                                 </div>
                                                 <div class="card-job-post-category-wrapper">
                                                     <div class="card-job-post-category-title-wrapper"><img
@@ -148,7 +155,11 @@
                                                             class="card-job-post-category-title-icon">
                                                         <div>Department</div>
                                                     </div>
-                                                    <div class="card-job-post-category-text">Development</div>
+                                                    <div class="card-job-post-category-text">${infoResume.career != null
+                                                        ? infoResume.career.name
+                                                        :
+                                                        'Not
+                                                        updated'}</div>
                                                 </div>
                                                 <div class="card-job-post-category-wrapper">
                                                     <div class="card-job-post-category-title-wrapper"><img
@@ -157,7 +168,10 @@
                                                             class="card-job-post-category-title-icon">
                                                         <div>Type</div>
                                                     </div>
-                                                    <div class="card-job-post-category-text">Full - Time</div>
+                                                    <div class="card-job-post-category-text">${infoResume.jobType !=
+                                                        null ? infoResume.jobType :
+                                                        'Not
+                                                        updated'}</div>
                                                 </div>
                                                 <div class="card-job-post-category-wrapper">
                                                     <div class="card-job-post-category-title-wrapper"><img
@@ -168,6 +182,7 @@
                                                     </div>
                                                     <div class="card-job-post-category-text">$100,000 USD</div>
                                                 </div>
+
 
                                                 <a id="editProfileButton" class="button-primary"
                                                     href="/profile/resume/resume-update">Edit Profile</a>

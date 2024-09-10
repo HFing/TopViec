@@ -472,6 +472,169 @@
                                         </div>
                                     </div>
 
+                                    <div class="divider card-post-job-form"></div>
+
+                                    <!-- Info Certificate -->
+                                    <div class="post-job-wrapper">
+                                        <div class="split-content post-job-sidebar">
+                                            <div class="post-job-step-area-1">
+                                                <div class="post-job-step-wrapper _1">
+                                                    <div class="image-wrapper post-job-step">
+                                                        <img src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60ccaf9874b970382dd393af_icon-department-job-board-x-template.svg"
+                                                            alt="User Icon - Job Board X Webflow Template"
+                                                            class="image post-job-step">
+                                                    </div>
+                                                    <div class="post-job-step-content">
+                                                        <h2 class="title h3-size post-job-step">Certificate Information
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-job-form-block w-form">
+                                            <div class="card post-job-form-card">
+                                                <div id="certificate-details">
+                                                    <c:forEach var="detail" items="${certificates}">
+                                                        <div class="card post-job-form-card">
+                                                            <div class="input-wrapper">
+                                                                <div class="certificate-detail" data-id="${detail.id}">
+                                                                    <p>Certificate Name: ${detail.name}</p>
+                                                                    <p>Training Place: ${detail.trainingPlaceName}</p>
+                                                                    <div class="w-layout-grid card-post-job-form-grid">
+                                                                        <p>Start Date: ${detail.startDate}</p>
+                                                                        <p>Expiration Date: ${detail.expirationDate}</p>
+                                                                    </div>
+                                                                    <button
+                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <button type="button"
+                                                                        class="button-secondary small w-button">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                                <button class="button-primary small w-button button-small"
+                                                    onclick="openCertificateModal();">Add Certificate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider card-post-job-form"></div>
+
+                                    <!-- Language Information -->
+                                    <div class="post-job-wrapper">
+                                        <div class="split-content post-job-sidebar">
+                                            <div class="post-job-step-area-1">
+                                                <div class="post-job-step-wrapper _1">
+                                                    <div class="image-wrapper post-job-step">
+                                                        <img src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60ccaf9874b970382dd393af_icon-department-job-board-x-template.svg"
+                                                            alt="User Icon - Job Board X Webflow Template"
+                                                            class="image post-job-step">
+                                                    </div>
+                                                    <div class="post-job-step-content">
+                                                        <h2 class="title h3-size post-job-step">Language Skills
+                                                            Information</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-job-form-block w-form">
+                                            <div class="card post-job-form-card">
+                                                <div id="language-skill-details">
+                                                    <c:forEach var="detail" items="${languageSkills}">
+                                                        <div class="card post-job-form-card">
+                                                            <div class="input-wrapper">
+                                                                <div class="language-skill-detail"
+                                                                    data-id="${detail.id}">
+                                                                    <p>Language: ${detail.language.displayName}</p>
+                                                                    <p>Level:
+                                                                        <c:choose>
+                                                                            <c:when test="${detail.level == 1}">Bad
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 2}">Below
+                                                                                Average</c:when>
+                                                                            <c:when test="${detail.level == 3}">Average
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 4}">Good
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 5}">
+                                                                                Excellent</c:when>
+                                                                            <c:otherwise>Unknown</c:otherwise>
+                                                                        </c:choose>
+                                                                    </p>
+                                                                    <button
+                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <button type="button"
+                                                                        class="button-secondary small w-button">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                                <button class="button-primary small w-button button-small"
+                                                    onclick="openLanguageSkillModal();">Add Language Skill</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider card-post-job-form"></div>
+
+                                    <!-- Advanced Skill -->
+                                    <div class="post-job-wrapper">
+                                        <div class="split-content post-job-sidebar">
+                                            <div class="post-job-step-area-1">
+                                                <div class="post-job-step-wrapper _1">
+                                                    <div class="image-wrapper post-job-step">
+                                                        <img src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60ccaf9874b970382dd393af_icon-department-job-board-x-template.svg"
+                                                            alt="User Icon - Job Board X Webflow Template"
+                                                            class="image post-job-step">
+                                                    </div>
+                                                    <div class="post-job-step-content">
+                                                        <h2 class="title h3-size post-job-step">Advanced Skills
+                                                            Information</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-job-form-block w-form">
+                                            <div class="card post-job-form-card">
+                                                <div id="advanced-skill-details">
+                                                    <c:forEach var="detail" items="${advancedSkills}">
+                                                        <div class="card post-job-form-card">
+                                                            <div class="input-wrapper">
+                                                                <div class="advanced-skill-detail"
+                                                                    data-id="${detail.id}">
+                                                                    <p>Skill Name: ${detail.name}</p>
+                                                                    <p>Level:
+                                                                        <c:choose>
+                                                                            <c:when test="${detail.level == 1}">Bad
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 2}">Below
+                                                                                Average</c:when>
+                                                                            <c:when test="${detail.level == 3}">Average
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 4}">Good
+                                                                            </c:when>
+                                                                            <c:when test="${detail.level == 5}">
+                                                                                Excellent</c:when>
+                                                                            <c:otherwise>Unknown</c:otherwise>
+                                                                        </c:choose>
+                                                                    </p>
+                                                                    <button
+                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <button type="button"
+                                                                        class="button-secondary small w-button">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </div>
+                                                <button class="button-primary small w-button button-small"
+                                                    onclick="openAdvancedSkillModal();">Add Advanced Skill</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
 
@@ -675,6 +838,87 @@
                     </div>
                 </div>
 
+                <!-- Model for Certificate Detail -->
+                <div id="certificateModal" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeCertificateModal()">&times;</span>
+                        <p>Add Certificate Detail</p>
+                        <form:form id="certificateForm" modelAttribute="infoCertificate">
+                            <div class="input-wrapper">
+                                <label for="name">Certificate Name</label>
+                                <form:input path="name" id="name" cssClass="input w-input" required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="trainingPlaceName">Training Place</label>
+                                <form:input path="trainingPlaceName" id="trainingPlaceName" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="input-wrapper-container">
+                                <div class="input-wrapper">
+                                    <label for="startDate">Start Date</label>
+                                    <form:input path="startDate" id="startDate" type="date" cssClass="input w-input"
+                                        required="true" />
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="expirationDate">Expiration Date</label>
+                                    <form:input path="expirationDate" id="expirationDate" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="saveCertificateDetail()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
+
+
+                <!-- Model for Language Skill Detail -->
+                <div id="languageSkillModal" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeLanguageSkillModal()">&times;</span>
+                        <p>Add Language Skill Detail</p>
+                        <form:form id="languageSkillForm" modelAttribute="infoLanguageSkill">
+                            <div class="input-wrapper">
+                                <label for="language">Language</label>
+                                <form:select path="language" id="language" cssClass="input w-input" required="true">
+                                    <form:options items="${languages}" itemValue="name" itemLabel="displayName" />
+                                </form:select>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="level">Level</label>
+                                <form:select path="level" id="level" cssClass="input w-input" required="true">
+                                    <form:options items="${levels}" />
+                                </form:select>
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="saveLanguageSkillDetail()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
+
+
+                <!-- Model for Advanced Skill Detail -->
+
+                <div id="advancedSkillModal" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeAdvancedSkillModal()">&times;</span>
+                        <p>Add Advanced Skill Detail</p>
+                        <form:form id="advancedSkillForm" modelAttribute="infoAdvancedSkill">
+                            <div class="input-wrapper">
+                                <label for="name">Skill Name</label>
+                                <form:input path="name" id="name" cssClass="input w-input" required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="level">Level</label>
+                                <form:select path="level" id="level" cssClass="input w-input" required="true">
+                                    <form:options items="${levels}" />
+                                </form:select>
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="saveAdvancedSkillDetail()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
 
 
 
@@ -908,6 +1152,274 @@
                         }
                     }
                 </script>
+
+                <!-- Script for Certificate Detail -->
+                <script>
+                    function saveCertificateDetail() {
+                        const form = document.getElementById('certificateForm');
+                        const formData = new FormData(form);
+
+                        fetch('/addCertificateDetail', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                if (data) {
+                                    console.log('Certificate Name:', data.name, 'Type:', typeof data.name);
+                                    console.log('Training Place:', data.trainingPlaceName, 'Type:', typeof data.trainingPlaceName);
+                                    console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
+                                    console.log('Expiration Date:', data.expirationDate, 'Type:', typeof data.expirationDate);
+
+                                    // Chuyển đổi các giá trị ngày tháng thành chuỗi
+                                    const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
+                                    const expirationDate = new Date(data.expirationDate[0], data.expirationDate[1] - 1, data.expirationDate[2]).toLocaleDateString();
+
+                                    // Lưu các giá trị vào biến
+                                    const name = data.name;
+                                    const trainingPlaceName = data.trainingPlaceName;
+
+                                    // Tạo phần tử mới để hiển thị chi tiết chứng chỉ
+                                    const certificateDetails = document.getElementById('certificate-details');
+                                    const newDetail = document.createElement('div');
+                                    newDetail.classList.add('card', 'post-job-form-card');
+                                    newDetail.setAttribute('data-id', data.id);
+                                    newDetail.innerHTML = `
+                    <div class="card post-job-form-card">
+                        <div class="input-wrapper">
+                            <div class="certificate-detail" data-id="\${data.id}">
+                                <p>Certificate Name: \${name}</p>
+                                <p>Training Place: \${trainingPlaceName}</p>
+                                <div class="w-layout-grid card-post-job-form-grid">
+                                    <p>Start Date: \${startDate}</p>
+                                    <p>Expiration Date: \${expirationDate}</p>
+                                </div>
+                                <button class="button-secondary small w-button" onclick="editCertificate(\${data.id});">Edit</button>
+                                <button class="button-secondary small w-button" onclick="deleteCertificate(\${data.id});">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                                    certificateDetails.appendChild(newDetail);
+
+                                    // Đóng modal và reset form
+                                    closeCertificateModal();
+                                    form.reset();
+                                } else {
+                                    console.error('Failed to save certificate detail.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+
+                    function editCertificate(id) {
+                        // Lấy chi tiết chứng chỉ từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                        // Sau đó mở modal để chỉnh sửa
+                        console.log('Edit certificate with id:', id);
+                        // Implement the logic to edit the certificate detail
+                    }
+
+                    function closeCertificateModal() {
+                        document.getElementById('certificateModal').style.display = 'none';
+                    }
+
+                    function openCertificateModal() {
+                        document.getElementById('certificateModal').style.display = 'block';
+                    }
+
+                    // Đóng modal khi bấm ra ngoài nội dung modal
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('certificateModal');
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    }
+                </script>
+
+                <!-- Script for Language Skill Detail -->
+                <script>
+                    function saveLanguageSkillDetail() {
+                        const form = document.getElementById('languageSkillForm');
+                        const formData = new FormData(form);
+
+                        fetch('/addLanguageSkillDetail', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                if (data) {
+                                    console.log('Language:', data.language, 'Type:', typeof data.language);
+                                    console.log('Level:', data.level, 'Type:', typeof data.level);
+
+                                    // Lưu các giá trị vào biến
+                                    const language = data.language;
+                                    const level = data.level;
+                                    const levelDescription = getLevelDescription(level);
+
+                                    // Tạo phần tử mới để hiển thị chi tiết kỹ năng ngôn ngữ
+                                    const languageSkillDetails = document.getElementById('language-skill-details');
+                                    const newDetail = document.createElement('div');
+                                    newDetail.classList.add('card', 'post-job-form-card');
+                                    newDetail.setAttribute('data-id', data.id);
+                                    newDetail.innerHTML = `
+                    <div class="input-wrapper">
+                        <div class="language-skill-detail" data-id="${data.id}">
+                            <p>Language: \${language}</p>
+                            <p>Level: \${levelDescription}</p>
+                            <button class="button-secondary small w-button" onclick="editLanguageSkill(${data.id});">Edit</button>
+                            <button class="button-secondary small w-button" onclick="deleteLanguageSkill(${data.id});">Delete</button>
+                        </div>
+                    </div>
+                `;
+                                    languageSkillDetails.appendChild(newDetail);
+
+                                    // Đóng modal và reset form
+                                    closeLanguageSkillModal();
+                                    form.reset();
+                                } else {
+                                    console.error('Failed to save language skill detail.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+                    function getLevelDescription(level) {
+                        switch (level) {
+                            case 1:
+                                return "Bad";
+                            case 2:
+                                return "Below Average";
+                            case 3:
+                                return "Average";
+                            case 4:
+                                return "Good";
+                            case 5:
+                                return "Excellent";
+                            default:
+                                return "Unknown";
+                        }
+                    }
+                    function editLanguageSkill(id) {
+                        // Lấy chi tiết kỹ năng ngôn ngữ từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                        // Sau đó mở modal để chỉnh sửa
+                        console.log('Edit language skill with id:', id);
+                        // Implement the logic to edit the language skill detail
+                    }
+
+                    function closeLanguageSkillModal() {
+                        document.getElementById('languageSkillModal').style.display = 'none';
+                    }
+
+                    function openLanguageSkillModal() {
+                        document.getElementById('languageSkillModal').style.display = 'block';
+                    }
+
+                    // Đóng modal khi bấm ra ngoài nội dung modal
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('languageSkillModal');
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    }
+                </script>
+
+                <!-- Script for Advanced Skill Detail -->
+                <script>
+                    function saveAdvancedSkillDetail() {
+                        const form = document.getElementById('advancedSkillForm');
+                        const formData = new FormData(form);
+
+                        fetch('/addAdvancedSkillDetail', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                if (data) {
+                                    console.log('Skill Name:', data.name, 'Type:', typeof data.name);
+                                    console.log('Level:', data.level, 'Type:', typeof data.level);
+
+                                    // Lưu các giá trị vào biến
+                                    const name = data.name;
+                                    const level = data.level;
+                                    const levelDescription = getLevelDescription(level);
+
+                                    // Tạo phần tử mới để hiển thị chi tiết kỹ năng nâng cao
+                                    const advancedSkillDetails = document.getElementById('advanced-skill-details');
+                                    const newDetail = document.createElement('div');
+                                    newDetail.classList.add('card', 'post-job-form-card');
+                                    newDetail.setAttribute('data-id', data.id);
+                                    newDetail.innerHTML = `
+                                        <div class="input-wrapper">
+                                            <div class="advanced-skill-detail" data-id="\${data.id}">
+                                                <p>Skill Name: \${name}</p>
+                                                <p>Level: \${levelDescription}</p>
+                                                <button class="button-secondary small w-button" onclick="editAdvancedSkill(\${data.id});">Edit</button>
+                                                <button class="button-secondary small w-button" onclick="deleteAdvancedSkill(\${data.id});">Delete</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                    advancedSkillDetails.appendChild(newDetail);
+
+                                    // Đóng modal và reset form
+                                    closeAdvancedSkillModal();
+                                    form.reset();
+                                } else {
+                                    console.error('Failed to save advanced skill detail.');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+
+                    function getLevelDescription(level) {
+                        switch (level) {
+                            case 1:
+                                return "Bad";
+                            case 2:
+                                return "Below Average";
+                            case 3:
+                                return "Average";
+                            case 4:
+                                return "Good";
+                            case 5:
+                                return "Excellent";
+                            default:
+                                return "Unknown";
+                        }
+                    }
+
+                    function editAdvancedSkill(id) {
+                        // Lấy chi tiết kỹ năng nâng cao từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                        // Sau đó mở modal để chỉnh sửa
+                        console.log('Edit advanced skill with id:', id);
+                        // Implement the logic to edit the advanced skill detail
+                    }
+
+                    function deleteAdvancedSkill(id) {
+                        // Implement the logic to delete the advanced skill detail
+                        console.log('Delete advanced skill with id:', id);
+                    }
+
+                    function closeAdvancedSkillModal() {
+                        document.getElementById('advancedSkillModal').style.display = 'none';
+                    }
+
+                    function openAdvancedSkillModal() {
+                        document.getElementById('advancedSkillModal').style.display = 'block';
+                    }
+
+                    // Đóng modal khi bấm ra ngoài nội dung modal
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('advancedSkillModal');
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    }
+                </script>
+
 
 
             </body>

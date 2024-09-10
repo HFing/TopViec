@@ -22,6 +22,7 @@ public class InfoLanguageSkill {
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+
     @Enumerated(EnumType.STRING)
     private Language language;
     private Short level;
