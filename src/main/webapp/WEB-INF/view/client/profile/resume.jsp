@@ -8,8 +8,67 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Document</title>
+                <link rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                 <link rel="stylesheet" href="/client/css/style.css">
                 <style>
+                    .overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1;
+                    }
+
+                    .desired-position {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #000;
+                    }
+
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.4);
+                    }
+
+                    .modal-content {
+                        background-color: #fefefe;
+                        margin: auto;
+                        padding: 20px;
+                        border: 1px solid #888;
+                        width: 70%;
+                        height: 70%;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        overflow-y: auto;
+                    }
+
+                    .close {
+                        color: #aaa;
+                        float: right;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+
+                    .close:hover,
+                    .close:focus {
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+
                     #editProfileButton {
                         text-decoration: none;
                     }
@@ -178,9 +237,13 @@
                                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51d7c3af8320618b87_icon-5-job-categories-job-board-x-template.svg"
                                                             alt="Money Icon - Job Board X Webflow Template"
                                                             class="card-job-post-category-title-icon">
-                                                        <div>Salary</div>
+                                                        <div>Salary Max</div>
                                                     </div>
-                                                    <div class="card-job-post-category-text">$100,000 USD</div>
+                                                    <div class="card-job-post-category-text">${infoResume.salaryMax
+                                                        != null ?
+                                                        infoResume.salaryMax :
+                                                        'Not
+                                                        updated'} VND</div>
                                                 </div>
 
 
@@ -189,18 +252,257 @@
                                             </div>
 
                                         </div>
+
+                                        <div class="divider card-post-job-form"></div>
+
+                                        <div class="post-job-wrapper">
+                                            <div class="split-content post-job-sidebar">
+                                                <div class="post-job-step-area-1">
+                                                    <div class="post-job-step-wrapper _1">
+                                                        <div class="image-wrapper post-job-step"><img
+                                                                src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60ca2461b93f2fa339d16415_icon-4-post-job-job-board-x-template.svg"
+                                                                alt="User Icon - Job Board X Webflow Template"
+                                                                class="image post-job-step"></div>
+                                                        <div class="post-job-step-content">
+                                                            <h2 class="title h3-size post-job-step">Attached Documents
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="post-job-form-block w-form">
+                                                <c:choose>
+                                                    <c:when test="${not empty infoResumeMain}">
+                                                        <c:forEach var="resume" items="${infoResumeMain}">
+                                                            <div class="card post-job-form-card">
+                                                                <div class="input-wrapper">
+                                                                    <div class="experience-detail"
+                                                                        data-id="${resume.id}">
+                                                                        <p>CV Name: ${resume.title}</p>
+                                                                        <p>Desired Level: ${resume.position}</p>
+                                                                        <p>Last Update: ${resume.updateAt}</p>
+                                                                        <button type="button"
+                                                                            class="button-secondary small w-button">Edit</button>
+                                                                        <form
+                                                                            action="/profile/resume/delete/${resume.id}"
+                                                                            method="post" style="display:inline;">
+                                                                            <input type="hidden"
+                                                                                name="${_csrf.parameterName}"
+                                                                                value="${_csrf.token}" />
+                                                                            <button type="submit"
+                                                                                class="button-secondary small w-button">Delete</button>
+                                                                        </form>
+                                                                        <button type="button"
+                                                                            class="button-secondary small w-button"
+                                                                            onclick="openPdf('${resume.fileUrl}')">See
+                                                                            Your
+                                                                            CV</button>
+                                                                        <a href="/images/resume/${resume.fileUrl}"
+                                                                            class="button-secondary small w-button"
+                                                                            download>
+                                                                            <i class="fas fa-download"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                        <button class="button-primary small w-button button-small"
+                                                            onclick="openAddResumeModal()">
+                                                            <i class="fas fa-upload"></i> Upload CV
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="card job-empty-state w-dyn-empty">
+                                                            <div class="job-empty-state-wrapper">
+                                                                <div class="image-wrapper job-empty-state-icon">
+                                                                    <img alt="Search Icon - Job Board X Webflow Template"
+                                                                        src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
+                                                                        class="image job-empty-state">
+                                                                </div>
+                                                                <div class="job-empty-state-content">
+                                                                    <h3 class="title h2-size job-empty-state">No Resume
+                                                                        available</h3>
+                                                                    <p class="paragraph job-empty-state">Create a new
+                                                                        Resume now to apply for jobs and showcase your
+                                                                        skills and
+                                                                        experiences to potential employers. A
+                                                                        well-crafted resume can significantly increase
+                                                                        your chances of
+                                                                        landing your dream job. Don't wait, start
+                                                                        building your professional resume today!</p>
+                                                                    <div class="job-empty-state-form-block w-form">
+                                                                        <button
+                                                                            class="button-primary small w-button button-small"
+                                                                            onclick="openAddResumeModal()">
+                                                                            <i class="fas fa-upload"></i> Upload CV
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
                 </div>
+                <div id="addResumeModal" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeEditResumeModal()">&times;</span>
+                        <p>Resume Information</p>
+                        <form:form id="editResumeForm" method="post" modelAttribute="newInfoResume"
+                            enctype="multipart/form-data" action="/profile/resume/addresume">
+                            <div class="w-layout-grid card-post-job-form-grid">
+
+                                <div class="input-wrapper">
+                                    <label for="title">Desired Position<span class="accent-secondary-5">*</span></label>
+                                    <form:input path="title" id="title" cssClass="input w-input"
+                                        placeholder="Enter desired position" required="true" />
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="position">Desired Level<span class="accent-secondary-5">*</span></label>
+                                    <form:select path="position" id="position" cssClass="input w-input" required="true">
+                                        <option value="" disabled selected>Select desired level</option>
+                                        <form:options items="${positions}" itemValue="name" itemLabel="displayName" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="academicLevel">Academic Level<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <form:select path="academicLevel" id="academicLevel" cssClass="input w-input"
+                                        required="true">
+                                        <option value="" disabled selected>Select academic level</option>
+                                        <form:options items="${academicLevels}" itemValue="name"
+                                            itemLabel="displayName" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="experience">Experience<span class="accent-secondary-5">*</span></label>
+                                    <form:select path="experience" id="experience" cssClass="input w-input"
+                                        required="true">
+                                        <option value="" disabled selected>Select experience</option>
+                                        <form:options items="${experiences}" itemValue="name" itemLabel="displayName" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="careerId">Occupation<span class="accent-secondary-5">*</span></label>
+                                    <form:select path="career.id" id="careerId" cssClass="input w-input"
+                                        required="true">
+                                        <option value="" disabled selected>Select occupation</option>
+                                        <form:options items="${careers}" itemValue="id" itemLabel="name" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="cityId">City<span class="accent-secondary-5">*</span></label>
+                                    <form:select path="city.id" id="cityId" cssClass="input w-input" required="true">
+                                        <option value="" disabled selected>Select city</option>
+                                        <form:options items="${cities}" itemValue="id" itemLabel="name" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="salaryMin">Minimum Desired Salary<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <form:input path="salaryMin" id="salaryMin" cssClass="input w-input"
+                                        placeholder="Enter minimum desired salary (VND)" required="true" />
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="salaryMax">Maximum Desired Salary<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <form:input path="salaryMax" id="salaryMax" cssClass="input w-input"
+                                        placeholder="Enter maximum desired salary (VND)" required="true" />
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="typeOfWorkplace">Type of Workplace<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <form:select path="typeOfWorkplace" id="typeOfWorkplace" cssClass="input w-input"
+                                        required="true">
+                                        <option value="" disabled selected>Select type of workplace</option>
+                                        <form:options items="${typeOfWorkplaces}" itemValue="name"
+                                            itemLabel="displayName" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="jobType">Job Type<span class="accent-secondary-5">*</span></label>
+                                    <form:select path="jobType" id="jobType" cssClass="input w-input" required="true">
+                                        <option value="" disabled selected>Select job type</option>
+                                        <form:options items="${jobTypes}" itemValue="name" itemLabel="displayName" />
+                                    </form:select>
+                                </div>
+
+                                <div class="input-wrapper" id="w-node-_096a541a-c36e-3a9e-342d-289c676859f8-2c03c510">
+                                    <label for="description">Career Objective<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <form:textarea path="description" id="description" cssClass="input w-input"
+                                        placeholder="Enter Your Career Objective" required="true" />
+                                </div>
+
+                                <div class="input-wrapper">
+                                    <label for="resumeFile">Upload Resume (PDF)<span
+                                            class="accent-secondary-5">*</span></label>
+                                    <input type="file" id="resumeFile" name="resumeFile" accept="application/pdf"
+                                        required="true" />
+                                </div>
+
+                            </div>
+                            <button type="submit" class="button-primary small w-button">Save</button>
+                        </form:form>
+                    </div>
+                </div>
+                <!-- Modal -->
+
+
+
+
 
                 <jsp:include page="../layout/footer.jsp" />
+
+                <script>
+                    function openPdf(fileUrl) {
+                        const url = `/images/resume/\${fileUrl}`; // Đường dẫn tới file PDF
+                        window.open(url, '_blank'); // Mở file PDF trong tab mới
+                    }
+                </script>
                 <script
                     src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
                     type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
                     crossorigin="anonymous"></script>
+                <script>
+                    function openAddResumeModal() {
+                        document.getElementById('addResumeModal').style.display = 'block';
+                    }
+
+                    function closeAddResumeModal() {
+                        document.getElementById('addResumeModal').style.display = 'none';
+                    }
+
+                    // Đóng modal khi bấm ra ngoài nội dung modal
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('addResumeModal');
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    }
+                </script>
+
 
 
             </body>

@@ -1,6 +1,10 @@
 package com.hfing.TopViec.controller.client;
 
+import java.io.IOException;
 import java.lang.ProcessHandle.Info;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
@@ -52,9 +57,11 @@ import com.hfing.TopViec.service.InfoExperienceDetailService;
 import com.hfing.TopViec.service.InfoLanguageSkillService;
 import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
+import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ProfileController {
@@ -70,6 +77,7 @@ public class ProfileController {
     private final InfoCertificateService infoCertificateService;
     private final InfoLanguageSkillService infoLanguageSkillService;
     private final InfoAdvancedSkillService infoAdvancedSkillService;
+    private final UploadService uploadService;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
@@ -77,7 +85,7 @@ public class ProfileController {
             InfoExperienceDetailService infoExperienceDetailService,
             InfoEducationDetailService infoEducationDetailService,
             InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
-            InfoAdvancedSkillService infoAdvancedSkillService) {
+            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -89,6 +97,7 @@ public class ProfileController {
         this.infoCertificateService = infoCertificateService;
         this.infoLanguageSkillService = infoLanguageSkillService;
         this.infoAdvancedSkillService = infoAdvancedSkillService;
+        this.uploadService = uploadService;
     }
 
     @GetMapping("/profile")
@@ -218,9 +227,84 @@ public class ProfileController {
         }
         User user = userService.getUserByEmail(userEmail);
         InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
-
+        List<CommonCareer> careers = commonCareerService.findAll();
+        List<CommonCity> cities = commonCityService.findAll();
+        List<InfoResume> infoResumeMain = infoResumeService.findAllByUserIdAndFileUrlIsNotNull(user.getId());
+        model.addAttribute("careers", careers);
+        model.addAttribute("cities", cities);
         model.addAttribute("infoResume", infoResume);
+        model.addAttribute("newInfoResume", new InfoResume());
+        model.addAttribute("infoResumeMain", infoResumeMain);
+
         return "client/profile/resume";
+    }
+
+    @PostMapping("/profile/resume/delete/{id}")
+    public String deleteResume(@PathVariable Long id) {
+        infoResumeService.deleteById(id);
+        return "redirect:/profile/resume";
+    }
+
+    @PostMapping("/profile/resume/update/{id}")
+    public String updateResume(@PathVariable Long id, @ModelAttribute("newInfoResume") InfoResume infoResume,
+            @RequestParam("resumeFile") MultipartFile resumeFile) {
+        Optional<InfoResume> existingResumeOptional = infoResumeService.findById(id);
+        if (existingResumeOptional.isPresent()) {
+            InfoResume existingResume = existingResumeOptional.get();
+
+            // Cập nhật thông tin resume
+            existingResume.setTitle(infoResume.getTitle());
+            existingResume.setDescription(infoResume.getDescription());
+            existingResume.setSalaryMin(infoResume.getSalaryMin());
+            existingResume.setSalaryMax(infoResume.getSalaryMax());
+            existingResume.setPosition(infoResume.getPosition());
+            existingResume.setExperience(infoResume.getExperience());
+            existingResume.setAcademicLevel(infoResume.getAcademicLevel());
+            existingResume.setTypeOfWorkplace(infoResume.getTypeOfWorkplace());
+            existingResume.setJobType(infoResume.getJobType());
+            existingResume.setCareer(infoResume.getCareer());
+            existingResume.setCity(infoResume.getCity());
+            existingResume.setUpdateAt(java.time.LocalDateTime.now());
+
+            // Xử lý file upload nếu có
+            if (!resumeFile.isEmpty()) {
+                try {
+                    // Xóa file cũ
+                    Files.deleteIfExists(Paths.get(existingResume.getFileUrl()));
+
+                    // Lưu file mới
+                    String fileUrl = uploadService.handleSaveUploadFile(resumeFile, "resume");
+                    existingResume.setFileUrl(fileUrl);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Xử lý lỗi nếu cần
+                }
+            }
+
+            // Lưu resume đã cập nhật vào cơ sở dữ liệu
+            infoResumeService.save(existingResume);
+        }
+        return "redirect:/profile/resume";
+    }
+
+    @PostMapping("/profile/resume/addresume")
+    public String addresume(@ModelAttribute InfoResume infoResume, @RequestParam("resumeFile") MultipartFile resumeFile,
+            Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+        infoResume.setUser(user);
+        infoResume.setCreateAt(LocalDateTime.now());
+        infoResume.setCreateAt(LocalDateTime.now());
+        infoResume.setUpdateAt(LocalDateTime.now());
+        String fileUrl = uploadService.handleSaveUploadFile(resumeFile, "resume");
+        infoResume.setFileUrl(fileUrl);
+        infoResumeService.save(infoResume);
+        return "redirect:/profile/resume";
     }
 
     @GetMapping("/profile/resume/resume-update")
@@ -240,7 +324,7 @@ public class ProfileController {
                 ? jobSeekerProfile.getLocation().getDistrict().getName()
                 : "Chưa cập nhật";
 
-        Optional<InfoResume> optionalInfoResume = infoResumeService.getResumeByUserId(user.getId());
+        InfoResume optionalInfoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
         List<CommonCareer> careers = commonCareerService.findAll();
         List<CommonCity> cities = commonCityService.findAll();
         InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
@@ -273,7 +357,7 @@ public class ProfileController {
         model.addAttribute("infoAdvancedSkill", new InfoAdvancedSkill());
 
         model.addAttribute("infoResumeShow", infoResume);
-        model.addAttribute("infoResume", optionalInfoResume.orElse(new InfoResume()));
+        model.addAttribute("infoResume", optionalInfoResume);
         model.addAttribute("user", user);
         model.addAttribute("jobSeekerProfile", jobSeekerProfile);
         model.addAttribute("birthday", jobSeekerProfile.getBirthday());
@@ -310,27 +394,26 @@ public class ProfileController {
         infoResume.setJobSeekerProfile(jobSeekerProfileService.getProfileByUserId(user.getId()));
 
         // Kiểm tra xem hồ sơ đã tồn tại chưa
-        Optional<InfoResume> existingResume = infoResumeService.getResumeByUserId(user.getId());
-        if (existingResume.isPresent()) {
+        InfoResume existingResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+        if (existingResume != null) {
             // Cập nhật hồ sơ hiện có
-            InfoResume existing = existingResume.get();
-            existing.setTitle(infoResume.getTitle());
-            existing.setDescription(infoResume.getDescription());
-            existing.setSalaryMin(infoResume.getSalaryMin());
-            existing.setSalaryMax(infoResume.getSalaryMax());
-            existing.setPosition(infoResume.getPosition());
-            existing.setExperience(infoResume.getExperience());
-            existing.setAcademicLevel(infoResume.getAcademicLevel());
-            existing.setTypeOfWorkplace(infoResume.getTypeOfWorkplace());
-            existing.setJobType(infoResume.getJobType());
-            existing.setCareer(infoResume.getCareer());
-            existing.setCity(infoResume.getCity());
-            existing.setUpdateAt(java.time.LocalDateTime.now());
-            infoResume.setUpdateAt(java.time.LocalDateTime.now());
-            infoResumeService.save(existing);
+            existingResume.setTitle(infoResume.getTitle());
+            existingResume.setDescription(infoResume.getDescription());
+            existingResume.setSalaryMin(infoResume.getSalaryMin());
+            existingResume.setSalaryMax(infoResume.getSalaryMax());
+            existingResume.setPosition(infoResume.getPosition());
+            existingResume.setExperience(infoResume.getExperience());
+            existingResume.setAcademicLevel(infoResume.getAcademicLevel());
+            existingResume.setTypeOfWorkplace(infoResume.getTypeOfWorkplace());
+            existingResume.setJobType(infoResume.getJobType());
+            existingResume.setCareer(infoResume.getCareer());
+            existingResume.setCity(infoResume.getCity());
+            existingResume.setUpdateAt(java.time.LocalDateTime.now());
+            infoResumeService.save(existingResume);
         } else {
             // Chèn hồ sơ mới
             infoResume.setCreateAt(java.time.LocalDateTime.now());
+            infoResume.setUpdateAt(java.time.LocalDateTime.now());
             infoResumeService.save(infoResume);
         }
 

@@ -15,7 +15,7 @@ public class InfoResumeService {
         this.infoResumeRepository = infoResumeRepository;
     }
 
-    public Optional<InfoResume> getResumeByUserId(Long userId) {
+    public List<InfoResume> getResumeByUserId(Long userId) {
         return infoResumeRepository.findByUserId(userId);
     }
 
@@ -26,4 +26,17 @@ public class InfoResumeService {
     public InfoResume findAllByUserIdAndFileUrlIsNull(Long userId) {
         return infoResumeRepository.findAllByUserIdAndFileUrlIsNull(userId);
     }
+
+    public List<InfoResume> findAllByUserIdAndFileUrlIsNotNull(Long userId) {
+        return infoResumeRepository.findAllByUserIdAndFileUrlIsNotNull(userId);
+    }
+
+    public Optional<InfoResume> findById(Long id) {
+        return infoResumeRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        infoResumeRepository.deleteById(id);
+    }
+
 }

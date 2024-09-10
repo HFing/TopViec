@@ -3,14 +3,12 @@ package com.hfing.TopViec.controller.admin;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
@@ -18,7 +16,6 @@ import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
