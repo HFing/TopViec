@@ -39,6 +39,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InfoResume> resumes;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobPost> jobPosts;
+
     public Long getId() {
         return id;
     }
@@ -157,5 +160,13 @@ public class User {
 
     public void setInfoCompanies(List<InfoCompany> infoCompanies) {
         this.infoCompanies = infoCompanies;
+    }
+
+    public List<InfoResume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(List<InfoResume> resumes) {
+        this.resumes = resumes;
     }
 }

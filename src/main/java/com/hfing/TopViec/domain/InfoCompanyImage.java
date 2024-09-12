@@ -1,33 +1,29 @@
 package com.hfing.TopViec.domain;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "common_career")
-public class CommonCareer {
+@Table(name = "info_company_image")
+public class InfoCompanyImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private String name;
+    private String imageUrl;
+    private String imagePublicId;
 
-    @OneToMany(mappedBy = "career")
-    private Set<InfoResume> resumes;
-
-    @OneToMany(mappedBy = "career")
-    private Set<JobPost> jobPosts;
-
-    // Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private InfoCompany company;
 
     public Long getId() {
         return id;
@@ -53,27 +49,28 @@ public class CommonCareer {
         this.updateAt = updateAt;
     }
 
-    public String getName() {
-        return name;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public Set<InfoResume> getResumes() {
-        return resumes;
+    public String getImagePublicId() {
+        return imagePublicId;
     }
 
-    public void setResumes(Set<InfoResume> resumes) {
-        this.resumes = resumes;
+    public void setImagePublicId(String imagePublicId) {
+        this.imagePublicId = imagePublicId;
     }
 
-    public Set<JobPost> getJobPosts() {
-        return jobPosts;
+    public InfoCompany getCompany() {
+        return company;
     }
 
-    public void setJobPosts(Set<JobPost> jobPosts) {
-        this.jobPosts = jobPosts;
+    public void setCompany(InfoCompany company) {
+        this.company = company;
     }
+
 }

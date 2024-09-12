@@ -40,6 +40,9 @@ public class CommonLocation {
     @JsonIgnore
     private List<InfoCompany> companies;
 
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobPost> jobPosts;
+
     public Long getId() {
         return id;
     }
@@ -78,5 +81,13 @@ public class CommonLocation {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<JobPost> getJobPosts() {
+        return jobPosts;
+    }
+
+    public void setJobPosts(List<JobPost> jobPosts) {
+        this.jobPosts = jobPosts;
     }
 }

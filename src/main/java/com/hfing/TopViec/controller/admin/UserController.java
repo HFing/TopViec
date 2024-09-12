@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
+import com.hfing.TopViec.service.JobSeekerProfileService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserRoleService;
@@ -27,14 +28,17 @@ public class UserController {
     private final RoleService roleService;
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
+    private final JobSeekerProfileService jobSeekerProfileService;
 
     public UserController(UserService userService, UploadService uploadService, RoleService roleService,
-            UserRoleService userRoleService, PasswordEncoder passwordEncoder) {
+            UserRoleService userRoleService, PasswordEncoder passwordEncoder,
+            JobSeekerProfileService jobSeekerProfileService) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.roleService = roleService;
         this.userRoleService = userRoleService;
         this.passwordEncoder = passwordEncoder;
+        this.jobSeekerProfileService = jobSeekerProfileService;
     }
 
     @GetMapping("/admin/user")
@@ -87,6 +91,8 @@ public class UserController {
     public String postUserDelete(Model model, @ModelAttribute("newUser") User user) {
         // Xóa các UserRole liên quan
         userRoleService.deleteUserRolesByUserId(user.getId());
+        jobSeekerProfileService.deleteByUserId(user.getId());
+
         // Xóa người dùng
         userService.deleteUserById(user.getId());
         return "redirect:/admin/user";

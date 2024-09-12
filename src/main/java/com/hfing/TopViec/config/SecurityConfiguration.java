@@ -62,6 +62,7 @@ public class SecurityConfiguration {
                                                                 "/companies/**", "/contact/**")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/recruiter/**").hasRole("RECRUITER")
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

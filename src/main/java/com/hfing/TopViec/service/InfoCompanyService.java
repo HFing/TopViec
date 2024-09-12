@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hfing.TopViec.domain.InfoCompany;
+import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.repository.InfoCompanyRepository;
 
 @Service
@@ -29,5 +30,9 @@ public class InfoCompanyService {
 
     public void deleteCompanyById(Long id) {
         infoCompanyRepository.deleteById(id);
+    }
+
+    public InfoCompany findByUser(User user) {
+        return infoCompanyRepository.findByUser(user);
     }
 }

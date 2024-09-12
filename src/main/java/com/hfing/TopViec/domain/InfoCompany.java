@@ -2,6 +2,7 @@ package com.hfing.TopViec.domain;
 
 import java.sql.Date;
 
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -65,8 +66,14 @@ public class InfoCompany {
     private CommonLocation location;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_user_info_company"))
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoCompanyImage> images;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobPost> jobPosts;
 
     public Long getId() {
         return id;
@@ -218,6 +225,22 @@ public class InfoCompany {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<InfoCompanyImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<InfoCompanyImage> images) {
+        this.images = images;
+    }
+
+    public List<JobPost> getJobPosts() {
+        return jobPosts;
+    }
+
+    public void setJobPosts(List<JobPost> jobPosts) {
+        this.jobPosts = jobPosts;
     }
 
 }

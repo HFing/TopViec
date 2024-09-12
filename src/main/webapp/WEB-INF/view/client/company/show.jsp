@@ -50,7 +50,7 @@
                                                             <c:set var="words"
                                                                 value="${fn:split(company.description, ' ')}" />
                                                             <c:forEach var="word" items="${words}" varStatus="status">
-                                                                <c:if test="${status.count <= 15}">
+                                                                <c:if test="${status.count <= 10}">
                                                                     ${word}
                                                                 </c:if>
                                                             </c:forEach>

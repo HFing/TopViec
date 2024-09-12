@@ -8,4 +8,6 @@ import com.hfing.TopViec.domain.JobSeekerProfile;
 @Repository
 public interface JobSeekerProfileRepository extends JpaRepository<JobSeekerProfile, Long> {
     JobSeekerProfile findByUserId(Long userId);
+
+    void deleteByUserId(Long userId);
 }

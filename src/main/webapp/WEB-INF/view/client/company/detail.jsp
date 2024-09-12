@@ -9,6 +9,16 @@
             <title>Document</title>
             <link rel="stylesheet" href="/client/css/style.css">
             <style>
+                #companyImageSlider figure {
+                    display: none;
+                    transition: opacity 0.5s ease-in-out;
+                }
+
+                #companyImageSlider figure.active {
+                    display: block;
+                    opacity: 1;
+                }
+
                 .backlink {
                     display: flex;
                     align-items: center;
@@ -350,27 +360,10 @@
                                         <div class="company-about-wrapper">
                                             <h2 class="title h3-size company-about">About the company</h2>
                                             <div class="rich-text w-richtext">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus augue
-                                                    sagittis erat consectetur est. Blandit blandit nec <a
-                                                        href="#">mauris pulvinar</a>. Lectus duis amet tortor, sit
-                                                    tincidunt. Rhoncus tincidunt imperdiet penatibus vitae risus, vitae.
+                                                <p>${company.description}
                                                 </p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus
-                                                    dictum ultrices lacus sodales nunc felis eu, consectetur arcu. Vitae
-                                                    nulla scelerisque id</p>
-                                                <ul role="list">
-                                                    <li>Neque sodales ut etiam sit amet nisl purus. Non tellus orci ac
-                                                        auctor.</li>
-                                                    <li>Adipiscing elit ut aliquam purus sit amet. Viverra suspendisse
-                                                        potenti nullam ac.</li>
-                                                    <li>Mauris commodo quis imperdiet massa tincidunt nunc pulvinar</li>
-                                                </ul>
-                                                <figure style="max-width:1306px"
-                                                    class="w-richtext-align-fullwidth w-richtext-figure-type-image">
-                                                    <div><img
-                                                            src="https://cdn.prod.website-files.com/60c77302fcfa2bdb6e595f76/60c7c4fc44bc856c896ee119_image-about-company-job-board-x.jpg"
-                                                            loading="lazy" alt=""></div>
-                                                </figure>
+
+
                                             </div>
                                             <div class="company-about-social-media-bottom-wrapper">
                                                 <div class="company-about-social-media-text-wrapper">
@@ -395,27 +388,19 @@
                                     <div data-w-tab="Company Perks" class="company-tab-pane w-tab-pane"
                                         id="w-tabs-0-data-w-pane-2" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-2">
-                                        <h2 class="title h3-size company-perks">Webflow job openings</h2>
-                                        <div class="company-perks-columns w-row">
-                                            <div class="company-perks-column-1 w-col w-col-6">
-                                                <div class="company-perks-rich-text w-richtext">
-                                                    <ul role="list">
-                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
-                                                        <li>Duis aute irure dolor in reprehenderit in voluptate</li>
-                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="company-perks-column-2 w-col w-col-6">
-                                                <div class="company-perks-rich-text w-richtext">
-                                                    <ul role="list">
-                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
-                                                        <li>Excepteur sint occaecat cupidatat non proident</li>
-                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                        <h2 class="title h3-size company-perks">Company Images</h2>
+                                        <div class="company-perks-columns w-row" id="companyImageSlider">
+                                            <c:forEach var="image" items="${images}">
+                                                <figure style="max-width:1306px"
+                                                    class="w-richtext-align-fullwidth w-richtext-figure-type-image">
+                                                    <div>
+                                                        <img src="/images/companyimg/${image.imageUrl}" loading="lazy"
+                                                            alt="Company Image">
+                                                    </div>
+                                                </figure>
+                                            </c:forEach>
                                         </div>
+                                        <button id="nextBtn" class="btn btn-primary">Next</button>
                                     </div>
                                 </div>
                             </div>
@@ -485,6 +470,28 @@
                                 document.getElementById(paneId).classList.add('w--tab-active');
                             });
                         });
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const slider = document.getElementById('companyImageSlider');
+                        const images = slider.getElementsByTagName('figure');
+                        let currentIndex = 0;
+
+                        function showImage(index) {
+                            for (let i = 0; i < images.length; i++) {
+                                images[i].classList.remove('active');
+                            }
+                            images[index].classList.add('active');
+                        }
+
+                        document.getElementById('nextBtn').addEventListener('click', function () {
+                            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                            showImage(currentIndex);
+                        });
+
+                        // Hiển thị ảnh đầu tiên
+                        showImage(currentIndex);
                     });
                 </script>
         </body>
