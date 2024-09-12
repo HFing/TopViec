@@ -13,7 +13,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "myjob_job_job_post")
+@Table(name = "job_post")
 public class JobPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class JobPost {
     private Integer quantity;
 
     @Column(name = "gender")
-    private Double gender;
+    private int gender;
 
     @Column(name = "job_description", columnDefinition = "LONGTEXT")
     private String jobDescription;
@@ -104,8 +104,8 @@ public class JobPost {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "status", columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
+    @Column(name = "status")
+    private int status;
 
     public Long getId() {
         return id;
@@ -155,11 +155,11 @@ public class JobPost {
         this.quantity = quantity;
     }
 
-    public Double getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(Double gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
@@ -331,11 +331,11 @@ public class JobPost {
         this.user = user;
     }
 
-    public Boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

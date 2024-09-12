@@ -20,7 +20,7 @@
                         <div class="collapse" id="collapseLocations" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="">List Of Posts</a>
+                                <a class="nav-link" href="/recruiter/job">List Of Posts</a>
                             </nav>
                         </div>
 
