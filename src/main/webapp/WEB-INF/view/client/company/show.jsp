@@ -46,19 +46,19 @@
                                                 </h2>
                                                 <c:choose>
                                                     <c:when test="${fn:length(company.description) > 15}">
-                                                        <p class="paragraph company-item">
-                                                            <c:set var="words"
-                                                                value="${fn:split(company.description, ' ')}" />
-                                                            <c:forEach var="word" items="${words}" varStatus="status">
-                                                                <c:if test="${status.count <= 10}">
-                                                                    ${word}
-                                                                </c:if>
-                                                            </c:forEach>
-                                                            ...
-                                                        </p>
+
+                                                        <c:set var="words"
+                                                            value="${fn:split(company.description, ' ')}" />
+                                                        <c:forEach var="word" items="${words}" varStatus="status">
+                                                            <c:if test="${status.count <= 10}">
+                                                                ${word}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        ...
+
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <p class="paragraph company-item">${company.description}</p>
+                                                        ${company.description}
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <div class="card-link-wrapper weight-medium">

@@ -15,10 +15,10 @@
                 <link href="/recruiter/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-                <script
-                    src="https://cdn.tiny.cloud/1/ztsvbvwzg98dnem4joz89sswtejc3e1fafotcd7lpy6osf11/tinymce/7/tinymce.min.js"
-                    referrerpolicy="origin"></script>
-                referrerpolicy="origin"></script>
+                <!-- Quill CSS -->
+                <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+                <!-- Quill JS -->
+                <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
                 <script>
                     $(document).ready(() => {
                         const avatarFile = $("#avatarFile");
@@ -213,6 +213,33 @@
                     crossorigin="anonymous"></script>
                 <script src="/recruiter/js/scripts.js"></script>
                 <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Replace textarea with Quill editor
+                        const textarea = document.getElementById('description');
+                        const quillContainer = document.createElement('div');
+                        quillContainer.style.height = '200px';
+                        textarea.parentNode.insertBefore(quillContainer, textarea);
+                        textarea.style.display = 'none';
+
+                        const quill = new Quill(quillContainer, {
+                            theme: 'snow'
+                        });
+
+                        // Set initial content from textarea
+                        quill.root.innerHTML = textarea.value;
+
+                        // Sync Quill content with textarea
+                        quill.on('text-change', function () {
+                            textarea.value = quill.root.innerHTML;
+                        });
+
+                        // Submit content
+                        document.querySelector('form').onsubmit = function () {
+                            textarea.value = quill.root.innerHTML;
+                        };
+                    });
+                </script>
+                <script>
                     $(document).ready(() => {
                         const companyImageUrl = $("#companyImageUrl");
                         companyImageUrl.change(function (e) {
@@ -229,26 +256,7 @@
                         });
                     });
                 </script>
-                <script>
-                    tinymce.init({
-                        selector: '#description',
-                        plugins: [
-                            // Core editing features
-                            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                            // Your account includes a free trial of TinyMCE premium features
-                            // Try the most popular premium features until Sep 12, 2024:
-                            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-                        ],
-                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                        tinycomments_mode: 'embedded',
-                        tinycomments_author: 'Author name',
-                        mergetags_list: [
-                            { value: 'First.Name', title: 'First Name' },
-                            { value: 'Email', title: 'Email' },
-                        ],
-                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-                    });
-                </script>
+
                 <script>
                     function fetchDistricts(cityId, selectedDistrictId = null) {
                         if (!cityId) {

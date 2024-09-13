@@ -18,6 +18,10 @@
                             Company
                         </a>
 
+                        <a class="nav-link" href="/admin/job">
+                            <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
+                            Job
+                        </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLocations" aria-expanded="false" aria-controls="collapseLocations">

@@ -2,6 +2,8 @@ package com.hfing.TopViec.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,6 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.hfing.TopViec.domain.enums.AcademicLevel;
+import com.hfing.TopViec.domain.enums.Experience;
+import com.hfing.TopViec.domain.enums.JobType;
+import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -29,6 +40,7 @@ public class JobPost {
     private String jobName;
 
     @Column(name = "deadline")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
     @Column(name = "quantity")
@@ -46,20 +58,25 @@ public class JobPost {
     @Column(name = "benefits_enjoyed", columnDefinition = "LONGTEXT")
     private String benefitsEnjoyed;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "position")
-    private Short position;
+    private Position position;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type_of_workplace")
-    private Short typeOfWorkplace;
+    private TypeOfWorkplace typeOfWorkplace;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "experience")
-    private Short experience;
+    private Experience experience;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "academic_level")
-    private Short academicLevel;
+    private AcademicLevel academicLevel;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "job_type")
-    private Short jobType;
+    private JobType jobType;
 
     @Column(name = "salary_min", precision = 12, scale = 2)
     private BigDecimal salaryMin;
@@ -187,43 +204,43 @@ public class JobPost {
         this.benefitsEnjoyed = benefitsEnjoyed;
     }
 
-    public Short getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(Short position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
-    public Short getTypeOfWorkplace() {
+    public TypeOfWorkplace getTypeOfWorkplace() {
         return typeOfWorkplace;
     }
 
-    public void setTypeOfWorkplace(Short typeOfWorkplace) {
+    public void setTypeOfWorkplace(TypeOfWorkplace typeOfWorkplace) {
         this.typeOfWorkplace = typeOfWorkplace;
     }
 
-    public Short getExperience() {
+    public Experience getExperience() {
         return experience;
     }
 
-    public void setExperience(Short experience) {
+    public void setExperience(Experience experience) {
         this.experience = experience;
     }
 
-    public Short getAcademicLevel() {
+    public AcademicLevel getAcademicLevel() {
         return academicLevel;
     }
 
-    public void setAcademicLevel(Short academicLevel) {
+    public void setAcademicLevel(AcademicLevel academicLevel) {
         this.academicLevel = academicLevel;
     }
 
-    public Short getJobType() {
+    public JobType getJobType() {
         return jobType;
     }
 
-    public void setJobType(Short jobType) {
+    public void setJobType(JobType jobType) {
         this.jobType = jobType;
     }
 

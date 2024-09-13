@@ -15,6 +15,16 @@
                 <link href="/admin/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script
+                    src="https://cdn.tiny.cloud/1/ztsvbvwzg98dnem4joz89sswtejc3e1fafotcd7lpy6osf11/tinymce/7/tinymce.min.js"
+                    referrerpolicy="origin"></script>
+                <script>
+                    tinymce.init({
+                        selector: '#description',
+                        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                    });
+                </script>
 
             </head>
 
@@ -177,11 +187,13 @@
 
 
 
+
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description:</label>
                                                     <form:textarea path="description" cssClass="form-control"
-                                                        id="description" rows="3" />
+                                                        id="description" rows="3"></form:textarea>
                                                 </div>
+
 
                                                 <div class="col-12 mb-5">
                                                     <button type="submit" class="btn btn-primary">Create</button>

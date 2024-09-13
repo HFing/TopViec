@@ -40,34 +40,29 @@
                                         <div class="col-md-6 col-12 mx-auto">
                                             <h3>Create a Job Post</h3>
                                             <hr />
-                                            <form:form method="post" action="/recruiter/job/create"
-                                                modelAttribute="newJobPost" class="row" enctype="multipart/form-data">
+                                            <form:form method="post" action="/recruiter/job/update"
+                                                modelAttribute="existingJobPost" class="row"
+                                                enctype="multipart/form-data">
                                                 <div class="row mb-3">
 
+                                                    <form:hidden path="id" />
                                                     <div class="col">
                                                         <label for="jobName" class="form-label">Job Name:</label>
                                                         <form:input path="jobName" cssClass="form-control" id="jobName"
                                                             required="true" />
                                                     </div>
-
-
-
                                                     <div class="mb-3">
                                                         <label for="career" class="form-label">Career:</label>
                                                         <form:select path="career.id" cssClass="form-control"
                                                             id="career" required="true">
-                                                            <option value="" disabled selected>Select your career
-                                                            </option>
-                                                            <c:forEach var="career" items="${careers}">
-                                                                <option value="${career.id}">${career.name}</option>
-                                                            </c:forEach>
+                                                            <option value="" disabled>Select your career</option>
+                                                            <form:options items="${careers}" itemValue="id"
+                                                                itemLabel="name" />
                                                         </form:select>
                                                     </div>
-
                                                     <div class="row mb-3">
-
-                                                        <div class="col"><label for="position"
-                                                                class="form-label">Desired
+                                                        <div class="col">
+                                                            <label for="position" class="form-label">Desired
                                                                 Level</label>
                                                             <form:select path="position" id="position"
                                                                 cssClass="form-control" required="true">
@@ -77,10 +72,6 @@
                                                                     itemLabel="displayName" />
                                                             </form:select>
                                                         </div>
-
-
-
-
                                                         <div class="col">
                                                             <label for="experience"
                                                                 class="form-label">Experience</label>
@@ -92,10 +83,8 @@
                                                                     itemLabel="displayName" />
                                                             </form:select>
                                                         </div>
-
                                                     </div>
                                                     <div class="row mb-3">
-
                                                         <div class="col">
                                                             <label for="jobType" class="form-label">Job Type</label>
                                                             <form:select path="jobType" id="jobType"
@@ -106,7 +95,6 @@
                                                                     itemLabel="displayName" />
                                                             </form:select>
                                                         </div>
-
                                                         <div class="col">
                                                             <label for="typeOfWorkplace" class="form-label">Type of
                                                                 Workplace</label>
@@ -118,15 +106,8 @@
                                                                     itemValue="name" itemLabel="displayName" />
                                                             </form:select>
                                                         </div>
-
                                                     </div>
-
-
-
-
-
                                                     <div class="row mb-3">
-
                                                         <div class="col">
                                                             <label for="salaryMin" class="form-label">Salary
                                                                 Min:</label>
@@ -140,12 +121,8 @@
                                                                 id="salaryMax" type="number" step="0.01" />
                                                         </div>
                                                     </div>
-
-
                                                 </div>
-
                                                 <div class="row mb-3">
-
                                                     <div class="col">
                                                         <label for="academicLevel" class="form-label">Academic
                                                             Level</label>
@@ -157,15 +134,11 @@
                                                                 itemLabel="displayName" />
                                                         </form:select>
                                                     </div>
-
-
-
                                                     <div class="col">
                                                         <label for="deadline" class="form-label">Deadline:</label>
                                                         <form:input path="deadline" cssClass="form-control"
                                                             id="deadline" type="date" />
                                                     </div>
-
                                                 </div>
                                                 <div class="row mb-3">
                                                     <div class="col">
@@ -182,7 +155,6 @@
                                                         </form:select>
                                                     </div>
                                                 </div>
-
                                                 <div class="row mb-3">
                                                     <div class="col">
                                                         <label for="city" class="form-label">City</label>
@@ -192,16 +164,15 @@
                                                             <form:options items="${cities}" itemValue="id"
                                                                 itemLabel="name" />
                                                         </form:select>
-
                                                     </div>
-
                                                     <div class="col">
                                                         <label for="district" class="form-label">District</label>
                                                         <form:select path="location.district.id" id="district"
                                                             cssClass="form-control">
                                                             <option value="" disabled selected>Select your district
                                                             </option>
-                                                            <!-- Options will be populated by JavaScript -->
+                                                            <form:options items="${districts}" itemValue="id"
+                                                                itemLabel="name" />
                                                         </form:select>
                                                     </div>
                                                 </div>
@@ -232,33 +203,24 @@
                                                     <form:textarea path="benefitsEnjoyed" cssClass="form-control"
                                                         id="benefitsEnjoyed" style="display:none;" rows="3" />
                                                 </div>
-
-
-
                                                 <div class="mb-3">
                                                     <label for="contactPersonName" class="form-label">Contact Person
                                                         Name:</label>
                                                     <form:input path="contactPersonName" cssClass="form-control"
                                                         id="contactPersonName" />
                                                 </div>
-
                                                 <div class="mb-3">
                                                     <label for="contactPersonPhone" class="form-label">Contact Person
                                                         Phone:</label>
                                                     <form:input path="contactPersonPhone" cssClass="form-control"
                                                         id="contactPersonPhone" />
                                                 </div>
-
                                                 <div class="mb-3">
                                                     <label for="contactPersonEmail" class="form-label">Contact Person
                                                         Email:</label>
                                                     <form:input path="contactPersonEmail" cssClass="form-control"
                                                         id="contactPersonEmail" type="email" />
                                                 </div>
-
-
-
-
                                                 <div class="row mb-3">
                                                     <div class="col">
                                                         <label for="isUrgent" class="form-label">Urgent:</label>
@@ -266,13 +228,8 @@
                                                             id="isUrgent" />
                                                     </div>
                                                 </div>
-
-
-
-
-
                                                 <div class="col-12 mb-5">
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
                                             </form:form>
                                         </div>
@@ -286,6 +243,8 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/recruiter/js/scripts.js"></script>
+
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         // Initialize Quill editors
