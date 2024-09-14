@@ -49,4 +49,10 @@ public class JobAdminControllerr {
         return "admin/job/detail";
     }
 
+    @GetMapping("/admin/job/create")
+    public String getCreateJobPage(Model model) {
+        model.addAttribute("jobPost", new JobPost());
+        return "admin/job/create";
+    }
+
 }

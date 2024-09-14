@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
         <div data-collapse="medium" data-animation="over-left" data-duration="400"
             data-w-id="58db7844-5919-d71b-dd74-2323ed8dffe9" data-easing="ease" data-easing2="ease" role="banner"
             class="header w-nav">
@@ -558,11 +559,28 @@
                                                 <div class="w-dyn-list">
                                                     <div role="list"
                                                         class="jobs-filters-dropdown-links-grid header-dropdown last w-dyn-items">
-                                                        <div role="listitem"
-                                                            class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                            <a href="/profile" class="dropdown-nav-link"
-                                                                tabindex="0">Profile</a>
-                                                        </div>
+                                                        <c:if test="${role == 'ADMIN'}">
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/admin" class="dropdown-nav-link"
+                                                                    tabindex="0">Dashboard</a>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${role == 'RECRUITER'}">
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/recruiter" class="dropdown-nav-link"
+                                                                    tabindex="0">Dashboard</a>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${role == 'USER'}">
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/profile" class="dropdown-nav-link"
+                                                                    tabindex="0">Profile</a>
+                                                            </div>
+                                                        </c:if>
+
                                                         <div role="listitem"
                                                             class="jobs-filters-dropdown-link-item w-dyn-item">
                                                             <form action=/logout method="post">

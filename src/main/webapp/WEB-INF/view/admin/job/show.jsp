@@ -30,7 +30,13 @@
                                     <li class="breadcrumb-item active">Jobs</li>
                                 </ol>
 
+
+
                                 <div class="col-12 mx-auto">
+                                    <div class="d-flex justify-content-between">
+                                        <h3>Table Jobs</h3>
+                                        <a href="/admin/job/create" class="btn btn-primary">Create</a>
+                                    </div>
 
                                     <hr />
                                     <table class="table table-hover table-bordered">

@@ -35,6 +35,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             session.setAttribute("avatarUrl", user.getAvatarUrl());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("phone", user.getPhone());
+            session.setAttribute("role", user.getRoleName());
+            System.out.println("ROLE NAME >>><<<: " + user.getRoleName());
         }
 
         // Redirect to the default page after login

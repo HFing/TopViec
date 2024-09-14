@@ -23,7 +23,7 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage Companies</h1>
+                                <h1 class="mt-4">Manage Jobs</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active"><a href="/admin/job">Jobs</a></li>
@@ -32,12 +32,8 @@
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-8 col-12 mx-auto">
-                                            <div class="d-flex justify-content-between">
-                                                <h3>Job Detail</h3>
-                                            </div>
 
-                                            <hr />
-                                            <div class="card" style="width: 80%">
+                                            <div class="card" style="width: 100%">
                                                 <div class="card-header text-center">
                                                     Job Information
                                                 </div>
