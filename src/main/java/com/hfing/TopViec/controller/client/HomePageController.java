@@ -16,6 +16,7 @@ import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
 import com.hfing.TopViec.domain.InfoCompany;
+import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
@@ -26,6 +27,7 @@ import com.hfing.TopViec.service.CommonDistrictService;
 import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.EmployeeSizeService;
 import com.hfing.TopViec.service.InfoCompanyService;
+import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
@@ -50,11 +52,12 @@ public class HomePageController {
     private final EmployeeSizeService employeeSizeService;
     private final CommonLocationService locationService;
     private final InfoCompanyService infoCompanyService;
+    private final JobPostService jobPostService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
             UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
             EmployeeSizeService employeeSizeService, CommonLocationService locationService,
-            InfoCompanyService infoCompanyService) {
+            InfoCompanyService infoCompanyService, JobPostService jobPostService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -64,6 +67,7 @@ public class HomePageController {
         this.employeeSizeService = employeeSizeService;
         this.locationService = locationService;
         this.infoCompanyService = infoCompanyService;
+        this.jobPostService = jobPostService;
     }
 
     @GetMapping("/contact")
@@ -77,7 +81,9 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String getHomePage() {
+    public String getHomePage(Model model) {
+        List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
+        model.addAttribute("hotJobPosts", hotJobPosts);
         return "client/homepage/show";
     }
 

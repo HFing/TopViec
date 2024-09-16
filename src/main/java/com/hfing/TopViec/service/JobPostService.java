@@ -40,4 +40,8 @@ public class JobPostService {
         return jobPostRepository.findByUserId(userId);
     }
 
+    public List<JobPost> getHotJobPosts() {
+        return jobPostRepository.findByIsHotTrue();
+    }
+
 }

@@ -12,4 +12,6 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     List<JobPost> findByCompanyId(Long companyId);
 
     List<JobPost> findByUserId(Long userId);
+
+    List<JobPost> findByIsHotTrue();
 }
