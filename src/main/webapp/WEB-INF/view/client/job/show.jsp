@@ -69,7 +69,8 @@
                                                     class="card-job-post-category-title-icon">
                                                 <div>Location</div>
                                             </div>
-                                            <div class="card-job-post-category-text">${jobPost.typeOfWorkplace}</div>
+                                            <div class="card-job-post-category-text">
+                                                ${jobPost.typeOfWorkplace.displayName}</div>
                                         </div>
                                         <div class="card-job-post-category-wrapper">
                                             <div class="card-job-post-category-title-wrapper"><img
@@ -78,7 +79,8 @@
                                                     class="card-job-post-category-title-icon">
                                                 <div>Level</div>
                                             </div>
-                                            <div class="card-job-post-category-text">${jobPost.position}</div>
+                                            <div class="card-job-post-category-text">${jobPost.position.displayName}
+                                            </div>
                                         </div>
                                         <div class="card-job-post-category-wrapper">
                                             <div class="card-job-post-category-title-wrapper"><img
@@ -96,7 +98,8 @@
                                                     class="card-job-post-category-title-icon">
                                                 <div>Type</div>
                                             </div>
-                                            <div class="card-job-post-category-text">${jobPost.jobType}</div>
+                                            <div class="card-job-post-category-text">${jobPost.jobType.displayName}
+                                            </div>
                                         </div>
                                         <div class="card-job-post-category-wrapper">
                                             <div class="card-job-post-category-title-wrapper"><img
@@ -145,7 +148,7 @@
                                         class="image card-job-post-sidebar-icon"></div>
                                 <div class="card-job-post-sidebar-content">
                                     <h3 class="title h4-size card-job-post-sidebar">Apply now</h3>
-                                    <p class="paragraph card-job-post-sidebar">Please let Webflow know that you found
+                                    <p class="paragraph card-job-post-sidebar">Please let TopViec know that you found
                                         this
                                         position on our job board, as that is a great way to support us, so we can keep
                                         posting cool jobs every day.</p><a href="#"
@@ -185,7 +188,7 @@
                                         class="image card-job-post-sidebar-icon"></div>
                                 <div class="card-job-post-sidebar-content">
                                     <h3 class="title h4-size card-job-post-sidebar">Apply now</h3>
-                                    <p class="paragraph card-job-post-sidebar">Please let Webflow know that you found
+                                    <p class="paragraph card-job-post-sidebar">Please let TopViec know that you found
                                         this
                                         position on our job board, as that is a great way to support us, so we can keep
                                         posting cool jobs every day.</p>
@@ -194,8 +197,8 @@
                             </div>
                             <div class="card job-post-sidebar last">
                                 <div class="image-wrapper card-job-post-sidebar-icon"><img
-                                        src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/6527690e2dea9c09529345d7_webflow-logo-jobs.svg"
-                                        alt="Webflow" class="image card-job-post-sidebar-icon"></div>
+                                        src="/images/company/${jobPost.company.companyImageUrl}" alt="Webflow"
+                                        class="image card-job-post-sidebar-icon"></div>
                                 <div class="card-job-post-sidebar-content">
                                     <div class="card-job-post-sidebar-title-about-company-wrapper">
                                         <h3 class="title h4-size card-job-post-sidebar-about-company">About</h3>
@@ -203,7 +206,7 @@
                                     </div>
                                     <p class="paragraph card-job-post-sidebar">Lorem ipsum dolor sit amet, consectetur
                                         adipiscing elit. Sed turpis sit aliquam faucibus fringilla eu.</p>
-                                </div><a href="/company/webflow"
+                                </div><a href="/companies/${jobPost.company.id}"
                                     class="button-secondary small card-job-post-sidebar-about-company w-button">View
                                     company</a>
                             </div>

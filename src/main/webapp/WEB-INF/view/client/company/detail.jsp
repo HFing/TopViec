@@ -119,124 +119,139 @@
                                         role="tab" aria-controls="w-tabs-0-data-w-pane-2" aria-selected="false">
                                         <div>Company perks &amp; benefits</div>
                                     </a></div>
-                                <!-- <div class="company-tabs-content w-tab-content">
+                                <div class="company-tabs-content w-tab-content">
                                     <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
                                         id="w-tabs-0-data-w-pane-0" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-0">
                                         <h2 class="title h3-size company-job-openings">Webflow job openings</h2>
                                         <div class="w-dyn-list">
-                                            <div role="list" class="jobs-grid w-dyn-items">
-                                                <div role="listitem" class="job-item w-dyn-item"><a
-                                                        href="/job/mobile-product-manager"
-                                                        class="card job w-inline-block">
-                                                        <div class="split-content card-job-left">
-                                                            <div class="image-wrapper card-job"><img
-                                                                    alt="Mobile Product Manager"
-                                                                    src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c7ea645b46e9836da40c_icon-4-company-job-board-x-template.svg"
-                                                                    class="image card-job"
-                                                                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                                            </div>
-                                                            <div class="card-job-title-wrapper">
-                                                                <h3 class="title h6-size card-job"
-                                                                    style="color: rgb(23, 23, 40);">Mobile Product
-                                                                    Manager</h3>
-                                                                <div class="card-link-wrapper">
-                                                                    <div class="card-link">Google</div>
-                                                                    <div class="card-link-arrow"
-                                                                        style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                                                        <div class="card-link-arrow-1"></div>
-                                                                        <div class="card-link-arrow-2"></div>
-                                                                        <div class="card-link-arrow-3"></div>
+                                            <c:choose>
+                                                <c:when test="${jobPosts == null || jobPosts.isEmpty()}">
+                                                    <div class="card job-empty-state w-dyn-empty">
+                                                        <div class="job-empty-state-wrapper">
+                                                            <div class="image-wrapper job-empty-state-icon"><img
+                                                                    alt="Search Icon - Job Board X Webflow Template"
+                                                                    src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
+                                                                    class="image job-empty-state"></div>
+                                                            <div class="job-empty-state-content">
+                                                                <h3 class="title h2-size job-empty-state">No job
+                                                                    openings
+                                                                    available</h3>
+                                                                <p class="paragraph job-empty-state">Want to stay up to
+                                                                    date of
+                                                                    all new job openings popin up? Subscribe to our
+                                                                    newsletter
+                                                                    to receive great jobs every week.</p>
+                                                                <div class="job-empty-state-form-block w-form">
+                                                                    <form id="wf-form-Job-Empty-State-Form"
+                                                                        name="wf-form-Job-Empty-State-Form"
+                                                                        data-name="Job Empty State Form" method="get"
+                                                                        class="job-empty-state-form"
+                                                                        data-wf-page-id="60c7a4d437554c8630b53ab2"
+                                                                        data-wf-element-id="93a9aff5-cc15-0ba3-947d-b091b4bbaf0b"
+                                                                        aria-label="Job Empty State Form"><input
+                                                                            class="input job-empty-state w-input"
+                                                                            maxlength="256" name="Email"
+                                                                            data-name="Email"
+                                                                            placeholder="Subscribe to our newsletter"
+                                                                            type="email" id="email" required=""><input
+                                                                            type="submit" data-wait="Please wait..."
+                                                                            class="button-primary small job-empty-state w-button"
+                                                                            value="Subscribe"></form>
+                                                                    <div class="success-message w-form-done"
+                                                                        tabindex="-1" role="region"
+                                                                        aria-label="Job Empty State Form success">
+                                                                        <div>Thanks for joining our newsletter.</div>
+                                                                    </div>
+                                                                    <div class="error-message w-form-fail" tabindex="-1"
+                                                                        role="region"
+                                                                        aria-label="Job Empty State Form failure">
+                                                                        <div>Oops! Something went wrong.</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="split-content card-job-right">
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Location Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc5172557266c1162fc4_icon-1-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Location</div>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <ul>
+                                                        <div role="list" class="jobs-grid w-dyn-items">
+                                                            <c:forEach var="job" items="${jobPosts}">
+                                                                <div role="listitem" class="job-item w-dyn-item">
+                                                                    <a href="/job/${job.id}"
+                                                                        class="card job w-inline-block">
+                                                                        <div class="split-content card-job-left">
+                                                                            <div class="image-wrapper card-job"><img
+                                                                                    alt="Mobile Product Manager"
+                                                                                    src="/images/company/${job.company.companyImageUrl}"
+                                                                                    class="image card-job"
+                                                                                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                                            </div>
+                                                                            <div class="card-job-title-wrapper">
+                                                                                <h3 class="title h6-size card-job"
+                                                                                    style="color: rgb(23, 23, 40);">
+                                                                                    ${job.jobName}</h3>
+                                                                                <div class="card-link-wrapper">
+                                                                                    <div class="card-link">
+                                                                                        ${job.company.companyName}</div>
+                                                                                    <div class="card-link-arrow"
+                                                                                        style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                                                        <div class="card-link-arrow-1">
+                                                                                        </div>
+                                                                                        <div class="card-link-arrow-2">
+                                                                                        </div>
+                                                                                        <div class="card-link-arrow-3">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="split-content card-job-right">
+                                                                            <div class="card-job-category-wrapper">
+                                                                                <div
+                                                                                    class="card-job-category-title-wrapper">
+                                                                                    <img alt="Location Icon - Job Board X Webflow Template"
+                                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc5172557266c1162fc4_icon-1-job-categories-job-board-x-template.svg"
+                                                                                        class="card-job-category-title-icon">
+                                                                                    <div>Location</div>
+                                                                                </div>
+                                                                                <div class="card-job-category-text">
+                                                                                    ${job.typeOfWorkplace.displayName}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="card-job-category-wrapper">
+                                                                                <div
+                                                                                    class="card-job-category-title-wrapper">
+                                                                                    <img alt="Graph Icon - Job Board X Webflow Template"
+                                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51b6792171f081ab50_icon-2-job-categories-job-board-x-template.svg"
+                                                                                        class="card-job-category-title-icon">
+                                                                                    <div>Level</div>
+                                                                                </div>
+                                                                                <div class="card-job-category-text">
+                                                                                    ${job.position.displayName}</div>
+                                                                            </div>
+                                                                            <div class="card-job-category-wrapper">
+                                                                                <div
+                                                                                    class="card-job-category-title-wrapper">
+                                                                                    <img alt="Portfolio Icon - Job Board X Webflow Template"
+                                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51c1dfba2485657961_icon-3-job-categories-job-board-x-template.svg"
+                                                                                        class="card-job-category-title-icon">
+                                                                                    <div>Department</div>
+                                                                                </div>
+                                                                                <div class="card-job-category-text">
+                                                                                    ${job.career.name}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
                                                                 </div>
-                                                                <div class="card-job-category-text">New York, NY</div>
-                                                            </div>
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Graph Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51b6792171f081ab50_icon-2-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Level</div>
-                                                                </div>
-                                                                <div class="card-job-category-text">Senior</div>
-                                                            </div>
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Portfolio Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51c1dfba2485657961_icon-3-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Department</div>
-                                                                </div>
-                                                                <div class="card-job-category-text">Design</div>
-                                                            </div>
+                                                            </c:forEach>
                                                         </div>
-                                                    </a></div>
-                                                <div role="listitem" class="job-item w-dyn-item"><a
-                                                        href="/job/jr-frontend-engineer"
-                                                        class="card job w-inline-block">
-                                                        <div class="split-content card-job-left">
-                                                            <div class="image-wrapper card-job"><img
-                                                                    alt="Jr Frontend Engineer"
-                                                                    src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c7ea645b46e9836da40c_icon-4-company-job-board-x-template.svg"
-                                                                    class="image card-job"
-                                                                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                                            </div>
-                                                            <div class="card-job-title-wrapper">
-                                                                <h3 class="title h6-size card-job"
-                                                                    style="color: rgb(23, 23, 40);">Jr Frontend Engineer
-                                                                </h3>
-                                                                <div class="card-link-wrapper">
-                                                                    <div class="card-link">Google</div>
-                                                                    <div class="card-link-arrow"
-                                                                        style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                                                        <div class="card-link-arrow-1"></div>
-                                                                        <div class="card-link-arrow-2"></div>
-                                                                        <div class="card-link-arrow-3"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="split-content card-job-right">
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Location Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc5172557266c1162fc4_icon-1-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Location</div>
-                                                                </div>
-                                                                <div class="card-job-category-text">Austin, TX</div>
-                                                            </div>
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Graph Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51b6792171f081ab50_icon-2-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Level</div>
-                                                                </div>
-                                                                <div class="card-job-category-text">Junior</div>
-                                                            </div>
-                                                            <div class="card-job-category-wrapper">
-                                                                <div class="card-job-category-title-wrapper"><img
-                                                                        alt="Portfolio Icon - Job Board X Webflow Template"
-                                                                        src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51c1dfba2485657961_icon-3-job-categories-job-board-x-template.svg"
-                                                                        class="card-job-category-title-icon">
-                                                                    <div>Department</div>
-                                                                </div>
-                                                                <div class="card-job-category-text">Development</div>
-                                                            </div>
-                                                        </div>
-                                                    </a></div>
-                                            </div>
+                                                    </ul>
+                                                </c:otherwise>
+                                            </c:choose>
+
+
+
                                             <div role="navigation" aria-label="List"
                                                 class="w-pagination-wrapper pagination">
                                             </div>
@@ -303,197 +318,100 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
-
-                                <div class="company-tabs-content w-tab-content">
-                                    <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
-                                        id="w-tabs-0-data-w-pane-0" role="tabpanel"
-                                        aria-labelledby="w-tabs-0-data-w-tab-0">
-                                        <h2 class="title h3-size company-job-openings">Webflow job openings</h2>
-                                        <div class="w-dyn-list">
-                                            <div class="card job-empty-state w-dyn-empty">
-                                                <div class="job-empty-state-wrapper">
-                                                    <div class="image-wrapper job-empty-state-icon"><img
-                                                            alt="Search Icon - Job Board X Webflow Template"
-                                                            src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
-                                                            class="image job-empty-state"></div>
-                                                    <div class="job-empty-state-content">
-                                                        <h3 class="title h2-size job-empty-state">No job openings
-                                                            available</h3>
-                                                        <p class="paragraph job-empty-state">Want to stay up to date of
-                                                            all new job openings popin up? Subscribe to our newsletter
-                                                            to receive great jobs every week.</p>
-                                                        <div class="job-empty-state-form-block w-form">
-                                                            <form id="wf-form-Job-Empty-State-Form"
-                                                                name="wf-form-Job-Empty-State-Form"
-                                                                data-name="Job Empty State Form" method="get"
-                                                                class="job-empty-state-form"
-                                                                data-wf-page-id="60c7a4d437554c8630b53ab2"
-                                                                data-wf-element-id="93a9aff5-cc15-0ba3-947d-b091b4bbaf0b"
-                                                                aria-label="Job Empty State Form"><input
-                                                                    class="input job-empty-state w-input"
-                                                                    maxlength="256" name="Email" data-name="Email"
-                                                                    placeholder="Subscribe to our newsletter"
-                                                                    type="email" id="email" required=""><input
-                                                                    type="submit" data-wait="Please wait..."
-                                                                    class="button-primary small job-empty-state w-button"
-                                                                    value="Subscribe"></form>
-                                                            <div class="success-message w-form-done" tabindex="-1"
-                                                                role="region" aria-label="Job Empty State Form success">
-                                                                <div>Thanks for joining our newsletter.</div>
-                                                            </div>
-                                                            <div class="error-message w-form-fail" tabindex="-1"
-                                                                role="region" aria-label="Job Empty State Form failure">
-                                                                <div>Oops! Something went wrong.</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div role="navigation" aria-label="List"
-                                                class="w-pagination-wrapper pagination"></div>
-                                        </div>
-                                    </div>
-                                    <div data-w-tab="About Company" class="company-tab-pane w-tab-pane"
-                                        id="w-tabs-0-data-w-pane-1" role="tabpanel"
-                                        aria-labelledby="w-tabs-0-data-w-tab-1">
-                                        <div class="company-about-wrapper">
-                                            <h2 class="title h3-size company-about">About the company</h2>
-                                            <div class="rich-text w-richtext">
-                                                <p>${company.description}
-                                                </p>
-
-
-                                            </div>
-                                            <div class="company-about-social-media-bottom-wrapper">
-                                                <div class="company-about-social-media-text-wrapper">
-                                                    <div class="company-about-social-media-text">Follow&nbsp;</div>
-                                                    <div class="company-about-social-media-text">Messenger</div>
-                                                </div>
-                                                <div class="company-about-social-media-wrapper"><a
-                                                        href="https://www.facebook.com/" target="_blank"
-                                                        class="image-wrapper social-media-link facebook w-inline-block"></a><a
-                                                        href="https://twitter.com/" target="_blank"
-                                                        class="image-wrapper social-media-link twitter w-inline-block"></a><a
-                                                        href="https://www.instagram.com/" target="_blank"
-                                                        class="image-wrapper social-media-link instagram w-inline-block"></a><a
-                                                        href="https://www.linkedin.com/" target="_blank"
-                                                        class="image-wrapper social-media-link linkedin w-inline-block"></a><a
-                                                        href="https://www.youtube.com/" target="_blank"
-                                                        class="image-wrapper social-media-link youtube w-inline-block"></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div data-w-tab="Company Perks" class="company-tab-pane w-tab-pane"
-                                        id="w-tabs-0-data-w-pane-2" role="tabpanel"
-                                        aria-labelledby="w-tabs-0-data-w-tab-2">
-                                        <h2 class="title h3-size company-perks">Company Images</h2>
-                                        <div class="company-perks-columns w-row" id="companyImageSlider">
-                                            <c:forEach var="image" items="${images}">
-                                                <figure style="max-width:1306px"
-                                                    class="w-richtext-align-fullwidth w-richtext-figure-type-image">
-                                                    <div>
-                                                        <img src="/images/companyimg/${image.imageUrl}" loading="lazy"
-                                                            alt="Company Image">
-                                                    </div>
-                                                </figure>
-                                            </c:forEach>
-                                        </div>
-                                        <button id="nextBtn" class="btn btn-primary">Next</button>
-                                    </div>
-                                </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="section cta">
-                    <div class="container-default w-container">
-                        <div class="cta-wrapper">
-                            <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec40b" class="card cta featured"
-                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                                <h2 class="title cta featured">Post a featured job</h2>
-                                <p class="paragraph cta featured">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit.
-                                    Tincidunt
-                                    sit venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a
-                                    href="/pricing" class="button-primary button-white cta-featured w-button">Post a
-                                    featured job</a>
-                                <div class="bg cta-shape-1"
-                                    style="will-change: transform; transform: translate3d(0px, 15.424px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                </div>
-                                <div class="bg cta-shape-2"
-                                    style="will-change: transform; transform: translate3d(0px, 3.856px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                </div>
-                                <div class="bg cta-shape-3"
-                                    style="will-change: transform; transform: translate3d(0px, 7.712px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                </div>
+            <div class="section cta">
+                <div class="container-default w-container">
+                    <div class="cta-wrapper">
+                        <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec40b" class="card cta featured"
+                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            <h2 class="title cta featured">Post a featured job</h2>
+                            <p class="paragraph cta featured">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                elit.
+                                Tincidunt
+                                sit venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/pricing"
+                                class="button-primary button-white cta-featured w-button">Post a
+                                featured job</a>
+                            <div class="bg cta-shape-1"
+                                style="will-change: transform; transform: translate3d(0px, 15.424px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                             </div>
-                            <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec415" class="card cta"
-                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                                <h2 class="title cta">Post a free job</h2>
-                                <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Tincidunt
-                                    sit
-                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
-                                    class="button-primary w-button">Post a free job</a>
+                            <div class="bg cta-shape-2"
+                                style="will-change: transform; transform: translate3d(0px, 3.856px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                             </div>
+                            <div class="bg cta-shape-3"
+                                style="will-change: transform; transform: translate3d(0px, 7.712px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            </div>
+                        </div>
+                        <div data-w-id="109a18e5-4b1d-6f54-d85d-f775779ec415" class="card cta"
+                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            <h2 class="title cta">Post a free job</h2>
+                            <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Tincidunt
+                                sit
+                                venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
+                                class="button-primary w-button">Post a free job</a>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
 
-                <jsp:include page="../layout/footer.jsp" />
-                <script
-                    src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
-                    type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-                    crossorigin="anonymous"></script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const tabs = document.querySelectorAll('.company-tab-link');
-                        const panes = document.querySelectorAll('.company-tab-pane');
+            <jsp:include page="../layout/footer.jsp" />
+            <script
+                src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
+                type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                crossorigin="anonymous"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const tabs = document.querySelectorAll('.company-tab-link');
+                    const panes = document.querySelectorAll('.company-tab-pane');
 
-                        tabs.forEach(tab => {
-                            tab.addEventListener('click', function (event) {
-                                event.preventDefault();
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', function (event) {
+                            event.preventDefault();
 
-                                // Remove active class from all tabs and panes
-                                tabs.forEach(t => t.classList.remove('w--current'));
-                                panes.forEach(p => p.classList.remove('w--tab-active'));
+                            // Remove active class from all tabs and panes
+                            tabs.forEach(t => t.classList.remove('w--current'));
+                            panes.forEach(p => p.classList.remove('w--tab-active'));
 
-                                // Add active class to the clicked tab and corresponding pane
-                                tab.classList.add('w--current');
-                                const paneId = tab.getAttribute('href').substring(1);
-                                document.getElementById(paneId).classList.add('w--tab-active');
-                            });
+                            // Add active class to the clicked tab and corresponding pane
+                            tab.classList.add('w--current');
+                            const paneId = tab.getAttribute('href').substring(1);
+                            document.getElementById(paneId).classList.add('w--tab-active');
                         });
                     });
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const slider = document.getElementById('companyImageSlider');
-                        const images = slider.getElementsByTagName('figure');
-                        let currentIndex = 0;
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const slider = document.getElementById('companyImageSlider');
+                    const images = slider.getElementsByTagName('figure');
+                    let currentIndex = 0;
 
-                        function showImage(index) {
-                            for (let i = 0; i < images.length; i++) {
-                                images[i].classList.remove('active');
-                            }
-                            images[index].classList.add('active');
+                    function showImage(index) {
+                        for (let i = 0; i < images.length; i++) {
+                            images[i].classList.remove('active');
                         }
+                        images[index].classList.add('active');
+                    }
 
-                        document.getElementById('nextBtn').addEventListener('click', function () {
-                            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
-                            showImage(currentIndex);
-                        });
-
-                        // Hiển thị ảnh đầu tiên
+                    document.getElementById('nextBtn').addEventListener('click', function () {
+                        currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
                         showImage(currentIndex);
                     });
-                </script>
+
+                    // Hiển thị ảnh đầu tiên
+                    showImage(currentIndex);
+                });
+            </script>
         </body>
 
 

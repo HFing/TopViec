@@ -3,11 +3,14 @@ package com.hfing.TopViec.domain.enums;
 public enum Position {
     INTERN(1, "Intern"),
     FRESHER(2, "Fresher"),
-    JUNIOR_DEVELOPER(3, "Junior Developer"),
-    SENIOR_DEVELOPER(4, "Senior Developer"),
-    LEAD_DEVELOPER(5, "Lead Developer"),
-    MID_LEVEL_MANAGER(6, "Mid-level Manager"),
-    SENIOR_LEADER(7, "Senior Leader");
+    JUNIOR(3, "Junior"),
+    SENIOR(4, "Senior"),
+    LEAD(5, "Lead"),
+    MANAGER(6, "Manager"),
+    LEADER(7, "Leader"),
+    DIRECTOR(8, "Director"),
+    PRESIDENT(10, "President"),
+    CEO(11, "CEO");
 
     private final int value;
     private final String displayName;

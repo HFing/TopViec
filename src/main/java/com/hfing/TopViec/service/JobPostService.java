@@ -41,7 +41,11 @@ public class JobPostService {
     }
 
     public List<JobPost> getHotJobPosts() {
-        return jobPostRepository.findByIsHotTrue();
+        return jobPostRepository.findByIsHotTrueAndStatus(1);
+    }
+
+    public List<JobPost> getNonHotJobPostsWithStatusOne() {
+        return jobPostRepository.findNonHotJobPostsWithStatusOne(1);
     }
 
 }

@@ -34,7 +34,7 @@
                                                 class="card-job-category-title-icon">
                                             <div>Location</div>
                                         </div>
-                                        <div class="card-job-category-text">${job.typeOfWorkplace}</div>
+                                        <div class="card-job-category-text">${job.typeOfWorkplace.displayName}</div>
                                     </div>
                                     <div class="card-job-category-wrapper">
                                         <div class="card-job-category-title-wrapper"><img
@@ -43,7 +43,7 @@
                                                 class="card-job-category-title-icon">
                                             <div>Level</div>
                                         </div>
-                                        <div class="card-job-category-text">${job.position}</div>
+                                        <div class="card-job-category-text">${job.position.displayName}</div>
                                     </div>
                                     <div class="card-job-category-wrapper">
                                         <div class="card-job-category-title-wrapper"><img

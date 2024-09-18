@@ -171,6 +171,13 @@ input[type="radio"] {
     cursor: pointer;
 }
 
+.card.job.latest {
+    border-color: #d84e78;
+    background-color: #f9f3f3;
+    color: var(--neutral-600);
+    text-decoration: none;
+}
+
 .invalid-feedback {
     color: red;
 }
@@ -5529,7 +5536,7 @@ figcaption {
 
 .split-content.card-job-right {
     width: 100%;
-    max-width: 387px;
+    max-width: 400px;
     justify-content: space-between;
     align-items: center;
     display: flex;

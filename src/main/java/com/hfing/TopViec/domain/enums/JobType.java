@@ -1,8 +1,8 @@
 package com.hfing.TopViec.domain.enums;
 
 public enum JobType {
-    FULL_TIME(1, "Full-time"),
-    PART_TIME(2, "Part-time"),
+    FULL_TIME(1, "Full time"),
+    PART_TIME(2, "Part time"),
     CONTRACT(3, "Contract"),
     INTERN(4, "Intern");
 

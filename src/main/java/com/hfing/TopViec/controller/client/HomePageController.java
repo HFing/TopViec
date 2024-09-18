@@ -83,7 +83,9 @@ public class HomePageController {
     @GetMapping("/")
     public String getHomePage(Model model) {
         List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
+        List<JobPost> jobPosts = jobPostService.getNonHotJobPostsWithStatusOne();
         model.addAttribute("hotJobPosts", hotJobPosts);
+        model.addAttribute("jobPosts", jobPosts);
         return "client/homepage/show";
     }
 
