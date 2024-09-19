@@ -319,10 +319,19 @@ public class ProfileController {
                 : "Chưa cập nhật";
 
         InfoResume optionalInfoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
+        if (optionalInfoResume == null) {
+            optionalInfoResume = new InfoResume();
+            optionalInfoResume.setUser(user);
+            optionalInfoResume.setJobSeekerProfile(jobSeekerProfile);
+        }
         List<CommonCareer> careers = commonCareerService.findAll();
         List<CommonCity> cities = commonCityService.findAll();
         InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
-
+        if (infoResume == null) {
+            infoResume = new InfoResume();
+            infoResume.setUser(user);
+            infoResume.setJobSeekerProfile(jobSeekerProfile);
+        }
         if (infoResume.getExperienceDetails() == null) {
             infoResume.setExperienceDetails(new ArrayList<>());
         }

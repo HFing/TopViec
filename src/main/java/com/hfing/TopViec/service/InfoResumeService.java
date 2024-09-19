@@ -39,4 +39,8 @@ public class InfoResumeService {
         infoResumeRepository.deleteById(id);
     }
 
+    public List<InfoResume> findAll() {
+        return infoResumeRepository.findAll();
+    }
+
 }
