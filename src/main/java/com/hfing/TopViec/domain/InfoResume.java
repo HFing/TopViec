@@ -92,6 +92,9 @@ public class InfoResume {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoResumeSaved> savedByCompanies;
+
     public Long getId() {
         return id;
     }
@@ -306,6 +309,14 @@ public class InfoResume {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<InfoResumeSaved> getSavedByCompanies() {
+        return savedByCompanies;
+    }
+
+    public void setSavedByCompanies(List<InfoResumeSaved> savedByCompanies) {
+        this.savedByCompanies = savedByCompanies;
     }
 
 }

@@ -75,6 +75,9 @@ public class InfoCompany {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobPost> jobPosts;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoResumeSaved> savedResumes;
+
     public Long getId() {
         return id;
     }
@@ -241,6 +244,14 @@ public class InfoCompany {
 
     public void setJobPosts(List<JobPost> jobPosts) {
         this.jobPosts = jobPosts;
+    }
+
+    public List<InfoResumeSaved> getSavedResumes() {
+        return savedResumes;
+    }
+
+    public void setSavedResumes(List<InfoResumeSaved> savedResumes) {
+        this.savedResumes = savedResumes;
     }
 
 }

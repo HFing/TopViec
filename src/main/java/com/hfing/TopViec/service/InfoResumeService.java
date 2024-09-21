@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.hfing.TopViec.domain.InfoResume;
 import com.hfing.TopViec.repository.InfoResumeRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class InfoResumeService {
     private final InfoResumeRepository infoResumeRepository;
@@ -33,6 +35,11 @@ public class InfoResumeService {
 
     public Optional<InfoResume> findById(Long id) {
         return infoResumeRepository.findById(id);
+    }
+
+    public InfoResume findByIdNotOpt(Long id) {
+        return infoResumeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Resume not found with id " + id));
     }
 
     public void deleteById(Long id) {
