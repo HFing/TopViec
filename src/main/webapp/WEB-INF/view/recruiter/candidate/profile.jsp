@@ -1,8 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
         <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
 
             <!DOCTYPE html>
             <html lang="en">
@@ -19,6 +17,7 @@
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
                     rel="stylesheet">
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
             </head>
 
             <body class="sb-nav-fixed">
@@ -30,13 +29,14 @@
 
                             <div id="layoutSidenav_content">
 
-                                <div class="container mt-5">
+                                <div class="container mt-5" id="cvContainer">
                                     <!-- Header Section -->
                                     <div class="row mb-4">
                                         <div class="col-12 d-flex align-items-center">
-                                            <img src="profile.jpg" alt="Profile Picture" class="rounded-circle me-3"
-                                                style="width: 100px; height: 100px;">
+                                            <img src="/images/avatar/${candidate.user.avatarUrl}" alt="Profile Picture"
+                                                class="rounded-circle me-3" style="width: 100px; height: 100px;">
                                             <div>
+
                                                 <h2>${candidate.user.fullName}</h2>
                                                 <h5 class="text-muted">${candidate.title}</h5>
                                             </div>
@@ -46,14 +46,29 @@
                                     <!-- Action Buttons -->
                                     <div class="row mb-4">
                                         <div class="col-12 d-flex justify-content-start">
-                                            <button class="btn btn-outline-secondary me-2"><i
-                                                    class="bi bi-file-earmark"></i> Tải CV</button>
-                                            <button class="btn btn-outline-secondary me-2"><i class="bi bi-heart"></i>
-                                                Lưu</button>
+                                            <button class="btn btn-outline-secondary me-2" onclick="printDiv()">
+                                                <i class="bi bi-file-earmark"></i> Tải CV
+                                            </button>
+                                            <form:form action="/recruiter/toggle-save-candidate" method="post">
+                                                <form:hidden path="resume.id" value="${candidate.id}" />
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+
+                                                <!-- Nút Lưu -->
+                                                <button type="submit" class="btn btn-outline-secondary me-2">
+                                                    <i id="heartIcon-${candidate.id}" class="bi bi-heart"></i> Lưu
+                                                </button>
+                                            </form:form>
+
                                             <button class="btn btn-outline-secondary"><i class="bi bi-envelope"></i>
                                                 Liên hệ</button>
                                         </div>
                                     </div>
+
+
+
+
+
 
                                     <!-- Personal Info -->
                                     <div class="row mb-4">
@@ -67,6 +82,8 @@
                                                 ${candidate.jobSeekerProfile.address}</p>
                                         </div>
                                         <div class="col-md-6">
+                                            </br>
+                                            </br>
                                             <p><strong>Số điện thoại:</strong> ${candidate.user.phone}</p>
                                             <p><strong>Giới tính:</strong> ${candidate.jobSeekerProfile.gender}</p>
                                             <p><strong>Tỉnh/Thành phố:</strong>
@@ -100,51 +117,82 @@
                                     <!-- Experience -->
                                     <div class="row mb-4">
                                         <h5>Kinh nghiệm làm việc</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Lập trình viên Python</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted">Công ty TNHH MTV Dịch Vụ AAA
-                                                </h6>
-                                                <p class="card-text">31/12/2022 - 30/11/2023</p>
-                                                <p>Mô tả quá trình làm việc tại đây.</p>
+                                        <c:forEach var="experience" items="${candidate.experienceDetails}">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${experience.jobName}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">${experience.companyName}
+                                                    </h6>
+                                                    <p class="card-text">(${experience.startDate}) -
+                                                        (${experience.endDate})
+                                                    </p>
+                                                    <p>${experience.description}</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </c:forEach>
+
                                     </div>
 
                                     <!-- Education -->
                                     <div class="row mb-4">
                                         <h5>Học vấn</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Cử nhân Công nghệ thông tin</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted">Trường Đại học Mở TP. HCM</h6>
-                                                <p class="card-text">31/08/2019 - 08/09/2023</p>
+                                        <c:forEach var="edu" items="${candidate.educationDetails}">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${edu.degreeName} - ${edu.trainingPlaceName}
+                                                    </h5>
+
+                                                    <p class="card-text">(${edu.startDate}) - (${edu.completedDate})</p>
+                                                    <p>${edu.description}</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </c:forEach>
                                     </div>
 
                                     <!-- Certifications -->
                                     <div class="row mb-4">
                                         <h5>Chứng chỉ</h5>
-                                        <ul class="list-group">
-                                            <li class="list-group-item">Chứng Chỉ A - Trung tâm Đào tạo ABC - Không thời
-                                                hạn</li>
-                                            <li class="list-group-item">Chứng Chỉ B - Trung tâm Đào tạo DEF - Không thời
-                                                hạn</li>
-                                        </ul>
+                                        <c:forEach var="cert" items="${candidate.certificates}">
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${cert.name} - ${cert.trainingPlaceName}</h5>
+                                                    <p class="card-text">(${cert.startDate}) - (${cert.expirationDate})
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
                                     </div>
 
                                     <!-- Languages -->
                                     <div class="row mb-4">
                                         <h5>Ngôn ngữ</h5>
                                         <ul class="list-group">
-                                            <li class="list-group-item"><strong>Việt Nam</strong> - Mức độ thành thạo:
-                                                <span class="text-warning">★★★★★</span>
-                                            </li>
-                                            <li class="list-group-item"><strong>Anh</strong> - Mức độ thành thạo: <span
-                                                    class="text-warning">★★★★☆</span></li>
-                                            <li class="list-group-item"><strong>Pháp</strong> - Mức độ thành thạo: <span
-                                                    class="text-warning">★★★☆☆</span></li>
+                                            <c:forEach var="language" items="${candidate.languageSkills}">
+                                                <li class="list-group-item">
+                                                    <strong>${language.language.displayName}</strong> - Mức độ thành
+                                                    thạo:
+                                                    <span class="text-warning">
+                                                        <c:forEach var="i" begin="1" end="5">
+                                                            <c:choose>
+                                                                <c:when test="${i <= language.level}">
+                                                                    ★
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ☆
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                    </span>
+                                                    <c:choose>
+                                                        <c:when test="${language.level == 1}">(Bad)</c:when>
+                                                        <c:when test="${language.level == 2}">(Below Average)</c:when>
+                                                        <c:when test="${language.level == 3}">(Average)</c:when>
+                                                        <c:when test="${language.level == 4}">(Good)</c:when>
+                                                        <c:when test="${language.level == 5}">(Excellent)</c:when>
+                                                    </c:choose>
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
 
@@ -152,14 +200,32 @@
                                     <div class="row mb-4">
                                         <h5>Kỹ năng chuyên môn</h5>
                                         <ul class="list-group">
-                                            <li class="list-group-item"><strong>Python</strong> - Mức độ thành thạo:
-                                                <span class="text-warning">★★★★★</span>
-                                            </li>
-                                            <li class="list-group-item"><strong>Javascript</strong> - Mức độ thành thạo:
-                                                <span class="text-warning">★★★★★</span>
-                                            </li>
-                                            <li class="list-group-item"><strong>SQL</strong> - Mức độ thành thạo: <span
-                                                    class="text-warning">★★★★★</span></li>
+
+                                            <c:forEach var="skill" items="${candidate.advancedSkills}">
+                                                <li class="list-group-item">
+                                                    <strong>${skill.name}</strong> - Mức độ thành
+                                                    thạo:
+                                                    <span class="text-warning">
+                                                        <c:forEach var="i" begin="1" end="5">
+                                                            <c:choose>
+                                                                <c:when test="${i <= skill.level}">
+                                                                    ★
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ☆
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                    </span>
+                                                    <c:choose>
+                                                        <c:when test="${skill.level == 1}">(Bad)</c:when>
+                                                        <c:when test="${skill.level == 2}">(Below Average)</c:when>
+                                                        <c:when test="${skill.level == 3}">(Average)</c:when>
+                                                        <c:when test="${skill.level == 4}">(Good)</c:when>
+                                                        <c:when test="${skill.level == 5}">(Excellent)</c:when>
+                                                    </c:choose>
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
                                 </div>
@@ -172,6 +238,28 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/recruiter/js/scripts.js"></script>
+                <script>
+                    function printDiv() {
+                        var printContents = document.getElementById("cvContainer").cloneNode(true);
+                        var buttons = printContents.querySelector(".row.mb-4 .col-12.d-flex.justify-content-start");
+                        if (buttons) {
+                            buttons.remove();
+                        }
+                        var printWindow = window.open('', '', 'height=800, width=800');
+                        printWindow.document.write('<html><head><title>Print CV</title>');
+                        printWindow.document.write('<link href="/recruiter/css/styles.css" rel="stylesheet" />');
+                        printWindow.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">');
+                        printWindow.document.write('<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">');
+                        printWindow.document.write('</head><body >');
+                        printWindow.document.write(printContents.innerHTML);
+                        printWindow.document.write('<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></' + 'script>');
+                        printWindow.document.write('</body></html>');
+                        printWindow.document.close();
+                        printWindow.print();
+                    }
+                </script>
+
+
             </body>
 
             </html>
