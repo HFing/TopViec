@@ -62,18 +62,21 @@ public class CandidateRecruiterController {
         User user = userService.getUserByEmail(userEmail);
         InfoCompany company = infoCompanyService.findByUser(user);
         InfoResumeSaved infoResumeSaved = infoResumeSavedService.findByCompanyAndResume(company, resume);
+        boolean isSaved = infoResumeSaved != null;
+
         if (infoResumeSaved == null) {
             infoResumeSaved = new InfoResumeSaved();
             infoResumeSaved.setCompany(company);
             infoResumeSaved.setResume(resume);
         }
-        model.addAttribute("infoResumeSaved", infoResumeSaved);
 
+        model.addAttribute("infoResumeSaved", infoResumeSaved);
+        model.addAttribute("isSaved", isSaved);
         return "recruiter/candidate/profile";
     }
 
-    @PostMapping("/recruiter/toggle-save-candidate")
-    public String toggleSaveCandidate(@RequestParam("resume.id") Long resumeId, Model model) {
+    @PostMapping("/recruiter/candidate/save")
+    public String saveResume(@ModelAttribute InfoResumeSaved infoResumeSaved, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -82,19 +85,18 @@ public class CandidateRecruiterController {
         }
         User user = userService.getUserByEmail(userEmail);
         InfoCompany company = infoCompanyService.findByUser(user);
-        InfoResume resume = infoResumeService.findByIdNotOpt(resumeId);
+        InfoResume resume = infoResumeService.findByIdNotOpt(infoResumeSaved.getResume().getId());
 
-        boolean isSaved = infoResumeSavedService.existsByCompanyAndResume(company, resume);
-        if (isSaved) {
-            infoResumeSavedService.deleteByCompanyAndResume(company, resume);
-        } else {
-            InfoResumeSaved infoResumeSaved = new InfoResumeSaved();
+        InfoResumeSaved existingInfoResumeSaved = infoResumeSavedService.findByCompanyAndResume(company, resume);
+        if (existingInfoResumeSaved == null) {
             infoResumeSaved.setCompany(company);
             infoResumeSaved.setResume(resume);
 
             infoResumeSavedService.saveInfoResumeSaved(infoResumeSaved);
         }
 
+        model.addAttribute("infoResumeSaved", infoResumeSaved);
+        model.addAttribute("candidate", resume);
         return "redirect:/recruiter/candidate/" + resume.getId();
     }
 

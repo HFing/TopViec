@@ -49,14 +49,14 @@
                                             <button class="btn btn-outline-secondary me-2" onclick="printDiv()">
                                                 <i class="bi bi-file-earmark"></i> Tải CV
                                             </button>
-                                            <form:form action="/recruiter/toggle-save-candidate" method="post">
-                                                <form:hidden path="resume.id" value="${candidate.id}" />
-                                                <input type="hidden" name="${_csrf.parameterName}"
-                                                    value="${_csrf.token}" />
 
-                                                <!-- Nút Lưu -->
+                                            <form:form method="post" action="/recruiter/candidate/save"
+                                                modelAttribute="infoResumeSaved">
+                                                <form:hidden path="resume.id" value="${candidate.id}" />
                                                 <button type="submit" class="btn btn-outline-secondary me-2">
-                                                    <i id="heartIcon-${candidate.id}" class="bi bi-heart"></i> Lưu
+                                                    <i
+                                                        class="bi ${isSaved ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i>
+                                                    Lưu
                                                 </button>
                                             </form:form>
 

@@ -600,12 +600,13 @@
                                             <div class="card post-job-form-card">
                                                 <div id="advanced-skill-details">
                                                     <c:forEach var="detail" items="${advancedSkills}">
-                                                        <div class="card post-job-form-card">
+                                                        <div data-delete="${detail.id}" class="card post-job-form-card">
                                                             <div class="input-wrapper">
-                                                                <div class="advanced-skill-detail"
-                                                                    data-id="${detail.id}">
-                                                                    <p>Skill Name: ${detail.name}</p>
-                                                                    <p>Level:
+                                                                <div id="dataReload" class="advanced-skill-detail"
+                                                                    data-skill-advanced-id="${detail.id}">
+                                                                    <p data-name-id="${detail.id}">Skill Name:
+                                                                        ${detail.name}</p>
+                                                                    <p data-level-id="${detail.id}">Level:
                                                                         <c:choose>
                                                                             <c:when test="${detail.level == 1}">Bad
                                                                             </c:when>
@@ -621,8 +622,10 @@
                                                                         </c:choose>
                                                                     </p>
                                                                     <button
+                                                                        onclick="openAdvancedSkillModalEdit(`${detail.id}`, `${detail.name}`, `${detail.level}`);"
                                                                         class="button-secondary small w-button">Edit</button>
                                                                     <button type="button"
+                                                                        onclick="deleteAdvancedSkill(`${detail.id}`)"
                                                                         class="button-secondary small w-button">Delete</button>
                                                                 </div>
                                                             </div>
@@ -920,97 +923,122 @@
                     </div>
                 </div>
 
+                <%-- edit--%>
+                    <div id="advancedSkillModalEdit" class="modal">
+                        <div class="modal-content card post-job-form-card">
+                            <span class="close" onclick="closeAdvancedSkillModalEdit()">&times;</span>
+                            <p>Add Advanced Skill Detail</p>
+                            <form:form id="advancedSkillFormEdit" modelAttribute="infoAdvancedSkill">
+                                <input type="hidden" id="idSkillAdvanced">
+                                <div class="input-wrapper">
+                                    <label for="name">Skill Name</label>
+                                    <form:input path="name" id="nameSkillEdit" cssClass="input w-input"
+                                        required="true" />
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="level">Level</label>
+                                    <form:select path="level" id="levelSkillEdit" cssClass="input w-input"
+                                        required="true">
+                                        <form:options items="${levels}" />
+                                    </form:select>
+                                </div>
+                                <button type="button" class="button-primary small w-button"
+                                    onclick="editAdvancedSkillDetail()">Save</button>
+                            </form:form>
+                        </div>
+                    </div>
 
 
-                <jsp:include page="../layout/footer.jsp" />
-                <script
-                    src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
-                    type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-                    crossorigin="anonymous"></script>
+
+                    <jsp:include page="../layout/footer.jsp" />
+                    <script
+                        src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
+                        type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                        crossorigin="anonymous"></script>
 
 
-                <!-- Script for Edit Resume -->
-                <script>
-                    function saveResume(event) {
-                        event.preventDefault(); // Ngăn chặn việc gửi form mặc định
+                    <!-- Script for Edit Resume -->
+                    <script>
+                        function saveResume(event) {
+                            event.preventDefault(); // Ngăn chặn việc gửi form mặc định
 
-                        const form = document.getElementById('editResumeForm');
-                        const formData = new FormData(form);
+                            const form = document.getElementById('editResumeForm');
+                            const formData = new FormData(form);
 
-                        fetch('/updateResume', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                // Cập nhật giá trị trên trang mà không cần tải lại
-                                document.getElementById('desired-position').innerText = data.title;
-                                document.getElementById('desired-level').innerText = data.position;
-                                document.getElementById('academic-level').innerText = data.academicLevel;
-                                document.getElementById('experience').innerText = data.experience;
-                                document.getElementById('occupation').innerText = data.career.name;
-                                document.getElementById('city').innerText = data.city.name;
-                                document.getElementById('type-of-workplace').innerText = data.typeOfWorkplace;
-                                document.getElementById('job-type').innerText = data.jobType;
-                                document.getElementById('career-objective').innerText = data.description;
-                                closeModal();
+                            fetch('/updateResume', {
+                                method: 'POST',
+                                body: formData
                             })
-                            .catch(error => console.error('Error:', error));
-                    }
-
-                    document.getElementById('editResumeForm').addEventListener('submit', saveResume);
-
-                    function closeModal() {
-                        document.getElementById('editResumeModal').style.display = 'none';
-                    }
-
-                    function openModal() {
-                        document.getElementById('editResumeModal').style.display = 'block';
-                    }
-
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('editResumeModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Cập nhật giá trị trên trang mà không cần tải lại
+                                    document.getElementById('desired-position').innerText = data.title;
+                                    document.getElementById('desired-level').innerText = data.position;
+                                    document.getElementById('academic-level').innerText = data.academicLevel;
+                                    document.getElementById('experience').innerText = data.experience;
+                                    document.getElementById('occupation').innerText = data.career.name;
+                                    document.getElementById('city').innerText = data.city.name;
+                                    document.getElementById('type-of-workplace').innerText = data.typeOfWorkplace;
+                                    document.getElementById('job-type').innerText = data.jobType;
+                                    document.getElementById('career-objective').innerText = data.description;
+                                    closeModal();
+                                })
+                                .catch(error => console.error('Error:', error));
                         }
-                    }
-                </script>
 
-                <!-- Script for Experience Detail -->
-                <script>
-                    function saveExperienceDetail() {
-                        const form = document.getElementById('experienceForm');
-                        const formData = new FormData(form);
+                        document.getElementById('editResumeForm').addEventListener('submit', saveResume);
 
-                        fetch('/addExperienceDetail', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
-                                if (data) {
-                                    console.log('Job Name:', data.jobName, 'Type:', typeof data.jobName);
-                                    console.log('Company Name:', data.companyName, 'Type:', typeof data.companyName);
-                                    console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
-                                    console.log('End Date:', data.endDate, 'Type:', typeof data.endDate);
-                                    console.log('Description:', data.description, 'Type:', typeof data.description);
+                        function closeModal() {
+                            document.getElementById('editResumeModal').style.display = 'none';
+                        }
 
-                                    // Chuyển đổi các giá trị ngày tháng thành chuỗi
-                                    const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
-                                    const endDate = new Date(data.endDate[0], data.endDate[1] - 1, data.endDate[2]).toLocaleDateString();
+                        function openModal() {
+                            document.getElementById('editResumeModal').style.display = 'block';
+                        }
 
-                                    // Lưu các giá trị vào biến
-                                    const jobName = data.jobName;
-                                    const companyName = data.companyName;
-                                    const description = data.description;
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('editResumeModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                    </script>
 
-                                    // Tạo phần tử mới để hiển thị chi tiết kinh nghiệm
-                                    const experienceDetails = document.getElementById('experience-details');
-                                    const newDetail = document.createElement('div');
-                                    newDetail.classList.add('card', 'post-job-form-card');
-                                    newDetail.setAttribute('data-id', data.id);
-                                    newDetail.innerHTML = `
+                    <!-- Script for Experience Detail -->
+                    <script>
+                        function saveExperienceDetail() {
+                            const form = document.getElementById('experienceForm');
+                            const formData = new FormData(form);
+
+                            fetch('/addExperienceDetail', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                    if (data) {
+                                        console.log('Job Name:', data.jobName, 'Type:', typeof data.jobName);
+                                        console.log('Company Name:', data.companyName, 'Type:', typeof data.companyName);
+                                        console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
+                                        console.log('End Date:', data.endDate, 'Type:', typeof data.endDate);
+                                        console.log('Description:', data.description, 'Type:', typeof data.description);
+
+                                        // Chuyển đổi các giá trị ngày tháng thành chuỗi
+                                        const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
+                                        const endDate = new Date(data.endDate[0], data.endDate[1] - 1, data.endDate[2]).toLocaleDateString();
+
+                                        // Lưu các giá trị vào biến
+                                        const jobName = data.jobName;
+                                        const companyName = data.companyName;
+                                        const description = data.description;
+
+                                        // Tạo phần tử mới để hiển thị chi tiết kinh nghiệm
+                                        const experienceDetails = document.getElementById('experience-details');
+                                        const newDetail = document.createElement('div');
+                                        newDetail.classList.add('card', 'post-job-form-card');
+                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.innerHTML = `
     <div class="card post-job-form-card">
         <div class="input-wrapper">
             <div class="experience-detail" data-id="\${data.id}">
@@ -1027,81 +1055,81 @@
         </div>
     </div>
 `;
-                                    experienceDetails.appendChild(newDetail);
+                                        experienceDetails.appendChild(newDetail);
 
-                                    // Đóng modal và reset form
-                                    closeExperienceModal();
-                                    form.reset();
-                                } else {
-                                    console.error('Failed to save experience detail.');
-                                }
-                            })
-                            .catch(error => console.error('Error:', error));
-                    }
-
-                    function editExperience(id) {
-                        // Lấy chi tiết kinh nghiệm từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                        // Sau đó mở modal để chỉnh sửa
-                        console.log('Edit experience with id:', id);
-                        // Implement the logic to edit the experience detail
-                    }
-
-
-
-                    function closeExperienceModal() {
-                        document.getElementById('experienceModal').style.display = 'none';
-                    }
-
-                    function openExperienceModal() {
-                        document.getElementById('experienceModal').style.display = 'block';
-                    }
-
-                    // Đóng modal khi bấm ra ngoài nội dung modal
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('experienceModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
+                                        // Đóng modal và reset form
+                                        closeExperienceModal();
+                                        form.reset();
+                                    } else {
+                                        console.error('Failed to save experience detail.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
                         }
-                    }
-                </script>
 
-                <!-- Script for Education Detail -->
-                <script>
-                    function saveEducationDetail() {
-                        const form = document.getElementById('educationForm');
-                        const formData = new FormData(form);
+                        function editExperience(id) {
+                            // Lấy chi tiết kinh nghiệm từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                            // Sau đó mở modal để chỉnh sửa
+                            console.log('Edit experience with id:', id);
+                            // Implement the logic to edit the experience detail
+                        }
 
-                        fetch('/addEducationDetail', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
-                                if (data) {
-                                    console.log('Degree Name:', data.degreeName, 'Type:', typeof data.degreeName);
-                                    console.log('Major:', data.major, 'Type:', typeof data.major);
-                                    console.log('Training Place:', data.trainingPlaceName, 'Type:', typeof data.trainingPlaceName);
-                                    console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
-                                    console.log('Completed Date:', data.completedDate, 'Type:', typeof data.completedDate);
-                                    console.log('Description:', data.description, 'Type:', typeof data.description);
 
-                                    // Chuyển đổi các giá trị ngày tháng thành chuỗi
-                                    const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
-                                    const completedDate = new Date(data.completedDate[0], data.completedDate[1] - 1, data.completedDate[2]).toLocaleDateString();
 
-                                    // Lưu các giá trị vào biến
-                                    const degreeName = data.degreeName;
-                                    const major = data.major;
-                                    const trainingPlaceName = data.trainingPlaceName;
-                                    const description = data.description;
+                        function closeExperienceModal() {
+                            document.getElementById('experienceModal').style.display = 'none';
+                        }
 
-                                    // Tạo phần tử mới để hiển thị chi tiết giáo dục
-                                    const educationDetails = document.getElementById('education-details');
-                                    const newDetail = document.createElement('div');
-                                    newDetail.classList.add('card', 'post-job-form-card');
-                                    newDetail.setAttribute('data-id', data.id);
-                                    newDetail.innerHTML = `
+                        function openExperienceModal() {
+                            document.getElementById('experienceModal').style.display = 'block';
+                        }
+
+                        // Đóng modal khi bấm ra ngoài nội dung modal
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('experienceModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                    </script>
+
+                    <!-- Script for Education Detail -->
+                    <script>
+                        function saveEducationDetail() {
+                            const form = document.getElementById('educationForm');
+                            const formData = new FormData(form);
+
+                            fetch('/addEducationDetail', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                    if (data) {
+                                        console.log('Degree Name:', data.degreeName, 'Type:', typeof data.degreeName);
+                                        console.log('Major:', data.major, 'Type:', typeof data.major);
+                                        console.log('Training Place:', data.trainingPlaceName, 'Type:', typeof data.trainingPlaceName);
+                                        console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
+                                        console.log('Completed Date:', data.completedDate, 'Type:', typeof data.completedDate);
+                                        console.log('Description:', data.description, 'Type:', typeof data.description);
+
+                                        // Chuyển đổi các giá trị ngày tháng thành chuỗi
+                                        const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
+                                        const completedDate = new Date(data.completedDate[0], data.completedDate[1] - 1, data.completedDate[2]).toLocaleDateString();
+
+                                        // Lưu các giá trị vào biến
+                                        const degreeName = data.degreeName;
+                                        const major = data.major;
+                                        const trainingPlaceName = data.trainingPlaceName;
+                                        const description = data.description;
+
+                                        // Tạo phần tử mới để hiển thị chi tiết giáo dục
+                                        const educationDetails = document.getElementById('education-details');
+                                        const newDetail = document.createElement('div');
+                                        newDetail.classList.add('card', 'post-job-form-card');
+                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.innerHTML = `
                         <div class="input-wrapper">
                             <div class="education-detail" data-id="\${data.id}">
                                 <p>Degree Name: \${degreeName}</p>
@@ -1117,75 +1145,75 @@
                             </div>
                         </div>
                 `;
-                                    educationDetails.appendChild(newDetail);
+                                        educationDetails.appendChild(newDetail);
 
-                                    // Đóng modal và reset form
-                                    closeEducationModal();
-                                    form.reset();
-                                } else {
-                                    console.error('Failed to save education detail.');
-                                }
-                            })
-                            .catch(error => console.error('Error:', error));
-                    }
-
-                    function editEducation(id) {
-                        // Lấy chi tiết giáo dục từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                        // Sau đó mở modal để chỉnh sửa
-                        console.log('Edit education with id:', id);
-                        // Implement the logic to edit the education detail
-                    }
-
-                    function closeEducationModal() {
-                        document.getElementById('educationModal').style.display = 'none';
-                    }
-
-                    function openEducationModal() {
-                        document.getElementById('educationModal').style.display = 'block';
-                    }
-
-                    // Đóng modal khi bấm ra ngoài nội dung modal
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('educationModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
+                                        // Đóng modal và reset form
+                                        closeEducationModal();
+                                        form.reset();
+                                    } else {
+                                        console.error('Failed to save education detail.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
                         }
-                    }
-                </script>
 
-                <!-- Script for Certificate Detail -->
-                <script>
-                    function saveCertificateDetail() {
-                        const form = document.getElementById('certificateForm');
-                        const formData = new FormData(form);
+                        function editEducation(id) {
+                            // Lấy chi tiết giáo dục từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                            // Sau đó mở modal để chỉnh sửa
+                            console.log('Edit education with id:', id);
+                            // Implement the logic to edit the education detail
+                        }
 
-                        fetch('/addCertificateDetail', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
-                                if (data) {
-                                    console.log('Certificate Name:', data.name, 'Type:', typeof data.name);
-                                    console.log('Training Place:', data.trainingPlaceName, 'Type:', typeof data.trainingPlaceName);
-                                    console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
-                                    console.log('Expiration Date:', data.expirationDate, 'Type:', typeof data.expirationDate);
+                        function closeEducationModal() {
+                            document.getElementById('educationModal').style.display = 'none';
+                        }
 
-                                    // Chuyển đổi các giá trị ngày tháng thành chuỗi
-                                    const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
-                                    const expirationDate = new Date(data.expirationDate[0], data.expirationDate[1] - 1, data.expirationDate[2]).toLocaleDateString();
+                        function openEducationModal() {
+                            document.getElementById('educationModal').style.display = 'block';
+                        }
 
-                                    // Lưu các giá trị vào biến
-                                    const name = data.name;
-                                    const trainingPlaceName = data.trainingPlaceName;
+                        // Đóng modal khi bấm ra ngoài nội dung modal
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('educationModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                    </script>
 
-                                    // Tạo phần tử mới để hiển thị chi tiết chứng chỉ
-                                    const certificateDetails = document.getElementById('certificate-details');
-                                    const newDetail = document.createElement('div');
-                                    newDetail.classList.add('card', 'post-job-form-card');
-                                    newDetail.setAttribute('data-id', data.id);
-                                    newDetail.innerHTML = `
+                    <!-- Script for Certificate Detail -->
+                    <script>
+                        function saveCertificateDetail() {
+                            const form = document.getElementById('certificateForm');
+                            const formData = new FormData(form);
+
+                            fetch('/addCertificateDetail', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                    if (data) {
+                                        console.log('Certificate Name:', data.name, 'Type:', typeof data.name);
+                                        console.log('Training Place:', data.trainingPlaceName, 'Type:', typeof data.trainingPlaceName);
+                                        console.log('Start Date:', data.startDate, 'Type:', typeof data.startDate);
+                                        console.log('Expiration Date:', data.expirationDate, 'Type:', typeof data.expirationDate);
+
+                                        // Chuyển đổi các giá trị ngày tháng thành chuỗi
+                                        const startDate = new Date(data.startDate[0], data.startDate[1] - 1, data.startDate[2]).toLocaleDateString();
+                                        const expirationDate = new Date(data.expirationDate[0], data.expirationDate[1] - 1, data.expirationDate[2]).toLocaleDateString();
+
+                                        // Lưu các giá trị vào biến
+                                        const name = data.name;
+                                        const trainingPlaceName = data.trainingPlaceName;
+
+                                        // Tạo phần tử mới để hiển thị chi tiết chứng chỉ
+                                        const certificateDetails = document.getElementById('certificate-details');
+                                        const newDetail = document.createElement('div');
+                                        newDetail.classList.add('card', 'post-job-form-card');
+                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.innerHTML = `
                     <div class="card post-job-form-card">
                         <div class="input-wrapper">
                             <div class="certificate-detail" data-id="\${data.id}">
@@ -1201,70 +1229,70 @@
                         </div>
                     </div>
                 `;
-                                    certificateDetails.appendChild(newDetail);
+                                        certificateDetails.appendChild(newDetail);
 
-                                    // Đóng modal và reset form
-                                    closeCertificateModal();
-                                    form.reset();
-                                } else {
-                                    console.error('Failed to save certificate detail.');
-                                }
-                            })
-                            .catch(error => console.error('Error:', error));
-                    }
-
-                    function editCertificate(id) {
-                        // Lấy chi tiết chứng chỉ từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                        // Sau đó mở modal để chỉnh sửa
-                        console.log('Edit certificate with id:', id);
-                        // Implement the logic to edit the certificate detail
-                    }
-
-                    function closeCertificateModal() {
-                        document.getElementById('certificateModal').style.display = 'none';
-                    }
-
-                    function openCertificateModal() {
-                        document.getElementById('certificateModal').style.display = 'block';
-                    }
-
-                    // Đóng modal khi bấm ra ngoài nội dung modal
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('certificateModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
+                                        // Đóng modal và reset form
+                                        closeCertificateModal();
+                                        form.reset();
+                                    } else {
+                                        console.error('Failed to save certificate detail.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
                         }
-                    }
-                </script>
 
-                <!-- Script for Language Skill Detail -->
-                <script>
-                    function saveLanguageSkillDetail() {
-                        const form = document.getElementById('languageSkillForm');
-                        const formData = new FormData(form);
+                        function editCertificate(id) {
+                            // Lấy chi tiết chứng chỉ từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                            // Sau đó mở modal để chỉnh sửa
+                            console.log('Edit certificate with id:', id);
+                            // Implement the logic to edit the certificate detail
+                        }
 
-                        fetch('/addLanguageSkillDetail', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
-                                if (data) {
-                                    console.log('Language:', data.language, 'Type:', typeof data.language);
-                                    console.log('Level:', data.level, 'Type:', typeof data.level);
+                        function closeCertificateModal() {
+                            document.getElementById('certificateModal').style.display = 'none';
+                        }
 
-                                    // Lưu các giá trị vào biến
-                                    const language = data.language;
-                                    const level = data.level;
-                                    const levelDescription = getLevelDescription(level);
+                        function openCertificateModal() {
+                            document.getElementById('certificateModal').style.display = 'block';
+                        }
 
-                                    // Tạo phần tử mới để hiển thị chi tiết kỹ năng ngôn ngữ
-                                    const languageSkillDetails = document.getElementById('language-skill-details');
-                                    const newDetail = document.createElement('div');
-                                    newDetail.classList.add('card', 'post-job-form-card');
-                                    newDetail.setAttribute('data-id', data.id);
-                                    newDetail.innerHTML = `
+                        // Đóng modal khi bấm ra ngoài nội dung modal
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('certificateModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                    </script>
+
+                    <!-- Script for Language Skill Detail -->
+                    <script>
+                        function saveLanguageSkillDetail() {
+                            const form = document.getElementById('languageSkillForm');
+                            const formData = new FormData(form);
+
+                            fetch('/addLanguageSkillDetail', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                    if (data) {
+                                        console.log('Language:', data.language, 'Type:', typeof data.language);
+                                        console.log('Level:', data.level, 'Type:', typeof data.level);
+
+                                        // Lưu các giá trị vào biến
+                                        const language = data.language;
+                                        const level = data.level;
+                                        const levelDescription = getLevelDescription(level);
+
+                                        // Tạo phần tử mới để hiển thị chi tiết kỹ năng ngôn ngữ
+                                        const languageSkillDetails = document.getElementById('language-skill-details');
+                                        const newDetail = document.createElement('div');
+                                        newDetail.classList.add('card', 'post-job-form-card');
+                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.innerHTML = `
                     <div class="input-wrapper">
                         <div class="language-skill-detail" data-id="${data.id}">
                             <p>Language: \${language}</p>
@@ -1274,151 +1302,225 @@
                         </div>
                     </div>
                 `;
-                                    languageSkillDetails.appendChild(newDetail);
+                                        languageSkillDetails.appendChild(newDetail);
 
-                                    // Đóng modal và reset form
-                                    closeLanguageSkillModal();
-                                    form.reset();
-                                } else {
-                                    console.error('Failed to save language skill detail.');
-                                }
+                                        // Đóng modal và reset form
+                                        closeLanguageSkillModal();
+                                        form.reset();
+                                    } else {
+                                        console.error('Failed to save language skill detail.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+                        function getLevelDescription(level) {
+                            switch (level) {
+                                case 1:
+                                    return "Bad";
+                                case 2:
+                                    return "Below Average";
+                                case 3:
+                                    return "Average";
+                                case 4:
+                                    return "Good";
+                                case 5:
+                                    return "Excellent";
+                                default:
+                                    return "Unknown";
+                            }
+                        }
+                        function editLanguageSkill(id) {
+                            // Lấy chi tiết kỹ năng ngôn ngữ từ DOM hoặc từ server và điền vào form để chỉnh sửa
+                            // Sau đó mở modal để chỉnh sửa
+                            console.log('Edit language skill with id:', id);
+                            // Implement the logic to edit the language skill detail
+                        }
+
+                        function closeLanguageSkillModal() {
+                            document.getElementById('languageSkillModal').style.display = 'none';
+                        }
+
+                        function openLanguageSkillModal() {
+                            document.getElementById('languageSkillModal').style.display = 'block';
+                        }
+
+                        // Đóng modal khi bấm ra ngoài nội dung modal
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('languageSkillModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                    </script>
+
+                    <!-- Script for Advanced Skill Detail -->
+                    <script>
+                        function saveAdvancedSkillDetail() {
+                            const form = document.getElementById('advancedSkillForm');
+                            const formData = new FormData(form);
+
+                            fetch('/addAdvancedSkillDetail', {
+                                method: 'POST',
+                                body: formData
                             })
-                            .catch(error => console.error('Error:', error));
-                    }
-                    function getLevelDescription(level) {
-                        switch (level) {
-                            case 1:
-                                return "Bad";
-                            case 2:
-                                return "Below Average";
-                            case 3:
-                                return "Average";
-                            case 4:
-                                return "Good";
-                            case 5:
-                                return "Excellent";
-                            default:
-                                return "Unknown";
-                        }
-                    }
-                    function editLanguageSkill(id) {
-                        // Lấy chi tiết kỹ năng ngôn ngữ từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                        // Sau đó mở modal để chỉnh sửa
-                        console.log('Edit language skill with id:', id);
-                        // Implement the logic to edit the language skill detail
-                    }
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
+                                    if (data) {
+                                        console.log('Skill Name:', data.name, 'Type:', typeof data.name);
+                                        console.log('Level:', data.level, 'Type:', typeof data.level);
 
-                    function closeLanguageSkillModal() {
-                        document.getElementById('languageSkillModal').style.display = 'none';
-                    }
+                                        // Lưu các giá trị vào biến
+                                        const name = data.name;
+                                        const level = data.level;
+                                        const levelDescription = getLevelDescription(level);
 
-                    function openLanguageSkillModal() {
-                        document.getElementById('languageSkillModal').style.display = 'block';
-                    }
-
-                    // Đóng modal khi bấm ra ngoài nội dung modal
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('languageSkillModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
-                        }
-                    }
-                </script>
-
-                <!-- Script for Advanced Skill Detail -->
-                <script>
-                    function saveAdvancedSkillDetail() {
-                        const form = document.getElementById('advancedSkillForm');
-                        const formData = new FormData(form);
-
-                        fetch('/addAdvancedSkillDetail', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Response data:', data); // Kiểm tra dữ liệu phản hồi
-                                if (data) {
-                                    console.log('Skill Name:', data.name, 'Type:', typeof data.name);
-                                    console.log('Level:', data.level, 'Type:', typeof data.level);
-
-                                    // Lưu các giá trị vào biến
-                                    const name = data.name;
-                                    const level = data.level;
-                                    const levelDescription = getLevelDescription(level);
-
-                                    // Tạo phần tử mới để hiển thị chi tiết kỹ năng nâng cao
-                                    const advancedSkillDetails = document.getElementById('advanced-skill-details');
-                                    const newDetail = document.createElement('div');
-                                    newDetail.classList.add('card', 'post-job-form-card');
-                                    newDetail.setAttribute('data-id', data.id);
-                                    newDetail.innerHTML = `
+                                        // Tạo phần tử mới để hiển thị chi tiết kỹ năng nâng cao
+                                        const advancedSkillDetails = document.getElementById('advanced-skill-details');
+                                        const newDetail = document.createElement('div');
+                                        newDetail.classList.add('card', 'post-job-form-card');
+                                        newDetail.setAttribute('data-skill-advanced-id', data.id);
+                                        newDetail.innerHTML = `
                                         <div class="input-wrapper">
-                                            <div class="advanced-skill-detail" data-id="\${data.id}">
+                                            <div class="advanced-skill-detail" data-skill-advanced-id="\${data.id}">
                                                 <p>Skill Name: \${name}</p>
                                                 <p>Level: \${levelDescription}</p>
-                                                <button class="button-secondary small w-button" onclick="editAdvancedSkill(\${data.id});">Edit</button>
+                                                <button class="button-secondary small w-button" onclick="openAdvancedSkillModalEdit(\${data.id}, \${data.name}, \${data.level});">Edit</button>
                                                 <button class="button-secondary small w-button" onclick="deleteAdvancedSkill(\${data.id});">Delete</button>
                                             </div>
                                         </div>
                                     `;
-                                    advancedSkillDetails.appendChild(newDetail);
+                                        advancedSkillDetails.appendChild(newDetail);
 
-                                    // Đóng modal và reset form
-                                    closeAdvancedSkillModal();
-                                    form.reset();
-                                } else {
-                                    console.error('Failed to save advanced skill detail.');
-                                }
+                                        // Đóng modal và reset form
+                                        closeAdvancedSkillModal();
+                                        form.reset();
+                                    } else {
+                                        console.error('Failed to save advanced skill detail.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+
+                        function getLevelDescription(level) {
+                            switch (level) {
+                                case 1:
+                                    return "Bad";
+                                case 2:
+                                    return "Below Average";
+                                case 3:
+                                    return "Average";
+                                case 4:
+                                    return "Good";
+                                case 5:
+                                    return "Excellent";
+                                default:
+                                    return "Unknown";
+                            }
+                        }
+
+                        function closeAdvancedSkillModal() {
+                            document.getElementById('advancedSkillModal').style.display = 'none';
+                        }
+
+                        function openAdvancedSkillModal() {
+                            document.getElementById('advancedSkillModal').style.display = 'block';
+                        }
+
+                        // Đóng modal khi bấm ra ngoài nội dung modal
+                        window.onclick = function (event) {
+                            const modal = document.getElementById('advancedSkillModal');
+                            if (event.target == modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+
+                        function openAdvancedSkillModalEdit(id, name, level) {
+                            document.getElementById('idSkillAdvanced').value = id;
+                            document.getElementById('nameSkillEdit').value = name;
+                            document.getElementById('levelSkillEdit').value = level;
+                            document.getElementById('advancedSkillModalEdit').style.display = 'block';
+                        }
+
+                        function closeAdvancedSkillModalEdit() {
+                            document.getElementById('advancedSkillModalEdit').style.display = 'none';
+                        }
+
+                        function editAdvancedSkillDetail() {
+                            const form = document.getElementById('advancedSkillFormEdit');
+
+                            const idSkillAdvanced = document.getElementById('idSkillAdvanced').value;
+                            const nameSkillEdit = document.getElementById('nameSkillEdit').value;
+                            const levelSkillEdit = document.getElementById('levelSkillEdit').value;
+
+                            fetch(`/advancedSkillDetail/` + idSkillAdvanced, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ name: nameSkillEdit, level: levelSkillEdit })
                             })
-                            .catch(error => console.error('Error:', error));
-                    }
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    updateSkillElement(data);
+                                    closeAdvancedSkillModalEdit();
 
-                    function getLevelDescription(level) {
-                        switch (level) {
-                            case 1:
-                                return "Bad";
-                            case 2:
-                                return "Below Average";
-                            case 3:
-                                return "Average";
-                            case 4:
-                                return "Good";
-                            case 5:
-                                return "Excellent";
-                            default:
-                                return "Unknown";
+                                    form.reset();
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
                         }
-                    }
 
-                    function editAdvancedSkill(id) {
-                        // Lấy chi tiết kỹ năng nâng cao từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                        // Sau đó mở modal để chỉnh sửa
-                        console.log('Edit advanced skill with id:', id);
-                        // Implement the logic to edit the advanced skill detail
-                    }
-
-                    function deleteAdvancedSkill(id) {
-                        // Implement the logic to delete the advanced skill detail
-                        console.log('Delete advanced skill with id:', id);
-                    }
-
-                    function closeAdvancedSkillModal() {
-                        document.getElementById('advancedSkillModal').style.display = 'none';
-                    }
-
-                    function openAdvancedSkillModal() {
-                        document.getElementById('advancedSkillModal').style.display = 'block';
-                    }
-
-                    // Đóng modal khi bấm ra ngoài nội dung modal
-                    window.onclick = function (event) {
-                        const modal = document.getElementById('advancedSkillModal');
-                        if (event.target == modal) {
-                            modal.style.display = 'none';
+                        function deleteAdvancedSkill(id) {
+                            fetch(`/advancedSkillDetail/` + id, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    removeSkillElement(id)
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
                         }
-                    }
-                </script>
+
+                        function updateSkillElement(response) {
+                            response = JSON.parse(response)
+                            console.log(response)
+                            const skillDetail = document.querySelector('div[data-skill-advanced-id="' + response.id + '"]');
+                            skillDetail.querySelector('[data-name-id="' + response.id + '"]').innerText = `Skill Name: ` + response.name;
+                            skillDetail.querySelector('[data-level-id="' + response.id + '"]').innerText = `Level: ` + getLevelDescription(response.level);
+                        }
+
+                        function removeSkillElement(id) {
+                            const skillDetail = document.querySelector('div[data-delete="' + Number.parseInt(id) + '"]');
+                            if (skillDetail) {
+                                skillDetail.remove();
+                            }
+                        }
+                    </script>
 
 
 

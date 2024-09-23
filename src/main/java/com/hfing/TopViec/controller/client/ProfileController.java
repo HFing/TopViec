@@ -18,10 +18,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -606,11 +610,11 @@ public class ProfileController {
         advancedSkillDetail.setCreateAt(LocalDateTime.now());
 
         // Lưu chi tiết kỹ năng nâng cao vào cơ sở dữ liệu
-        infoAdvancedSkillService.save(advancedSkillDetail);
+        var data = infoAdvancedSkillService.save(advancedSkillDetail);
 
         // Tạo phản hồi
         Map<String, Object> response = new HashMap<>();
-        response.put("id", advancedSkillDetail.getId());
+        response.put("id", data.getId());
         response.put("name", advancedSkillDetail.getName());
         response.put("level", advancedSkillDetail.getLevel());
         System.out.println(response);
@@ -633,4 +637,31 @@ public class ProfileController {
         return levels;
     }
 
+    @PutMapping("/advancedSkillDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> editAdvancedSkillDetail(@PathVariable("id") Long id,
+            @RequestBody InfoAdvancedSkill infoAdvancedSkill) {
+        var skill = infoAdvancedSkillService.findById(id);
+
+        if (skill == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+        }
+
+        skill.setName(infoAdvancedSkill.getName());
+        skill.setLevel(infoAdvancedSkill.getLevel());
+        var data = infoAdvancedSkillService.save(skill);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", data.getId());
+        response.put("name", data.getName());
+        response.put("level", data.getLevel());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/advancedSkillDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteAdvancedSkillDetail(@PathVariable("id") Long id) {
+        infoAdvancedSkillService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
 }
