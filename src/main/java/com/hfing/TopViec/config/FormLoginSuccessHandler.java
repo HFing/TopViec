@@ -14,11 +14,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class FormLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserService userService;
 
-    public CustomAuthenticationSuccessHandler(UserService userService) {
+    public FormLoginSuccessHandler(UserService userService) {
         this.userService = userService;
     }
 

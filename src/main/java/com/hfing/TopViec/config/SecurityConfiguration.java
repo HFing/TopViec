@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import com.hfing.TopViec.service.CustomUserDetailsService;
+import com.hfing.TopViec.service.RoleService;
+import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
 
 import jakarta.servlet.DispatcherType;
@@ -23,9 +25,14 @@ import jakarta.servlet.DispatcherType;
 public class SecurityConfiguration {
 
         private final UserService userService;
+        private final UserRoleService userRoleService;
+        private final RoleService roleService;
 
-        public SecurityConfiguration(UserService userService) {
+        public SecurityConfiguration(UserService userService, UserRoleService userRoleService,
+                        RoleService roleService) {
                 this.userService = userService;
+                this.userRoleService = userRoleService;
+                this.roleService = roleService;
         }
 
         @Bean
@@ -36,6 +43,11 @@ public class SecurityConfiguration {
         @Bean
         public UserDetailsService userDetailsService(UserService userService) {
                 return new CustomUserDetailsService(userService);
+        }
+
+        @Bean
+        public OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler() {
+                return new OAuth2LoginSuccessHandler(userService, passwordEncoder(), roleService, userRoleService);
         }
 
         @Bean
@@ -52,6 +64,7 @@ public class SecurityConfiguration {
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
                 http
                                 .cors(AbstractHttpConfigurer::disable)
                                 .csrf(AbstractHttpConfigurer::disable)
@@ -61,7 +74,8 @@ public class SecurityConfiguration {
                                                 .requestMatchers("/", "/register/**", "/login", "/client/**", "/css/**",
                                                                 "/js/**", "/images/**", "/register_recruiter/**",
                                                                 "/api/districts", "/pricing/**", "/about/**",
-                                                                "/companies/**", "/contact/**")
+                                                                "/companies/**", "/contact/**", "/oauth2/**",
+                                                                "/verify/**")
                                                 .permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .requestMatchers("/recruiter/**").hasRole("RECRUITER")
@@ -80,7 +94,12 @@ public class SecurityConfiguration {
                                 .formLogin(formLogin -> formLogin
                                                 .loginPage("/login")
                                                 .failureUrl("/login?error")
-                                                .successHandler(new CustomAuthenticationSuccessHandler(userService))
+                                                .successHandler(new FormLoginSuccessHandler(userService))
+                                                .permitAll())
+                                .oauth2Login(oauth2Login -> oauth2Login
+                                                .loginPage("/login")
+                                                .successHandler(oAuth2LoginSuccessHandler())
+                                                .failureUrl("/login?error")
                                                 .permitAll())
                                 .exceptionHandling(ex -> ex.accessDeniedPage("/404"));
 

@@ -107,17 +107,22 @@
                                                     wfd-id="id17">
                                             </form>
 
-
+                                            <div style="margin-top: 20px;"></div>
+                                            <a href="/oauth2/authorization/google"
+                                                class="button-primary post-job-form-button w-button">Login with
+                                                Google</a>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
-                                <div data-w-tab="Paid Job" class="post-job-tab-pane w-tab-pane"
-                                    id="w-tabs-0-data-w-pane-1" role="tabpanel" aria-labelledby="paid-job" style="">
-                                </div>
+
+                            </div>
+                            <div data-w-tab="Paid Job" class="post-job-tab-pane w-tab-pane" id="w-tabs-0-data-w-pane-1"
+                                role="tabpanel" aria-labelledby="paid-job" style="">
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 <jsp:include page="../layout/footer.jsp" />
                 <script
