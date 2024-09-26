@@ -1,5 +1,6 @@
 package com.hfing.TopViec.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,9 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -123,6 +126,9 @@ public class JobPost {
 
     @Column(name = "status")
     private int status;
+
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobPostActivity> jobPostActivities;
 
     public Long getId() {
         return id;
@@ -354,6 +360,14 @@ public class JobPost {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public List<JobPostActivity> getJobPostActivities() {
+        return jobPostActivities;
+    }
+
+    public void setJobPostActivities(List<JobPostActivity> jobPostActivities) {
+        this.jobPostActivities = jobPostActivities;
     }
 
 }

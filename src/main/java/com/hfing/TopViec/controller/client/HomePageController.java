@@ -168,6 +168,7 @@ public class HomePageController {
                 session.setAttribute("fullName", user.getFullName());
             }
         }
+
         return "redirect:/";
     }
 
