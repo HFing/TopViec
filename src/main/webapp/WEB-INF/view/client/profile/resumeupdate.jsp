@@ -1461,7 +1461,12 @@
                             const skillDetail = document.querySelector('[data-skill-advanced-id="' + id + '"]');
                             document.getElementById('idSkillAdvanced').value = id;
                             document.getElementById('nameSkillEdit').value = skillDetail.querySelector('[data-name-id="' + id + '"]').innerHTML.split(": ")[1];
-                            document.getElementById('levelSkillEdit').value = getLevelDescriptionByName(skillDetail.querySelector('[data-level-id="' + id + '"]').innerHTML.split(": ")[1]);
+                            var lvId = skillDetail.querySelector('[data-level-id="' + id + '"]').innerHTML.split(": ")[1];
+                            if (lvId) {
+                                document.getElementById('levelSkillEdit').value = getLevelDescriptionByName(lvId);
+                            } else {
+                                document.getElementById('levelSkillEdit').value = level;
+                            }
                             document.getElementById('advancedSkillModalEdit').style.display = 'block';
                         }
 
