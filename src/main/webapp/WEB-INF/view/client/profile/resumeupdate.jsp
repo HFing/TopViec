@@ -927,7 +927,7 @@
                     <div id="advancedSkillModalEdit" class="modal">
                         <div class="modal-content card post-job-form-card">
                             <span class="close" onclick="closeAdvancedSkillModalEdit()">&times;</span>
-                            <p>Add Advanced Skill Detail</p>
+                            <p>Edit Advanced Skill Detail</p>
                             <form:form id="advancedSkillFormEdit" modelAttribute="infoAdvancedSkill">
                                 <input type="hidden" id="idSkillAdvanced">
                                 <div class="input-wrapper">
@@ -1329,6 +1329,22 @@
                                     return "Unknown";
                             }
                         }
+                        function getLevelDescriptionByName(level) {
+                            switch (level.trim()) {
+                                case "Bad":
+                                    return 1;
+                                case "Below Average":
+                                    return 2;
+                                case "Average":
+                                    return 3;
+                                case "Good":
+                                    return 4;
+                                case "Excellent":
+                                    return 5;
+                                default:
+                                    return "Unknown";
+                            }
+                        }
                         function editLanguageSkill(id) {
                             // Lấy chi tiết kỹ năng ngôn ngữ từ DOM hoặc từ server và điền vào form để chỉnh sửa
                             // Sau đó mở modal để chỉnh sửa
@@ -1355,6 +1371,7 @@
 
                     <!-- Script for Advanced Skill Detail -->
                     <script>
+                        const advancedSkillDetails = document.getElementById('advanced-skill-details');
                         function saveAdvancedSkillDetail() {
                             const form = document.getElementById('advancedSkillForm');
                             const formData = new FormData(form);
@@ -1376,15 +1393,15 @@
                                         const levelDescription = getLevelDescription(level);
 
                                         // Tạo phần tử mới để hiển thị chi tiết kỹ năng nâng cao
-                                        const advancedSkillDetails = document.getElementById('advanced-skill-details');
                                         const newDetail = document.createElement('div');
                                         newDetail.classList.add('card', 'post-job-form-card');
                                         newDetail.setAttribute('data-skill-advanced-id', data.id);
+                                        newDetail.setAttribute('data-delete', data.id);
                                         newDetail.innerHTML = `
                                         <div class="input-wrapper">
                                             <div class="advanced-skill-detail" data-skill-advanced-id="\${data.id}">
-                                                <p>Skill Name: \${name}</p>
-                                                <p>Level: \${levelDescription}</p>
+                                                <p data-name-id="\${data.id}" >Skill Name: \${name}</p>
+                                                <p data-level-id="\${data.id}" >Level: \${levelDescription}</p>
                                                 <button class="button-secondary small w-button" onclick="openAdvancedSkillModalEdit(\${data.id}, \${data.name}, \${data.level});">Edit</button>
                                                 <button class="button-secondary small w-button" onclick="deleteAdvancedSkill(\${data.id});">Delete</button>
                                             </div>
@@ -1434,11 +1451,17 @@
                                 modal.style.display = 'none';
                             }
                         }
+                    </script>
 
+                    <script>
                         function openAdvancedSkillModalEdit(id, name, level) {
+                            console.log("id open", id)
+                            console.log("name open", name)
+                            console.log("level open", level)
+                            const skillDetail = document.querySelector('[data-skill-advanced-id="' + id + '"]');
                             document.getElementById('idSkillAdvanced').value = id;
-                            document.getElementById('nameSkillEdit').value = name;
-                            document.getElementById('levelSkillEdit').value = level;
+                            document.getElementById('nameSkillEdit').value = skillDetail.querySelector('[data-name-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById('levelSkillEdit').value = getLevelDescriptionByName(skillDetail.querySelector('[data-level-id="' + id + '"]').innerHTML.split(": ")[1]);
                             document.getElementById('advancedSkillModalEdit').style.display = 'block';
                         }
 
@@ -1482,6 +1505,7 @@
                         }
 
                         function deleteAdvancedSkill(id) {
+                            console.log("delete id", id)
                             fetch(`/advancedSkillDetail/` + id, {
                                 method: 'DELETE',
                                 headers: {
@@ -1509,21 +1533,20 @@
                         function updateSkillElement(response) {
                             response = JSON.parse(response)
                             console.log(response)
-                            const skillDetail = document.querySelector('div[data-skill-advanced-id="' + response.id + '"]');
-                            skillDetail.querySelector('[data-name-id="' + response.id + '"]').innerText = `Skill Name: ` + response.name;
-                            skillDetail.querySelector('[data-level-id="' + response.id + '"]').innerText = `Level: ` + getLevelDescription(response.level);
+                            const skillDetail = document.querySelector('[data-skill-advanced-id="' + response.id + '"]');
+                            console.log("edit skillDetail", skillDetail)
+                            skillDetail.querySelector('[data-name-id="' + response.id + '"]').innerHTML = `Skill Name: ` + response.name;
+                            skillDetail.querySelector('[data-level-id="' + response.id + '"]').innerHTML = `Level: ` + getLevelDescription(response.level);
                         }
 
                         function removeSkillElement(id) {
-                            const skillDetail = document.querySelector('div[data-delete="' + Number.parseInt(id) + '"]');
+                            const skillDetail = document.querySelector('[data-delete="' + Number.parseInt(id) + '"]');
+                            console.log("remove skillDetail", skillDetail)
                             if (skillDetail) {
                                 skillDetail.remove();
                             }
                         }
                     </script>
-
-
-
             </body>
 
             </html>
