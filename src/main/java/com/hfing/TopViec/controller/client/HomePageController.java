@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +34,7 @@ import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
-
+import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -70,6 +73,9 @@ public class HomePageController {
         this.jobPostService = jobPostService;
     }
 
+    @Autowired
+    private JavaMailSender mailSender;
+
     @GetMapping("/contact")
     public String getContactPage() {
         return "client/homepage/contact";
@@ -97,7 +103,7 @@ public class HomePageController {
 
     @PostMapping("/register")
     public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerUser,
-            BindingResult bindingResult) {
+            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "client/auth/register";
         }
@@ -109,16 +115,41 @@ public class HomePageController {
         user.setCreateAt(LocalDateTime.now());
         user.setAvatarUrl("default_avatar.jpg");
         user.setRoleName("USER");
-        user.setIsActive(true);
+        user.setIsActive(false); // Set isActive to false
         user.setHasCompany(false);
         user.setEmailNotificationActive(true);
+        user.setIsVerifyEmail(false);
+        user.setPhone("Not Update");
         Role role = roleService.findByName("USER");
         UserRole userRole = new UserRole();
         userRole.setRole(role);
         userRole.setUser(user);
         userService.saveUser(user);
         userRoleService.saveUserRole(userRole);
+
+        // Generate verification token
+        String token = UUID.randomUUID().toString();
+        String verificationUrl = "http://localhost:8080/verify?token=" + token;
+
+        // Save token to user (assuming you have a field for it)
+        user.setVerificationToken(token);
+        userService.saveUser(user);
+
+        // Send verification email
+        sendVerificationEmail(user.getEmail(), verificationUrl);
+
+        redirectAttributes.addFlashAttribute("message",
+                "Registration successful! Please check your email to verify your account.");
         return "redirect:/login";
+    }
+
+    private void sendVerificationEmail(String email, String verificationUrl) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom("h5studiogl@gmail.com");
+        message.setSubject("Account Verification");
+        message.setText("Please click the following link to verify your account: " + verificationUrl);
+        mailSender.send(message);
     }
 
     @GetMapping("/login")
@@ -236,6 +267,24 @@ public class HomePageController {
 
         redirectAttributes.addFlashAttribute("message", "Registration successful!");
         return "redirect:/login";
+    }
+
+    @GetMapping("/verify")
+    public String verifyAccount(@RequestParam("token") String token, RedirectAttributes redirectAttributes) {
+        System.out.println("Verifying account with token: " + token);
+        User user = userService.findByVerificationToken(token);
+        if (user != null) {
+            user.setIsActive(true);
+            user.setVerificationToken(null); // Clear the token
+            userService.saveUser(user);
+            System.out.println("Account verified successfully for token: " + token);
+            redirectAttributes.addFlashAttribute("message", "Account verified successfully!");
+            return "redirect:/login";
+        } else {
+            System.out.println("Invalid verification link for token: " + token);
+            redirectAttributes.addFlashAttribute("error", "Invalid verification link.");
+            return "redirect:/register";
+        }
     }
 
 }

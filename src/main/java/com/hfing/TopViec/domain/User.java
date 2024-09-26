@@ -29,6 +29,7 @@ public class User {
     private Boolean hasCompany;
     private Boolean isVerifyEmail;
     private String roleName;
+    private String verificationToken;
 
     @OneToMany(mappedBy = "user")
     private List<UserRole> userRoles;
@@ -168,5 +169,21 @@ public class User {
 
     public void setResumes(List<InfoResume> resumes) {
         this.resumes = resumes;
+    }
+
+    public List<JobPost> getJobPosts() {
+        return jobPosts;
+    }
+
+    public void setJobPosts(List<JobPost> jobPosts) {
+        this.jobPosts = jobPosts;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
     }
 }

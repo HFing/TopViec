@@ -48,4 +48,8 @@ public class UserService {
         return user;
     }
 
+    public User findByVerificationToken(String token) {
+        return userRepository.findByVerificationToken(token);
+    }
+
 }
