@@ -15,6 +15,7 @@ import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
@@ -24,6 +25,7 @@ import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
 
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 @Entity
 @Table(name = "info_resume")
@@ -317,6 +319,14 @@ public class InfoResume {
 
     public void setSavedByCompanies(List<InfoResumeSaved> savedByCompanies) {
         this.savedByCompanies = savedByCompanies;
+    }
+
+    public String getFormattedSalary() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+        formatter.setMaximumFractionDigits(0);
+        String formattedMin = formatter.format(salaryMin.divide(BigDecimal.valueOf(1000000)));
+        String formattedMax = formatter.format(salaryMax.divide(BigDecimal.valueOf(1000000)));
+        return String.format("%s - %s Million", formattedMin, formattedMax);
     }
 
 }

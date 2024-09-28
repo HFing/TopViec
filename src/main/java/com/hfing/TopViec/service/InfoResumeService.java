@@ -50,4 +50,13 @@ public class InfoResumeService {
         return infoResumeRepository.findAll();
     }
 
+    public List<InfoResume> searchResumes(String keyword, Long cityId) {
+        if (cityId != null && cityId > 0) {
+            return infoResumeRepository.findByTitleContainingOrUserFullNameContainingAndCityId(keyword, keyword,
+                    cityId);
+        } else {
+            return infoResumeRepository.findByTitleContainingOrUserFullNameContaining(keyword, keyword);
+        }
+    }
+
 }

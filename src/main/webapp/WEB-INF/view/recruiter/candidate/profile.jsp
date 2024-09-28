@@ -73,50 +73,57 @@
                                     <!-- Personal Info -->
                                     <div class="row mb-4">
                                         <div class="col-md-6">
-                                            <h5>Thông tin cá nhân</h5>
+                                            <h5>Personal Information</h5>
                                             <p><strong>Email:</strong> ${candidate.user.email} </p>
-                                            <p><strong>Ngày sinh:</strong> ${candidate.jobSeekerProfile.birthday}</p>
-                                            <p><strong>Quận/Huyện:</strong>
+                                            <p><strong>Date of Birth:</strong> ${candidate.jobSeekerProfile.birthday}
+                                            </p>
+                                            <p><strong>District:</strong>
                                                 ${candidate.jobSeekerProfile.location.district.name}</p>
-                                            <p><strong>Địa chỉ:</strong>
-                                                ${candidate.jobSeekerProfile.address}</p>
+                                            <p><strong>Address:</strong> ${candidate.jobSeekerProfile.address}</p>
                                         </div>
                                         <div class="col-md-6">
                                             </br>
                                             </br>
-                                            <p><strong>Số điện thoại:</strong> ${candidate.user.phone}</p>
-                                            <p><strong>Giới tính:</strong> ${candidate.jobSeekerProfile.gender}</p>
-                                            <p><strong>Tỉnh/Thành phố:</strong>
-                                                ${candidate.jobSeekerProfile.location.city.name}</p>
+                                            <p><strong>Phone Number:</strong> ${candidate.user.phone}</p>
+                                            <p><strong>Gender:</strong>
+                                                <c:choose>
+                                                    <c:when test="${candidate.jobSeekerProfile.gender == 1}">
+                                                        Male
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        Female
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </p>
+                                            <p><strong>City:</strong> ${candidate.jobSeekerProfile.location.city.name}
+                                            </p>
                                         </div>
                                     </div>
 
                                     <!-- Job Info -->
                                     <div class="row mb-4">
-                                        <h5>Thông tin chung</h5>
+                                        <h5>General Information</h5>
                                         <div class="col-md-6">
-                                            <p><strong>Vị trí mong muốn:</strong> ${candidate.title}</p>
-                                            <p><strong>Kinh nghiệm:</strong> ${candidate.experience.displayName}</p>
-                                            <p><strong>Mức lương mong muốn:</strong>${candidate.salaryMin} -
-                                                ${candidate.salaryMax} triệu</p>
+                                            <p><strong>Desired Position:</strong> ${candidate.title}</p>
+                                            <p><strong>Experience:</strong> ${candidate.experience.displayName}</p>
+                                            <p><strong>Desired Salary:</strong> ${candidate.formattedSalary}</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><strong>Cấp bậc mong muốn:</strong> ${candidate.position.displayName}</p>
-                                            <p><strong>Nghề nghiệp:</strong> ${candidate.career.name}</p>
-                                            <p><strong>Nơi làm việc:</strong>
-                                                ${candidate.typeOfWorkplace.displayName}</p>
+                                            <p><strong>Desired Level:</strong> ${candidate.position.displayName}</p>
+                                            <p><strong>Career:</strong> ${candidate.career.name}</p>
+                                            <p><strong>Workplace:</strong> ${candidate.typeOfWorkplace.displayName}</p>
                                         </div>
                                     </div>
 
                                     <!-- Career Goal -->
                                     <div class="row mb-4">
-                                        <h5>Mục tiêu nghề nghiệp</h5>
+                                        <h5>Career Objective</h5>
                                         <p>${candidate.description}</p>
                                     </div>
 
                                     <!-- Experience -->
                                     <div class="row mb-4">
-                                        <h5>Kinh nghiệm làm việc</h5>
+                                        <h5>Work Experience</h5>
                                         <c:forEach var="experience" items="${candidate.experienceDetails}">
                                             <div class="card">
                                                 <div class="card-body">
@@ -124,24 +131,21 @@
                                                     <h6 class="card-subtitle mb-2 text-muted">${experience.companyName}
                                                     </h6>
                                                     <p class="card-text">(${experience.startDate}) -
-                                                        (${experience.endDate})
-                                                    </p>
+                                                        (${experience.endDate})</p>
                                                     <p>${experience.description}</p>
                                                 </div>
                                             </div>
                                         </c:forEach>
-
                                     </div>
 
                                     <!-- Education -->
                                     <div class="row mb-4">
-                                        <h5>Học vấn</h5>
+                                        <h5>Education</h5>
                                         <c:forEach var="edu" items="${candidate.educationDetails}">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${edu.degreeName} - ${edu.trainingPlaceName}
                                                     </h5>
-
                                                     <p class="card-text">(${edu.startDate}) - (${edu.completedDate})</p>
                                                     <p>${edu.description}</p>
                                                 </div>
@@ -151,9 +155,8 @@
 
                                     <!-- Certifications -->
                                     <div class="row mb-4">
-                                        <h5>Chứng chỉ</h5>
+                                        <h5>Certificates</h5>
                                         <c:forEach var="cert" items="${candidate.certificates}">
-
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${cert.name} - ${cert.trainingPlaceName}</h5>
@@ -166,12 +169,12 @@
 
                                     <!-- Languages -->
                                     <div class="row mb-4">
-                                        <h5>Ngôn ngữ</h5>
+                                        <h5>Languages</h5>
                                         <ul class="list-group">
                                             <c:forEach var="language" items="${candidate.languageSkills}">
                                                 <li class="list-group-item">
-                                                    <strong>${language.language.displayName}</strong> - Mức độ thành
-                                                    thạo:
+                                                    <strong>${language.language.displayName}</strong> - Proficiency
+                                                    Level:
                                                     <span class="text-warning">
                                                         <c:forEach var="i" begin="1" end="5">
                                                             <c:choose>
@@ -198,13 +201,11 @@
 
                                     <!-- Skills -->
                                     <div class="row mb-4">
-                                        <h5>Kỹ năng chuyên môn</h5>
+                                        <h5>Professional Skills</h5>
                                         <ul class="list-group">
-
                                             <c:forEach var="skill" items="${candidate.advancedSkills}">
                                                 <li class="list-group-item">
-                                                    <strong>${skill.name}</strong> - Mức độ thành
-                                                    thạo:
+                                                    <strong>${skill.name}</strong> - Proficiency Level:
                                                     <span class="text-warning">
                                                         <c:forEach var="i" begin="1" end="5">
                                                             <c:choose>
@@ -228,6 +229,7 @@
                                             </c:forEach>
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </main>

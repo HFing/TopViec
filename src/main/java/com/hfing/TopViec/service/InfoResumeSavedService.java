@@ -45,4 +45,13 @@ public class InfoResumeSavedService {
         return infoResumeSavedRepository.findByCompanyAndResume(company, resume);
     }
 
+    public List<InfoResumeSaved> findByCompany(InfoCompany company) {
+        return infoResumeSavedRepository.findByCompany(company);
+    }
+
+    public InfoResumeSaved deleteById(Long id) {
+        InfoResumeSaved infoResumeSaved = infoResumeSavedRepository.findById(id).get();
+        infoResumeSavedRepository.deleteById(id);
+        return infoResumeSaved;
+    }
 }

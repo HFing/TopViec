@@ -38,23 +38,23 @@
                                 <div class="col-12 mx-auto">
                                     <div class="d-flex justify-content-between align-items-center">
 
-                                        <form class="w-100 ms-3">
+                                        <form class="w-100 ms-3" method="get" action="/recruiter/candidate/search">
                                             <div class="row g-2">
                                                 <div class="col-md-6">
                                                     <div class="input-group">
                                                         <span class="input-group-text">
                                                             <i class="bi bi-search"></i>
                                                         </span>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Tìm kiếm..." aria-label="Search">
+                                                        <input type="text" class="form-control" name="keyword"
+                                                            placeholder="Tìm kiếm..." aria-label="Search" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <select class="form-select" aria-label="Chọn Tỉnh/Thành phố">
-                                                        <option selected>Chọn Tỉnh/Thành phố</option>
-                                                        <option value="1">Hà Nội</option>
-                                                        <option value="2">Tp.HCM</option>
-                                                        <option value="3">Đà Nẵng</option>
+                                                    <select class="form-select" id="city" name="city">
+                                                        <option value="" selected>Chọn Tỉnh/Thành phố</option>
+                                                        <c:forEach var="city" items="${cities}">
+                                                            <option value="${city.id}">${city.name}</option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2">
@@ -83,8 +83,8 @@
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                                         <p class="card-text mb-0">${candidate.position.displayName} -
-                                                            <span class="badge bg-secondary">${candidate.salaryMin} -
-                                                                ${candidate.salaryMax} triệu</span>
+                                                            <span
+                                                                class="badge bg-secondary">${candidate.formattedSalary}</span>
                                                         </p>
                                                         <span
                                                             class="badge bg-light text-muted">${candidate.experience.displayName}</span>
@@ -100,9 +100,6 @@
                                             </div>
                                         </div>
                                     </c:forEach>
-
-
-
                                 </div>
 
                             </div>

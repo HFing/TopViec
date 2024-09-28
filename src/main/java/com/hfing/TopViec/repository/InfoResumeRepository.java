@@ -14,4 +14,9 @@ public interface InfoResumeRepository extends JpaRepository<InfoResume, Long> {
     InfoResume findAllByUserIdAndFileUrlIsNull(Long userId);
 
     List<InfoResume> findAllByUserIdAndFileUrlIsNotNull(Long userId);
+
+    List<InfoResume> findByTitleContainingOrUserFullNameContaining(String titleKeyword, String userFullNameKeyword);
+
+    List<InfoResume> findByTitleContainingOrUserFullNameContainingAndCityId(String titleKeyword,
+            String userFullNameKeyword, Long cityId);
 }

@@ -276,6 +276,7 @@ public class HomePageController {
         User user = userService.findByVerificationToken(token);
         if (user != null) {
             user.setIsActive(true);
+            user.setIsVerifyEmail(true);
             user.setVerificationToken(null); // Clear the token
             userService.saveUser(user);
             System.out.println("Account verified successfully for token: " + token);
@@ -284,7 +285,7 @@ public class HomePageController {
         } else {
             System.out.println("Invalid verification link for token: " + token);
             redirectAttributes.addFlashAttribute("error", "Invalid verification link.");
-            return "redirect:/register";
+            return "redirect:/profile";
         }
     }
 

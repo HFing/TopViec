@@ -622,7 +622,7 @@
                                                                         </c:choose>
                                                                     </p>
                                                                     <button
-                                                                        onclick="openAdvancedSkillModalEdit(`${detail.id}`, `${detail.name}`, `${detail.level}`);"
+                                                                        onclick="openAdvancedSkillModalEdit(`${detail.id}`, `'${detail.name}'`, `${detail.level}`);"
                                                                         class="button-secondary small w-button">Edit</button>
                                                                     <button type="button"
                                                                         onclick="deleteAdvancedSkill(`${detail.id}`)"
@@ -1330,7 +1330,8 @@
                             }
                         }
                         function getLevelDescriptionByName(level) {
-                            switch (level.trim()) {
+                            level = level.trim()
+                            switch (level) {
                                 case "Bad":
                                     return 1;
                                 case "Below Average":
@@ -1402,7 +1403,7 @@
                                             <div class="advanced-skill-detail" data-skill-advanced-id="\${data.id}">
                                                 <p data-name-id="\${data.id}" >Skill Name: \${name}</p>
                                                 <p data-level-id="\${data.id}" >Level: \${levelDescription}</p>
-                                                <button class="button-secondary small w-button" onclick="openAdvancedSkillModalEdit(\${data.id}, \${data.name}, \${data.level});">Edit</button>
+                                                <button class="button-secondary small w-button" onclick="openAdvancedSkillModalEdit(\${data.id}, '\${data.name}', \${data.level});">Edit</button>
                                                 <button class="button-secondary small w-button" onclick="deleteAdvancedSkill(\${data.id});">Delete</button>
                                             </div>
                                         </div>

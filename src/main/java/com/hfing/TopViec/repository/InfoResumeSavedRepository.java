@@ -1,5 +1,7 @@
 package com.hfing.TopViec.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +16,6 @@ public interface InfoResumeSavedRepository extends JpaRepository<InfoResumeSaved
     void deleteByCompanyAndResume(InfoCompany company, InfoResume resume);
 
     InfoResumeSaved findByCompanyAndResume(InfoCompany company, InfoResume resume);
+
+    List<InfoResumeSaved> findByCompany(InfoCompany company);
 }
