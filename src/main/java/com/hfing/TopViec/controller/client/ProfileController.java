@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonLocation;
@@ -77,6 +80,7 @@ public class ProfileController {
     private final InfoLanguageSkillService infoLanguageSkillService;
     private final InfoAdvancedSkillService infoAdvancedSkillService;
     private final UploadService uploadService;
+    private final JavaMailSender mailSender;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
@@ -84,7 +88,8 @@ public class ProfileController {
             InfoExperienceDetailService infoExperienceDetailService,
             InfoEducationDetailService infoEducationDetailService,
             InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
-            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService) {
+            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService,
+            JavaMailSender mailSender) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -97,6 +102,7 @@ public class ProfileController {
         this.infoLanguageSkillService = infoLanguageSkillService;
         this.infoAdvancedSkillService = infoAdvancedSkillService;
         this.uploadService = uploadService;
+        this.mailSender = mailSender;
     }
 
     @GetMapping("/profile")
@@ -724,5 +730,47 @@ public class ProfileController {
     public ResponseEntity<?> deleteAdvancedSkillDetail(@PathVariable("id") Long id) {
         infoAdvancedSkillService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
+    @GetMapping("/profile/sendVerificationEmail")
+    public String sendVerificationEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        User user = userService.getUserByEmail(userEmail);
+        if (user != null && !user.getIsVerifyEmail()) {
+            // Generate verification token
+            String token = UUID.randomUUID().toString();
+            String verificationUrl = "http://localhost:8080/verify?token=" + token;
+
+            // Save token to user
+            user.setVerificationToken(token);
+            userService.saveUser(user);
+
+            // Send verification email
+            sendVerificationEmail(user.getEmail(), verificationUrl);
+        }
+
+        return "redirect:/profile";
+    }
+
+    private void sendVerificationEmail(String email, String verificationUrl) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom("h5studiogl@gmail.com");
+        message.setSubject("Account Verification");
+        message.setText("Please click the following link to verify your account: " + verificationUrl);
+        mailSender.send(message);
     }
 }

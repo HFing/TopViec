@@ -78,10 +78,9 @@
                                         <c:choose>
                                             <c:when test="${user.isVerifyEmail == null}">
                                                 <a data-w-id="18e4c4a1-e2a5-df93-57f4-c9a8d529c360"
-                                                    href="${company.websiteUrl}" target="_blank"
+                                                    href="/profile/sendVerificationEmail" target="_blank"
                                                     class="card-link-wrapper weight-medium w-inline-block">
-                                                    <div class="card-link" style="color: rgb(0, 97, 255);">Verify Your
-                                                        Account</div>
+                                                    <div class="card-link" style="color: rgb(0, 97, 255);">Verify Your Account</div>
                                                     <div class="card-link-arrow"
                                                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                                         <div class="card-link-arrow-1"

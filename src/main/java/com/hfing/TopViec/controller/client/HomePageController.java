@@ -276,6 +276,7 @@ public class HomePageController {
         User user = userService.findByVerificationToken(token);
         if (user != null) {
             user.setIsActive(true);
+            user.setIsVerifyEmail(true); // Mark email as verified
             user.setVerificationToken(null); // Clear the token
             userService.saveUser(user);
             System.out.println("Account verified successfully for token: " + token);
