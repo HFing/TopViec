@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,12 +13,9 @@ import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,7 +58,6 @@ import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
-import java.util.UUID;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -79,7 +76,6 @@ public class ProfileController {
     private final InfoLanguageSkillService infoLanguageSkillService;
     private final InfoAdvancedSkillService infoAdvancedSkillService;
     private final UploadService uploadService;
-    private final JavaMailSender mailSender;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
@@ -87,7 +83,7 @@ public class ProfileController {
             InfoExperienceDetailService infoExperienceDetailService,
             InfoEducationDetailService infoEducationDetailService,
             InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
-            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService, JavaMailSender mailSender) {
+            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -100,7 +96,6 @@ public class ProfileController {
         this.infoLanguageSkillService = infoLanguageSkillService;
         this.infoAdvancedSkillService = infoAdvancedSkillService;
         this.uploadService = uploadService;
-        this.mailSender = mailSender;
     }
 
     @GetMapping("/profile")
@@ -108,15 +103,9 @@ public class ProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
 
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
 
         User user = userService.getUserByEmail(userEmail);
@@ -230,15 +219,9 @@ public class ProfileController {
     public String getResumePage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
         InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
@@ -307,15 +290,9 @@ public class ProfileController {
             Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
         infoResume.setUser(user);
@@ -332,15 +309,9 @@ public class ProfileController {
     public String getResumeUpdatePage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername(); // Giả sử email được lưu trong thuộc tính username
         }
         User user = userService.getUserByEmail(userEmail);
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
@@ -421,15 +392,9 @@ public class ProfileController {
     public ResponseEntity<Map<String, Object>> updateResume(@ModelAttribute("infoResume") InfoResume infoResume) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
         infoResume.setUser(user);
@@ -479,15 +444,9 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -516,6 +475,42 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/addExperienceDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> editExperienceDetail(@PathVariable("id") Long id, @RequestBody InfoExperienceDetail req) {
+        var experienceDetail1 = infoExperienceDetailService.findById(id);
+
+        if (experienceDetail1 == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+        }
+
+        experienceDetail1.setJobName(req.getJobName());
+        experienceDetail1.setCompanyName(req.getCompanyName());
+        experienceDetail1.setStartDate(req.getStartDate());
+        experienceDetail1.setEndDate(req.getEndDate());
+        experienceDetail1.setDescription(req.getDescription());
+        var data = infoExperienceDetailService.save(experienceDetail1);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", data.getId());
+        response.put("jobName", data.getJobName());
+        response.put("companyName", data.getCompanyName());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDateFormatted = data.getStartDate().format(formatter);
+        response.put("startDate", startDateFormatted);
+        String endDateFormatted = data.getEndDate().format(formatter);
+        response.put("endDate", endDateFormatted);
+        response.put("description", data.getDescription());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/addExperienceDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteExperienceDetail(@PathVariable("id") Long id) {
+        infoExperienceDetailService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
     @PostMapping("/addEducationDetail")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addEducationDetail(
@@ -523,15 +518,9 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -561,6 +550,44 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/addEducationDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> editEducationDetail(@PathVariable("id") Long id,
+            @RequestBody InfoEducationDetail req) {
+        var educationDetail = infoEducationDetailService.findById(id);
+
+        if (educationDetail == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+        }
+
+        educationDetail.setDegreeName(req.getDegreeName());
+        educationDetail.setMajor(req.getMajor());
+        educationDetail.setTrainingPlaceName(req.getTrainingPlaceName());
+        educationDetail.setStartDate(req.getStartDate());
+        educationDetail.setCompletedDate(req.getCompletedDate());
+        educationDetail.setDescription(req.getDescription());
+        var data = infoEducationDetailService.save(educationDetail);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", data.getId());
+        response.put("degreeName", data.getDegreeName());
+        response.put("major", data.getMajor());
+        response.put("trainingPlaceName", data.getTrainingPlaceName());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        response.put("startDate", data.getStartDate() == null ? null : data.getStartDate().format(formatter));
+        response.put("completedDate",
+                data.getCompletedDate() == null ? null : data.getCompletedDate().format(formatter));
+        response.put("description", data.getDescription());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/addEducationDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteEducationDetail(@PathVariable("id") Long id) {
+        infoEducationDetailService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
     @PostMapping("/addCertificateDetail")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addCertificateDetail(
@@ -568,15 +595,9 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -604,6 +625,39 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/addCertificateDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> editCertificateDetail(@PathVariable("id") Long id,
+            @RequestBody InfoCertificate req) {
+        var certificate = infoCertificateService.findById(id);
+
+        if (certificate == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+        }
+
+        certificate.setName(req.getName());
+        certificate.setTrainingPlaceName(req.getTrainingPlaceName());
+        certificate.setStartDate(req.getStartDate());
+        certificate.setExpirationDate(req.getExpirationDate());
+        var data = infoCertificateService.save(certificate);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", data.getId());
+        response.put("name", data.getName());
+        response.put("trainingPlaceName", data.getTrainingPlaceName());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        response.put("startDate", data.getStartDate().format(formatter));
+        response.put("expirationDate", data.getExpirationDate().format(formatter));
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/addCertificateDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteCertificateDetail(@PathVariable("id") Long id) {
+        infoCertificateService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
     @PostMapping("/addLanguageSkillDetail")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addLanguageSkillDetail(
@@ -611,15 +665,9 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -645,6 +693,34 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/addLanguageSkillDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> editLanguageSkillDetail(@PathVariable("id") Long id,
+            @RequestBody InfoLanguageSkill req) {
+        var languageSkill = infoLanguageSkillService.findById(id);
+
+        if (languageSkill == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("not found");
+        }
+
+        languageSkill.setLanguage(req.getLanguage());
+        languageSkill.setLevel(req.getLevel());
+        var data = infoLanguageSkillService.save(languageSkill);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", data.getId());
+        response.put("language", data.getLanguage().getDisplayName());
+        response.put("level", data.getLevel());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/addLanguageSkillDetail/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteLanguageSkillDetail(@PathVariable("id") Long id) {
+        infoLanguageSkillService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
     @PostMapping("/addAdvancedSkillDetail")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> addAdvancedSkillDetail(
@@ -652,15 +728,9 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -728,42 +798,5 @@ public class ProfileController {
     public ResponseEntity<?> deleteAdvancedSkillDetail(@PathVariable("id") Long id) {
         infoAdvancedSkillService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
-    }
-
-    @GetMapping("/profile/sendVerificationEmail")
-    public String sendVerificationEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = null;
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                userEmail = userDetails.getUsername();
-            } else if (principal instanceof OAuth2User) {
-                OAuth2User oAuth2User = (OAuth2User) principal;
-                userEmail = oAuth2User.getAttribute("email");
-            }
-        }
-        User user = userService.getUserByEmail(userEmail);
-        if (user != null && !user.getIsVerifyEmail()) {
-            // Generate verification token
-            String token = UUID.randomUUID().toString();
-            String verificationUrl = "http://localhost:8080/verify?token=" + token;
-            // Save token to user
-            user.setVerificationToken(token);
-            userService.saveUser(user);
-            // Send verification email
-            sendVerificationEmail(user.getEmail(), verificationUrl);
-        }
-        return "redirect:/profile";
-    }
-
-    private void sendVerificationEmail(String email, String verificationUrl) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setFrom("h5studiogl@gmail.com");
-        message.setSubject("Account Verification");
-        message.setText("Please click the following link to verify your account: " + verificationUrl);
-        mailSender.send(message);
     }
 }

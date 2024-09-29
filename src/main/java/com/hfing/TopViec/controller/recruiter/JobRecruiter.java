@@ -30,7 +30,6 @@ import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class JobRecruiter {

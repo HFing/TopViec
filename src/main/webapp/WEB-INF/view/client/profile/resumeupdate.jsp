@@ -396,21 +396,37 @@
                                             <div class="card post-job-form-card">
                                                 <div id="experience-details">
                                                     <c:forEach var="detail" items="${experienceDetails}">
-                                                        <div class="card post-job-form-card">
+                                                        <div data-experience-delete="${detail.id}"
+                                                            class="card post-job-form-card">
                                                             <div class="input-wrapper">
-                                                                <div class="experience-detail" data-id="${detail.id}">
-                                                                    <p>Job Name: ${detail.jobName}</p>
-                                                                    <p>Company Name: ${detail.companyName}</p>
+                                                                <div class="experience-detail"
+                                                                    data-experience-detail-id="${detail.id}">
+                                                                    <p data-experience-detail-job-name="${detail.id}">
+                                                                        Job Name: ${detail.jobName}</p>
+                                                                    <p
+                                                                        data-experience-detail-company-name="${detail.id}">
+                                                                        Company Name: ${detail.companyName}</p>
                                                                     <div class="w-layout-grid card-post-job-form-grid">
-                                                                        <p>Start Date: ${detail.startDate}</p>
-                                                                        <p>End Date: ${detail.endDate}</p>
+                                                                        <p
+                                                                            data-experience-detail-start-date="${detail.id}">
+                                                                            Start Date: ${detail.startDate}</p>
+                                                                        <p
+                                                                            data-experience-detail-end-date="${detail.id}">
+                                                                            End Date: ${detail.endDate}</p>
                                                                     </div>
 
-                                                                    <p>Description: ${detail.description}</p>
-                                                                    <button
-                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <p
+                                                                        data-experience-detail-description="${detail.id}">
+                                                                        Description: ${detail.description}</p>
+                                                                    <button class="button-secondary small w-button"
+                                                                        onclick="openExperienceModalEdit('${detail.id}', '${detail.jobName}', '${detail.companyName}', '${detail.startDate}', '${detail.endDate}', '${detail.description}')">
+                                                                        Edit
+                                                                    </button>
                                                                     <button type="button"
-                                                                        class="button-secondary small w-button">Delete</button>
+                                                                        class="button-secondary small w-button"
+                                                                        onclick="deleteExperience('${detail.id}')">
+                                                                        Delete
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -446,21 +462,30 @@
                                             <div class="card post-job-form-card">
                                                 <div id="education-details">
                                                     <c:forEach var="detail" items="${educationDetails}">
-                                                        <div class="card post-job-form-card">
+                                                        <div data-education-delete-id="${detail.id}"
+                                                            class="card post-job-form-card">
                                                             <div class="input-wrapper">
-                                                                <div class="education-detail" data-id="${detail.id}">
-                                                                    <p>Degree Name: ${detail.degreeName}</p>
-                                                                    <p>Major: ${detail.major}</p>
-                                                                    <p>Training Place: ${detail.trainingPlaceName}</p>
+                                                                <div class="education-detail"
+                                                                    data-education-detail-id="${detail.id}">
+                                                                    <p data-degree-name-id="${detail.id}">Degree Name:
+                                                                        ${detail.degreeName}</p>
+                                                                    <p data-major-id="${detail.id}">Major:
+                                                                        ${detail.major}</p>
+                                                                    <p data-training-place-id="${detail.id}">Training
+                                                                        Place: ${detail.trainingPlaceName}</p>
                                                                     <div class="w-layout-grid card-post-job-form-grid">
-                                                                        <p>Start Date: ${detail.startDate}</p>
-                                                                        <p>Completed Date: ${detail.completedDate}</p>
+                                                                        <p data-start-date-id="${detail.id}">Start Date:
+                                                                            ${detail.startDate}</p>
+                                                                        <p data-complete-date-id="${detail.id}">
+                                                                            Completed Date: ${detail.completedDate}</p>
                                                                     </div>
-                                                                    <p>Description: ${detail.description}</p>
-                                                                    <button
-                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <p data-description-id="${detail.id}">Description:
+                                                                        ${detail.description}</p>
+                                                                    <button class="button-secondary small w-button"
+                                                                        onclick="openEducationModalEdit('${detail.id}')">Edit</button>
                                                                     <button type="button"
-                                                                        class="button-secondary small w-button">Delete</button>
+                                                                        class="button-secondary small w-button"
+                                                                        onclick="deleteEducation('${detail.id}')">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -495,19 +520,30 @@
                                             <div class="card post-job-form-card">
                                                 <div id="certificate-details">
                                                     <c:forEach var="detail" items="${certificates}">
-                                                        <div class="card post-job-form-card">
+                                                        <div data-certificate-delete-id="${detail.id}"
+                                                            class="card post-job-form-card">
                                                             <div class="input-wrapper">
-                                                                <div class="certificate-detail" data-id="${detail.id}">
-                                                                    <p>Certificate Name: ${detail.name}</p>
-                                                                    <p>Training Place: ${detail.trainingPlaceName}</p>
+                                                                <div class="certificate-detail"
+                                                                    data-certificate-detail-id="${detail.id}">
+                                                                    <p data-certificate-name-id="${detail.id}">
+                                                                        Certificate Name: ${detail.name}</p>
+                                                                    <p
+                                                                        data-certificate-training-place-id="${detail.id}">
+                                                                        Training Place: ${detail.trainingPlaceName}</p>
                                                                     <div class="w-layout-grid card-post-job-form-grid">
-                                                                        <p>Start Date: ${detail.startDate}</p>
-                                                                        <p>Expiration Date: ${detail.expirationDate}</p>
+                                                                        <p
+                                                                            data-certificate-start-date-id="${detail.id}">
+                                                                            Start Date: ${detail.startDate}</p>
+                                                                        <p
+                                                                            data-certificate-expiration-date-id="${detail.id}">
+                                                                            Expiration Date: ${detail.expirationDate}
+                                                                        </p>
                                                                     </div>
-                                                                    <button
-                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <button class="button-secondary small w-button"
+                                                                        onclick="openCertificateModalEdit('${detail.id}')">Edit</button>
                                                                     <button type="button"
-                                                                        class="button-secondary small w-button">Delete</button>
+                                                                        class="button-secondary small w-button"
+                                                                        onclick="deleteCertificate('${detail.id}')">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -542,12 +578,17 @@
                                             <div class="card post-job-form-card">
                                                 <div id="language-skill-details">
                                                     <c:forEach var="detail" items="${languageSkills}">
-                                                        <div class="card post-job-form-card">
+                                                        <div data-language-skill-detail-delete-id="${detail.id}"
+                                                            class="card post-job-form-card">
                                                             <div class="input-wrapper">
                                                                 <div class="language-skill-detail"
-                                                                    data-id="${detail.id}">
-                                                                    <p>Language: ${detail.language.displayName}</p>
-                                                                    <p>Level:
+                                                                    data-language-skill-detail-id="${detail.id}">
+                                                                    <p
+                                                                        data-language-skill-detail-language-id="${detail.id}">
+                                                                        Language: ${detail.language.displayName}</p>
+                                                                    <p
+                                                                        data-language-skill-detail-description-id="${detail.id}">
+                                                                        Level:
                                                                         <c:choose>
                                                                             <c:when test="${detail.level == 1}">Bad
                                                                             </c:when>
@@ -562,10 +603,11 @@
                                                                             <c:otherwise>Unknown</c:otherwise>
                                                                         </c:choose>
                                                                     </p>
-                                                                    <button
-                                                                        class="button-secondary small w-button">Edit</button>
+                                                                    <button class="button-secondary small w-button"
+                                                                        onclick="openLanguageSkillModalEdit('${detail.id}', '${detail.level}')">Edit</button>
                                                                     <button type="button"
-                                                                        class="button-secondary small w-button">Delete</button>
+                                                                        class="button-secondary small w-button"
+                                                                        onclick="deleteLanguageSkill('${detail.id}')">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -798,6 +840,46 @@
                     </div>
                 </div>
 
+                <!-- Model EDIT for Experience Detail -->
+                <div id="editExperienceModal" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeExperienceModalEdit()">&times;</span>
+                        <p>Edit Experience Detail</p>
+                        <form:form id="experienceFormEdit" modelAttribute="infoExperienceDetail">
+                            <input type="hidden" id="idExperienceDetail">
+                            <div class="input-wrapper">
+                                <label for="jobName">Job Name</label>
+                                <form:input path="jobName" id="jobNameExperienceEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="companyName">Company Name</label>
+                                <form:input path="companyName" id="companyNameExperienceEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="w-layout-grid card-post-job-form-grid">
+                                <div class="input-wrapper">
+                                    <label for="startDate">Start Date</label>
+                                    <form:input path="startDate" id="startDateExperienceEdit" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="endDate">End Date</label>
+                                    <form:input path="endDate" id="endDateExperienceEdit" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="description">Description</label>
+                                <form:textarea path="description" id="descriptionExperienceEdit"
+                                    cssClass="input w-input" required="true" />
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="editExperience()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
+
                 <!-- Model for Education Detail -->
                 <div id="educationModal" class="modal">
                     <div class="modal-content card post-job-form-card">
@@ -841,6 +923,50 @@
                     </div>
                 </div>
 
+                <!-- Model for Edit Education Detail -->
+                <div id="educationModalEdit" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeEducationModalEdit()">&times;</span>
+                        <p>Edit Education Detail</p>
+                        <form:form id="educationFormEdit" modelAttribute="infoEducationDetails">
+                            <input type="hidden" id="idEducationDetail">
+                            <div class="input-wrapper">
+                                <label for="degreeName">Degree/Certificate Name</label>
+                                <form:input path="degreeName" id="degreeNameEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="major">Major</label>
+                                <form:input path="major" id="majorEdit" cssClass="input w-input" required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="trainingPlaceName">School/Training Place</label>
+                                <form:input path="trainingPlaceName" id="trainingPlaceNameEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="w-layout-grid card-post-job-form-grid">
+                                <div class="input-wrapper">
+                                    <label for="startDate">Start Date</label>
+                                    <form:input path="startDate" id="startDateEdit" type="date" cssClass="input w-input"
+                                        required="true" />
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="completedDate">Completed Date</label>
+                                    <form:input path="completedDate" id="completedDateEdit" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="description">Description</label>
+                                <form:textarea path="description" id="descriptionEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="editEducation()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
+
                 <!-- Model for Certificate Detail -->
                 <div id="certificateModal" class="modal">
                     <div class="modal-content card post-job-form-card">
@@ -874,6 +1000,40 @@
                     </div>
                 </div>
 
+                <!-- Model for Edit Certificate Detail -->
+                <div id="certificateModalEdit" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeCertificateModalEdit()">&times;</span>
+                        <p>Edit Certificate Detail</p>
+                        <form:form id="certificateFormEdit" modelAttribute="infoCertificate">
+                            <input type="hidden" id="idCertificateDetailEdit">
+                            <div class="input-wrapper">
+                                <label for="name">Certificate Name</label>
+                                <form:input path="name" id="nameCertificateEdit" cssClass="input w-input"
+                                    required="true" />
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="trainingPlaceName">Training Place</label>
+                                <form:input path="trainingPlaceName" id="trainingPlaceNameCertificateEdit"
+                                    cssClass="input w-input" required="true" />
+                            </div>
+                            <div class="input-wrapper-container">
+                                <div class="input-wrapper">
+                                    <label for="startDate">Start Date</label>
+                                    <form:input path="startDate" id="startDateCertificateEdit" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="expirationDate">Expiration Date</label>
+                                    <form:input path="expirationDate" id="expirationDateCertificateEdit" type="date"
+                                        cssClass="input w-input" required="true" />
+                                </div>
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="editCertificate()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
 
                 <!-- Model for Language Skill Detail -->
                 <div id="languageSkillModal" class="modal">
@@ -899,9 +1059,34 @@
                     </div>
                 </div>
 
+                <!-- Model for Edit Language Skill Detail -->
+                <div id="languageSkillModalEdit" class="modal">
+                    <div class="modal-content card post-job-form-card">
+                        <span class="close" onclick="closeLanguageSkillModalEdit()">&times;</span>
+                        <p>Edit Language Skill Detail</p>
+                        <form:form id="languageSkillFormEdit" modelAttribute="infoLanguageSkill">
+                            <input type="hidden" id="idLanguageSkillEdit">
+                            <div class="input-wrapper">
+                                <label for="language">Language</label>
+                                <form:select path="language" id="languageLanguageEdit" cssClass="input w-input"
+                                    required="true">
+                                    <form:options items="${languages}" itemValue="name" itemLabel="displayName" />
+                                </form:select>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="level">Level</label>
+                                <form:select path="level" id="levelLanguageEdit" cssClass="input w-input"
+                                    required="true">
+                                    <form:options items="${levels}" />
+                                </form:select>
+                            </div>
+                            <button type="button" class="button-primary small w-button"
+                                onclick="editLanguageSkill()">Save</button>
+                        </form:form>
+                    </div>
+                </div>
 
                 <!-- Model for Advanced Skill Detail -->
-
                 <div id="advancedSkillModal" class="modal">
                     <div class="modal-content card post-job-form-card">
                         <span class="close" onclick="closeAdvancedSkillModal()">&times;</span>
@@ -923,7 +1108,7 @@
                     </div>
                 </div>
 
-                <%-- edit--%>
+                <%-- edit Advanced Skill Detail--%>
                     <div id="advancedSkillModalEdit" class="modal">
                         <div class="modal-content card post-job-form-card">
                             <span class="close" onclick="closeAdvancedSkillModalEdit()">&times;</span>
@@ -947,7 +1132,6 @@
                             </form:form>
                         </div>
                     </div>
-
 
 
                     <jsp:include page="../layout/footer.jsp" />
@@ -998,7 +1182,7 @@
 
                         window.onclick = function (event) {
                             const modal = document.getElementById('editResumeModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
@@ -1037,24 +1221,24 @@
                                         const experienceDetails = document.getElementById('experience-details');
                                         const newDetail = document.createElement('div');
                                         newDetail.classList.add('card', 'post-job-form-card');
-                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.setAttribute('data-experience-detail-id', data.id);
                                         newDetail.innerHTML = `
-    <div class="card post-job-form-card">
-        <div class="input-wrapper">
-            <div class="experience-detail" data-id="\${data.id}">
-                <p>Job Name: \${jobName}</p>
-                <p>Company Name: \${companyName}</p>
-                <div class="w-layout-grid card-post-job-form-grid">
-                    <p>Start Date: \${startDate}</p>
-                    <p>End Date: \${endDate}</p>
-                </div>
-                <p>Description: \${description}</p>
-                <button class="button-secondary small w-button" onclick="editExperience(\${data.id});">Edit</button>
-                <button class="button-secondary small w-button" onclick="deleteExperience(\${data.id});">Delete</button>
-            </div>
-        </div>
-    </div>
-`;
+                                        <div class="card post-job-form-card">
+                                            <div class="input-wrapper">
+                                                <div class="experience-detail" data-experience-detail-id="\${data.id}">
+                                                    <p data-experience-detail-job-name="\${data.id}">Job Name: \${jobName}</p>
+                                                    <p data-experience-detail-company-name="\${data.id}">Company Name: \${companyName}</p>
+                                                    <div class="w-layout-grid card-post-job-form-grid">
+                                                        <p data-experience-detail-start-date="\${data.id}">Start Date: \${startDate}</p>
+                                                        <p data-experience-detail-end-date="\${data.id}">End Date: \${endDate}</p>
+                                                    </div>
+                                                    <p data-experience-detail-description="\${data.id}">Description: \${description}</p>
+                                                    <button class="button-secondary small w-button" onclick="openExperienceModalEdit(\${data.id}, '\${data.jobName}', '\${data.companyName}', '\${data.startDate}', '\${data.endDate}', '\${data.description}');">Edit</button>
+                                                    <button class="button-secondary small w-button" onclick="deleteExperience(\${data.id});">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
                                         experienceDetails.appendChild(newDetail);
 
                                         // Đóng modal và reset form
@@ -1067,27 +1251,128 @@
                                 .catch(error => console.error('Error:', error));
                         }
 
-                        function editExperience(id) {
-                            // Lấy chi tiết kinh nghiệm từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                            // Sau đó mở modal để chỉnh sửa
-                            console.log('Edit experience with id:', id);
-                            // Implement the logic to edit the experience detail
+                        function editExperience() {
+                            const form = document.getElementById('experienceFormEdit');
+
+                            const idExperienceDetail = document.getElementById('idExperienceDetail').value;
+                            const jobName = document.getElementById('jobNameExperienceEdit').value;
+                            const companyName = document.getElementById('companyNameExperienceEdit').value;
+                            const startDate = document.getElementById('startDateExperienceEdit').value;
+                            const endDate = document.getElementById('endDateExperienceEdit').value;
+                            const description = document.getElementById('descriptionExperienceEdit').value;
+
+                            document.getElementById("descriptionExperienceEdit").value
+
+                            fetch(`/addExperienceDetail/` + idExperienceDetail, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(
+                                    {
+                                        jobName: jobName,
+                                        companyName: companyName,
+                                        startDate: startDate,
+                                        endDate: endDate,
+                                        description: description
+                                    }
+                                )
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    updateExperienceDetail(data);
+                                    closeExperienceModalEdit();
+                                    form.reset();
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
                         }
 
+                        function updateExperienceDetail(response) {
+                            response = JSON.parse(response)
+                            console.log(response)
+                            const experienceDetail = document.querySelector('[data-experience-detail-id="' + response.id + '"]');
+                            console.log("edit experienceDetail", experienceDetail)
+                            experienceDetail.querySelector('[data-experience-detail-job-name="' + response.id + '"]').innerHTML = `Job Name: ` + response.jobName;
+                            experienceDetail.querySelector('[data-experience-detail-company-name="' + response.id + '"]').innerHTML = `Company Name: ` + response.companyName;
+                            experienceDetail.querySelector('[data-experience-detail-start-date="' + response.id + '"]').innerHTML = `Start Date: ` + response.startDate;
+                            experienceDetail.querySelector('[data-experience-detail-end-date="' + response.id + '"]').innerHTML = `End Date: ` + response.endDate;
 
+                            experienceDetail.querySelector('[data-experience-detail-description="' + response.id + '"]').innerHTML = `Description: ` + response.description;
+                        }
+
+                        function deleteExperience(id) {
+                            console.log("delete id", id)
+                            fetch(`/addExperienceDetail/` + id, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    removeExperienceDetail(id)
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function removeExperienceDetail(id) {
+                            const experienceDetail = document.querySelector('[data-experience-delete="' + Number.parseInt(id) + '"]');
+                            console.log("remove experienceDetail", experienceDetail)
+                            if (experienceDetail) {
+                                experienceDetail.remove();
+                            }
+                        }
 
                         function closeExperienceModal() {
                             document.getElementById('experienceModal').style.display = 'none';
+                        }
+
+                        function closeExperienceModalEdit() {
+                            document.getElementById('editExperienceModal').style.display = 'none';
                         }
 
                         function openExperienceModal() {
                             document.getElementById('experienceModal').style.display = 'block';
                         }
 
+                        function openExperienceModalEdit(id, jobName, companyName, startDate, endDate, description) {
+                            document.getElementById('idExperienceDetail').value = id;
+                            const experienceDetail = document.querySelector('[data-experience-detail-id="' + id + '"]');
+                            document.getElementById("jobNameExperienceEdit").value = experienceDetail.querySelector('[data-experience-detail-job-name="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("companyNameExperienceEdit").value = experienceDetail.querySelector('[data-experience-detail-company-name="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("startDateExperienceEdit").value = experienceDetail.querySelector('[data-experience-detail-start-date="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("endDateExperienceEdit").value = experienceDetail.querySelector('[data-experience-detail-end-date="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("descriptionExperienceEdit").value = experienceDetail.querySelector('[data-experience-detail-description="' + id + '"]').innerHTML.split(": ")[1];
+
+                            document.getElementById('editExperienceModal').style.display = 'block';
+                        }
+
                         // Đóng modal khi bấm ra ngoài nội dung modal
                         window.onclick = function (event) {
                             const modal = document.getElementById('experienceModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
@@ -1128,19 +1413,20 @@
                                         const educationDetails = document.getElementById('education-details');
                                         const newDetail = document.createElement('div');
                                         newDetail.classList.add('card', 'post-job-form-card');
-                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.setAttribute('data-education-detail-id', data.id);
+                                        newDetail.setAttribute('data-education-delete-id', data.id);
                                         newDetail.innerHTML = `
                         <div class="input-wrapper">
-                            <div class="education-detail" data-id="\${data.id}">
-                                <p>Degree Name: \${degreeName}</p>
-                                <p>Major: \${major}</p>
-                                <p>Training Place: \${trainingPlaceName}</p>
+                            <div class="education-detail" data-education-detail-id="\${data.id}">
+                                <p data-degree-name-id="\${data.id}">Degree Name: \${degreeName}</p>
+                                <p data-major-id="\${data.id}">Major: \${major}</p>
+                                <p data-training-place-id="\${data.id}">Training Place: \${trainingPlaceName}</p>
                                 <div class="w-layout-grid card-post-job-form-grid">
-                                    <p>Start Date: \${startDate}</p>
-                                    <p>Completed Date: \${completedDate}</p>
+                                    <p data-start-date-id="\${data.id}">Start Date: \${startDate}</p>
+                                    <p data-complete-date-id="\${data.id}">Completed Date: \${completedDate}</p>
                                 </div>
-                                <p>Description: \${description}</p>
-                                <button class="button-secondary small w-button" onclick="editEducation(\${data.id});">Edit</button>
+                                <p data-description-id="\${data.id}">Description: \${description}</p>
+                                <button class="button-secondary small w-button" onclick="openEducationModalEdit(\${data.id});">Edit</button>
                                 <button class="button-secondary small w-button" onclick="deleteEducation(\${data.id});">Delete</button>
                             </div>
                         </div>
@@ -1158,24 +1444,130 @@
                         }
 
                         function editEducation(id) {
-                            // Lấy chi tiết giáo dục từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                            // Sau đó mở modal để chỉnh sửa
-                            console.log('Edit education with id:', id);
-                            // Implement the logic to edit the education detail
+                            const form = document.getElementById('educationFormEdit');
+
+                            const idEducationDetail = document.getElementById('idEducationDetail').value;
+
+                            const degreeName = document.getElementById('degreeNameEdit').value;
+                            const major = document.getElementById('majorEdit').value;
+                            const trainingPlace = document.getElementById('trainingPlaceNameEdit').value;
+                            const startDate = document.getElementById('startDateEdit').value;
+                            const completeDate = document.getElementById('completedDateEdit').value;
+                            const description = document.getElementById('descriptionEdit').value;
+
+
+                            fetch(`/addEducationDetail/` + idEducationDetail, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(
+                                    {
+                                        degreeName: degreeName,
+                                        major: major,
+                                        trainingPlaceName: trainingPlace,
+                                        startDate: startDate,
+                                        completedDate: completeDate,
+                                        description: description
+                                    }
+                                )
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    updateEducationDetail(data);
+                                    closeEducationModalEdit();
+                                    form.reset();
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function updateEducationDetail(response) {
+                            response = JSON.parse(response)
+                            console.log(response)
+                            const educationDetail = document.querySelector('[data-education-detail-id="' + response.id + '"]');
+                            console.log("edit experienceDetail", educationDetail)
+                            educationDetail.querySelector('[data-degree-name-id="' + response.id + '"]').innerHTML = `Degree Name: ` + response.degreeName;
+                            educationDetail.querySelector('[data-major-id="' + response.id + '"]').innerHTML = `Major: ` + response.major;
+                            educationDetail.querySelector('[data-training-place-id="' + response.id + '"]').innerHTML = `Training Place: ` + response.trainingPlaceName;
+                            educationDetail.querySelector('[data-start-date-id="' + response.id + '"]').innerHTML = `Start Date: ` + response.startDate;
+                            educationDetail.querySelector('[data-complete-date-id="' + response.id + '"]').innerHTML = `Complete Date: ` + response.completedDate;
+                            educationDetail.querySelector('[data-description-id="' + response.id + '"]').innerHTML = `Description: ` + response.description;
+                        }
+
+                        function deleteEducation(id) {
+                            console.log("delete id", id)
+                            fetch(`/addEducationDetail/` + id, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    removeEducationDetail(id)
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function removeEducationDetail(id) {
+                            const educationDetail = document.querySelector('[data-education-delete-id="' + Number.parseInt(id) + '"]');
+                            console.log("remove educationDetail", educationDetail)
+                            if (educationDetail) {
+                                educationDetail.remove();
+                            }
                         }
 
                         function closeEducationModal() {
                             document.getElementById('educationModal').style.display = 'none';
                         }
 
+                        function closeEducationModalEdit() {
+                            document.getElementById('educationModalEdit').style.display = 'none';
+                        }
+
                         function openEducationModal() {
                             document.getElementById('educationModal').style.display = 'block';
+                        }
+
+                        function openEducationModalEdit(id) {
+                            document.getElementById('idEducationDetail').value = id;
+                            const educationDetail = document.querySelector('[data-education-detail-id="' + id + '"]');
+                            document.getElementById("degreeNameEdit").value = educationDetail.querySelector('[data-degree-name-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("majorEdit").value = educationDetail.querySelector('[data-major-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("trainingPlaceNameEdit").value = educationDetail.querySelector('[data-training-place-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("startDateEdit").value = educationDetail.querySelector('[data-start-date-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("completedDateEdit").value = educationDetail.querySelector('[data-complete-date-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("descriptionEdit").value = educationDetail.querySelector('[data-description-id="' + id + '"]').innerHTML.split(": ")[1];
+
+                            document.getElementById('educationModalEdit').style.display = 'block';
                         }
 
                         // Đóng modal khi bấm ra ngoài nội dung modal
                         window.onclick = function (event) {
                             const modal = document.getElementById('educationModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
@@ -1212,22 +1604,21 @@
                                         const certificateDetails = document.getElementById('certificate-details');
                                         const newDetail = document.createElement('div');
                                         newDetail.classList.add('card', 'post-job-form-card');
-                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.setAttribute('data-certificate-detail-id', data.id);
+                                        newDetail.setAttribute('data-certificate-delete-id', data.id);
                                         newDetail.innerHTML = `
-                    <div class="card post-job-form-card">
                         <div class="input-wrapper">
-                            <div class="certificate-detail" data-id="\${data.id}">
-                                <p>Certificate Name: \${name}</p>
-                                <p>Training Place: \${trainingPlaceName}</p>
+                            <div class="certificate-detail" data-certificate-detail-id="\${data.id}">
+                                <p data-certificate-name-id="\${data.id}">Certificate Name: \${name}</p>
+                                <p data-certificate-training-place-id="\${data.id}">Training Place: \${trainingPlaceName}</p>
                                 <div class="w-layout-grid card-post-job-form-grid">
-                                    <p>Start Date: \${startDate}</p>
-                                    <p>Expiration Date: \${expirationDate}</p>
+                                    <p data-certificate-start-date-id="\${data.id}">Start Date: \${startDate}</p>
+                                    <p data-certificate-expiration-date-id="\${data.id}">Expiration Date: \${expirationDate}</p>
                                 </div>
-                                <button class="button-secondary small w-button" onclick="editCertificate(\${data.id});">Edit</button>
+                                <button class="button-secondary small w-button" onclick="openCertificateModalEdit(\${data.id});">Edit</button>
                                 <button class="button-secondary small w-button" onclick="deleteCertificate(\${data.id});">Delete</button>
                             </div>
                         </div>
-                    </div>
                 `;
                                         certificateDetails.appendChild(newDetail);
 
@@ -1242,24 +1633,123 @@
                         }
 
                         function editCertificate(id) {
-                            // Lấy chi tiết chứng chỉ từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                            // Sau đó mở modal để chỉnh sửa
-                            console.log('Edit certificate with id:', id);
-                            // Implement the logic to edit the certificate detail
+                            const form = document.getElementById('certificateFormEdit');
+
+                            const idCertificate = document.getElementById('idCertificateDetailEdit').value;
+
+                            const certificateName = document.getElementById('nameCertificateEdit').value;
+                            const trainingPlace = document.getElementById('trainingPlaceNameCertificateEdit').value;
+                            const startDate = document.getElementById('startDateCertificateEdit').value;
+                            const expirationDate = document.getElementById('expirationDateCertificateEdit').value;
+
+
+                            fetch(`/addCertificateDetail/` + idCertificate, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(
+                                    {
+                                        name: certificateName,
+                                        trainingPlaceName: trainingPlace,
+                                        startDate: startDate,
+                                        expirationDate: expirationDate
+                                    }
+                                )
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    updateCertificateDetail(data);
+                                    closeCertificateModalEdit();
+                                    form.reset();
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function updateCertificateDetail(response) {
+                            response = JSON.parse(response)
+                            console.log(response)
+                            const certificateDetail = document.querySelector('[data-certificate-detail-id="' + response.id + '"]');
+                            console.log("edit certificateDetail", certificateDetail)
+                            certificateDetail.querySelector('[data-certificate-name-id="' + response.id + '"]').innerHTML = `Certificate Name: ` + response.name;
+                            certificateDetail.querySelector('[data-certificate-training-place-id="' + response.id + '"]').innerHTML = `Training Place: ` + response.trainingPlaceName;
+                            certificateDetail.querySelector('[data-certificate-start-date-id="' + response.id + '"]').innerHTML = `Start Date: ` + response.startDate;
+                            certificateDetail.querySelector('[data-certificate-expiration-date-id="' + response.id + '"]').innerHTML = `Expiration Date: ` + response.expirationDate;
+                        }
+
+                        function deleteCertificate(id) {
+                            console.log("delete id", id)
+                            fetch(`/addCertificateDetail/` + id, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    removeCertificateDetail(id)
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function removeCertificateDetail(id) {
+                            const certificateDetail = document.querySelector('[data-certificate-delete-id="' + Number.parseInt(id) + '"]');
+                            console.log("remove certificateDetail", certificateDetail)
+                            if (certificateDetail) {
+                                certificateDetail.remove();
+                            }
                         }
 
                         function closeCertificateModal() {
                             document.getElementById('certificateModal').style.display = 'none';
                         }
 
+                        function closeCertificateModalEdit() {
+                            document.getElementById('certificateModalEdit').style.display = 'none';
+                        }
+
                         function openCertificateModal() {
                             document.getElementById('certificateModal').style.display = 'block';
+                        }
+
+                        function openCertificateModalEdit(id) {
+                            document.getElementById('idCertificateDetailEdit').value = id;
+                            const certificateDetail = document.querySelector('[data-certificate-detail-id="' + id + '"]');
+                            console.log("modal edit certificateDetail", certificateDetail)
+                            document.getElementById("nameCertificateEdit").value = certificateDetail.querySelector('[data-certificate-name-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("trainingPlaceNameCertificateEdit").value = certificateDetail.querySelector('[data-certificate-training-place-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("startDateCertificateEdit").value = certificateDetail.querySelector('[data-certificate-start-date-id="' + id + '"]').innerHTML.split(": ")[1];
+                            document.getElementById("expirationDateCertificateEdit").value = certificateDetail.querySelector('[data-certificate-expiration-date-id="' + id + '"]').innerHTML.split(": ")[1];
+
+                            document.getElementById('certificateModalEdit').style.display = 'block';
                         }
 
                         // Đóng modal khi bấm ra ngoài nội dung modal
                         window.onclick = function (event) {
                             const modal = document.getElementById('certificateModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
@@ -1291,14 +1781,15 @@
                                         const languageSkillDetails = document.getElementById('language-skill-details');
                                         const newDetail = document.createElement('div');
                                         newDetail.classList.add('card', 'post-job-form-card');
-                                        newDetail.setAttribute('data-id', data.id);
+                                        newDetail.setAttribute('data-language-skill-detail-id', data.id);
+                                        newDetail.setAttribute('data-language-skill-detail-delete-id', data.id);
                                         newDetail.innerHTML = `
                     <div class="input-wrapper">
-                        <div class="language-skill-detail" data-id="${data.id}">
-                            <p>Language: \${language}</p>
-                            <p>Level: \${levelDescription}</p>
-                            <button class="button-secondary small w-button" onclick="editLanguageSkill(${data.id});">Edit</button>
-                            <button class="button-secondary small w-button" onclick="deleteLanguageSkill(${data.id});">Delete</button>
+                        <div class="language-skill-detail" data-language-skill-detail-id="\${data.id}">
+                            <p data-language-skill-detail-language-id="\${data.id}">Language: \${language}</p>
+                            <p data-language-skill-detail-description-id=\${data.id}>Level: \${levelDescription}</p>
+                            <button class="button-secondary small w-button" onclick="openLanguageSkillModalEdit(\${data.id}, \${level}})">Edit</button>
+                            <button class="button-secondary small w-button" onclick="deleteLanguageSkill(\${data.id});">Delete</button>
                         </div>
                     </div>
                 `;
@@ -1346,25 +1837,115 @@
                                     return "Unknown";
                             }
                         }
+
                         function editLanguageSkill(id) {
-                            // Lấy chi tiết kỹ năng ngôn ngữ từ DOM hoặc từ server và điền vào form để chỉnh sửa
-                            // Sau đó mở modal để chỉnh sửa
-                            console.log('Edit language skill with id:', id);
-                            // Implement the logic to edit the language skill detail
+                            const form = document.getElementById('languageSkillFormEdit');
+
+                            const idLanguageSkill = document.getElementById('idLanguageSkillEdit').value;
+                            const languageName = document.getElementById('languageLanguageEdit').value;
+                            const languageLevel = document.getElementById('levelLanguageEdit').value;
+
+                            fetch(`/addLanguageSkillDetail/` + idLanguageSkill, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ language: languageName, level: languageLevel })
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    updateLanguageSkill(data);
+                                    closeLanguageSkillModalEdit();
+
+                                    form.reset();
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function updateLanguageSkill(response) {
+                            response = JSON.parse(response)
+                            console.log(response)
+                            const languageSkillDetail = document.querySelector('[data-language-skill-detail-id="' + response.id + '"]');
+                            console.log("edit languageSkillDetail", languageSkillDetail)
+                            languageSkillDetail.querySelector('[data-language-skill-detail-language-id="' + response.id + '"]').innerHTML = `Language: ` + response.language;
+                            languageSkillDetail.querySelector('[data-language-skill-detail-description-id="' + response.id + '"]').innerHTML = `Level: ` + getLevelDescription(response.level);
+                        }
+
+                        function deleteLanguageSkill(id) {
+                            console.log("delete id", id)
+                            fetch(`/addLanguageSkillDetail/` + id, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        if (response.status === 404) {
+                                            throw new Error('Kỹ năng không tồn tại.');
+                                        } else {
+                                            throw new Error('Có lỗi xảy ra.');
+                                        }
+                                    }
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    removeLanguageSkillDetail(id)
+                                })
+                                .catch(error => {
+                                    alert(error.message);
+                                });
+                        }
+
+                        function removeLanguageSkillDetail(id) {
+                            const languageSkillDetail = document.querySelector('[data-language-skill-detail-delete-id="' + Number.parseInt(id) + '"]');
+                            console.log("remove languageSkillDetail", languageSkillDetail)
+                            if (languageSkillDetail) {
+                                languageSkillDetail.remove();
+                            }
                         }
 
                         function closeLanguageSkillModal() {
                             document.getElementById('languageSkillModal').style.display = 'none';
                         }
 
+                        function closeLanguageSkillModalEdit() {
+                            document.getElementById('languageSkillModalEdit').style.display = 'none';
+                        }
+
                         function openLanguageSkillModal() {
                             document.getElementById('languageSkillModal').style.display = 'block';
+                        }
+
+                        function openLanguageSkillModalEdit(id, level) {
+                            const languageSkillDetail = document.querySelector('[data-language-skill-detail-id="' + id + '"]');
+                            console.log("modal edit languageSkillDetail", languageSkillDetail)
+                            document.getElementById('idLanguageSkillEdit').value = id;
+                            document.getElementById('languageLanguageEdit').value = languageSkillDetail.querySelector('[data-language-skill-detail-language-id="' + id + '"]').innerHTML.split(": ")[1].toUpperCase();
+                            var lvId = languageSkillDetail.querySelector('[data-language-skill-detail-description-id="' + id + '"]').innerHTML.split(": ")[1];
+                            if (lvId) {
+                                document.getElementById('levelLanguageEdit').value = getLevelDescriptionByName(lvId);
+                            } else {
+                                document.getElementById('levelLanguageEdit').value = level;
+                            }
+                            document.getElementById('languageSkillModalEdit').style.display = 'block';
                         }
 
                         // Đóng modal khi bấm ra ngoài nội dung modal
                         window.onclick = function (event) {
                             const modal = document.getElementById('languageSkillModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
@@ -1448,7 +2029,7 @@
                         // Đóng modal khi bấm ra ngoài nội dung modal
                         window.onclick = function (event) {
                             const modal = document.getElementById('advancedSkillModal');
-                            if (event.target == modal) {
+                            if (event.target === modal) {
                                 modal.style.display = 'none';
                             }
                         }
