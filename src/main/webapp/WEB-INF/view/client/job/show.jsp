@@ -237,6 +237,8 @@
                                     </div>
                                 </div>
 
+
+                                <!-- More job openings -->
                                 <jsp:include page="../job/morejob.jsp" />
 
 

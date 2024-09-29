@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/client/css/style.css">
-
+    <style>
+        .card.home-jobs-filters {
+            margin-top: -90px !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,14 +18,14 @@
 
     <div style="opacity: 1;" class="page-wrapper">
         <div class="section home">
-            <div data-w-id="79cc5e11-23b1-da9f-4f65-26174000ce2d"
+            <!-- <div data-w-id="79cc5e11-23b1-da9f-4f65-26174000ce2d"
                 style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"
                 class="container-medium-736px home-hero">
                 <h1 data-w-id="7c40314c-5dc6-b15a-84ae-c36852bb1073" class="title home-hero">Top Viec for Developers,
                     Designers, and Marketers</h1>
                 <p class="paragraph home-hero">Jobs is a curated job board of the best jobs for developers, designers
                     and marketers in the tech industry.</p>
-            </div>
+            </div> -->
 
             <div data-w-id="651950f6-e58e-81e6-31bd-2aa5b9f5c2c4"
                 style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"
@@ -30,20 +34,7 @@
                 <jsp:include page="../layout/search.jsp" />
 
 
-                <div class="companies-wrapper">
-                    <div class="companies-text">Trusted by</div>
-                    <div class="companies-logos-wrapper"><img
-                            src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/65526d2d02eed9a900af9414_agency-logo-job-board-x-webflow-template.svg"
-                            alt="Agency Logo - Job Board X Webflow Template" class="image company-logo first"><img
-                            src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/65526d2d224d2d5a840da528_application-logo-job-board-x-webflow-template.svg"
-                            alt="Application Logo - Job Board X Webflow Template" class="image company-logo"><img
-                            src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/65526d2d198da40e59a36937_enterprise-logo-job-board-x-webflow-template.svg"
-                            alt="Enterprise Logo - Job Board X Webflow Template" class="image company-logo"><img
-                            src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/65526d2d83acd973ba049dc8_business-logo-job-board-x-webflow-template.svg"
-                            alt="Business Logo - Job Board X Webflow Template" class="image company-logo"><img
-                            src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/65526d2dae0577953c960f85_company-logo-job-board-x-webflow-template.svg"
-                            alt="Company Logo - Job Board X Webflow Template" class="image company-logo last"></div>
-                </div>
+
                 <div class="job-board-wrapper">
                     <div class="split-content job-board-content">
                         <jsp:include page="../layout/featured.jsp" />

@@ -3,8 +3,9 @@ package com.hfing.TopViec.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
+import java.util.stream.Collectors;
 import com.hfing.TopViec.domain.JobPost;
+import com.hfing.TopViec.domain.enums.Position;
 import com.hfing.TopViec.repository.JobPostRepository;
 
 @Service
@@ -48,4 +49,26 @@ public class JobPostService {
         return jobPostRepository.findNonHotJobPostsWithStatusOne(1);
     }
 
+    public List<JobPost> searchJobs(String query) {
+        return jobPostRepository.findByJobNameContainingIgnoreCase(query);
+    }
+
+    public List<JobPost> searchJobsByLocation(String location) {
+        return jobPostRepository.findByLocationCityNameIgnoreCase(location);
+    }
+
+    public List<JobPost> searchJobsByPosition(Position position) {
+        return jobPostRepository.findByPosition(position);
+    }
+
+    public List<JobPost> searchJobsByCareer(String career) {
+        return jobPostRepository.findByCareerNameIgnoreCase(career);
+    }
+
+    public List<JobPost> getRelatedJobs(JobPost jobPost) {
+        List<JobPost> relatedJobs = jobPostRepository.findByJobNameContainingIgnoreCase(jobPost.getJobName());
+        relatedJobs.addAll(jobPostRepository.findByPosition(jobPost.getPosition()));
+        relatedJobs.addAll(jobPostRepository.findByCareerNameIgnoreCase(jobPost.getCareer().getName()));
+        return relatedJobs.stream().distinct().collect(Collectors.toList());
+    }
 }

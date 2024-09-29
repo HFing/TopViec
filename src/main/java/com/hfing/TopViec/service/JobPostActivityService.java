@@ -18,8 +18,9 @@ public class JobPostActivityService {
         return jobPostActivityRepository.findAll();
     }
 
-    public Optional<JobPostActivity> findById(Long id) {
-        return jobPostActivityRepository.findById(id);
+    public JobPostActivity findById(Long id) {
+        Optional<JobPostActivity> optional = jobPostActivityRepository.findById(id);
+        return optional.orElse(null);
     }
 
     public JobPostActivity save(JobPostActivity jobPostActivity) {

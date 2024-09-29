@@ -1,20 +1,19 @@
 package com.hfing.TopViec.controller.client;
 
 import java.util.Locale;
-
+import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.JobPostActivity;
@@ -25,8 +24,7 @@ import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.UserService;
-
-import jakarta.validation.Valid;
+import java.util.Collections;
 
 @Controller
 public class JobController {
@@ -79,6 +77,26 @@ public class JobController {
         boolean hasApplied = jobPostActivityService.hasApplied(id, user.getId());
         model.addAttribute("hasApplied", hasApplied);
 
+        List<JobPost> relatedJobs = jobPostService.getRelatedJobs(jobPost);
+
+        // Loại bỏ công việc hiện tại khỏi danh sách các công việc liên quan
+        relatedJobs.removeIf(job -> job.getId().equals(jobPost.getId()));
+
+        if (relatedJobs.size() > 4) {
+            Collections.shuffle(relatedJobs);
+            relatedJobs = relatedJobs.subList(0, 4);
+        } else if (relatedJobs.size() < 4) {
+            List<JobPost> allJobs = jobPostService.getAllJobPosts();
+
+            allJobs.removeIf(job -> job.getId().equals(jobPost.getId()));
+
+            allJobs.removeAll(relatedJobs);
+            Collections.shuffle(allJobs);
+            relatedJobs.addAll(allJobs.stream().limit(4 - relatedJobs.size()).collect(Collectors.toList()));
+        }
+
+        model.addAttribute("relatedJobs", relatedJobs);
+
         return "client/job/show";
     }
 
@@ -108,14 +126,11 @@ public class JobController {
         jobPostActivity.setStatus(1);
         jobPostActivity.setUser(user);
 
-        // Thiết lập jobPost cho jobPostActivity
         JobPost jobPost = jobPostService.getJobPostById(jobPostId);
         jobPostActivity.setJobPost(jobPost);
 
-        // Lưu JobPostActivity
         jobPostActivityService.save(jobPostActivity);
 
-        // Chuyển hướng hoặc trả về một trang sau khi lưu thành công
         return "redirect:/job/" + jobPostActivity.getJobPost().getId();
     }
 

@@ -39,21 +39,21 @@
                                                                 class="jobs-filters-dropdown-links-grid header-dropdown last w-dyn-items">
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-location-category/austin-tx"
-                                                                        class="dropdown-nav-link" tabindex="0">Austin,
-                                                                        TX</a>
+                                                                    <a href="/search?location=Tp.HCM"
+                                                                        class="dropdown-nav-link"
+                                                                        tabindex="0">Tp.HCM</a>
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-location-category/miami-fl"
-                                                                        class="dropdown-nav-link" tabindex="0">Miami,
-                                                                        FL</a>
+                                                                    <a href="/search?location=Ha Noi"
+                                                                        class="dropdown-nav-link" tabindex="0">Ha
+                                                                        Noi</a>
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-location-category/new-york-ny"
-                                                                        class="dropdown-nav-link" tabindex="0">New York,
-                                                                        NY</a>
+                                                                    <a href="/search?location=Da Nang"
+                                                                        class="dropdown-nav-link" tabindex="0">Da
+                                                                        Nang</a>
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
@@ -76,21 +76,21 @@
                                                                 class="jobs-filters-dropdown-links-grid header-dropdown last w-dyn-items">
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-level-category/junior"
+                                                                    <a href="/search?position=JUNIOR"
                                                                         class="dropdown-nav-link"
                                                                         tabindex="0">Junior</a>
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-level-category/senior"
+                                                                    <a href="/search?position=SENIOR"
                                                                         class="dropdown-nav-link"
                                                                         tabindex="0">Senior</a>
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-level-category/executive"
+                                                                    <a href="/search?position=LEADER"
                                                                         class="dropdown-nav-link"
-                                                                        tabindex="0">Executive</a>
+                                                                        tabindex="0">Leader</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -103,6 +103,20 @@
                                                     <div class="title h5-size dropdown-nav-title">Department</div>
                                                     <div class="dropdown-nav-content categories">
                                                         <div class="w-dyn-list">
+                                                            <div role="list"
+                                                                class="jobs-filters-dropdown-links-grid header-dropdown w-dyn-items"
+                                                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                                                <c:forEach var="career" items="${careers}">
+                                                                    <div role="listitem"
+                                                                        class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                        <a href="/search?career=${career.name}"
+                                                                            class="dropdown-nav-link"
+                                                                            tabindex="0">${career.name}</a>
+                                                                    </div>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="w-dyn-list">
                                                             <div role="list"
                                                                 class="jobs-filters-dropdown-links-grid header-dropdown w-dyn-items">
                                                                 <div role="listitem"
@@ -141,7 +155,7 @@
                                                                         tabindex="0">Development</a>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>

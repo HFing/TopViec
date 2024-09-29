@@ -35,7 +35,7 @@
                         <div class="collapse" id="collapseCandidate" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="">Candidate Profiles</a>
+                                <a class="nav-link" href="/recruiter/candidate/application">Candidate Profiles</a>
                                 <a class="nav-link" href="/recruiter/candidate/save">Saved Profiles</a>
                                 <a class="nav-link" href="/recruiter/candidate">Find New Candidates</a>
                             </nav>

@@ -13,4 +13,5 @@ public interface JobPostActivityRepository extends JpaRepository<JobPostActivity
     List<JobPostActivity> findByJobPostId(Long jobPostId);
 
     Optional<JobPostActivity> findByJobPostIdAndUserId(Long jobPostId, Long userId);
+
 }

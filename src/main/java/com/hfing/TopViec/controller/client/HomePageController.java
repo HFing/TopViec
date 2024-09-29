@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
@@ -25,6 +27,8 @@ import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
 import com.hfing.TopViec.domain.dto.RegisterDTO;
 import com.hfing.TopViec.domain.dto.RegisterRecruiterDTO;
+import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.service.CommonCareerService;
 import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.CommonDistrictService;
 import com.hfing.TopViec.service.CommonLocationService;
@@ -56,11 +60,13 @@ public class HomePageController {
     private final CommonLocationService locationService;
     private final InfoCompanyService infoCompanyService;
     private final JobPostService jobPostService;
+    private final CommonCareerService commonCareerService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
             UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
             EmployeeSizeService employeeSizeService, CommonLocationService locationService,
-            InfoCompanyService infoCompanyService, JobPostService jobPostService) {
+            InfoCompanyService infoCompanyService, JobPostService jobPostService,
+            CommonCareerService commonCareerService, JavaMailSender mailSender) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -71,6 +77,8 @@ public class HomePageController {
         this.locationService = locationService;
         this.infoCompanyService = infoCompanyService;
         this.jobPostService = jobPostService;
+        this.commonCareerService = commonCareerService;
+        this.mailSender = mailSender;
     }
 
     @Autowired
@@ -92,6 +100,9 @@ public class HomePageController {
         List<JobPost> jobPosts = jobPostService.getNonHotJobPostsWithStatusOne();
         model.addAttribute("hotJobPosts", hotJobPosts);
         model.addAttribute("jobPosts", jobPosts);
+
+        List<CommonCareer> careers = commonCareerService.findAll();
+        model.addAttribute("careers", careers);
         return "client/homepage/show";
     }
 
@@ -287,6 +298,36 @@ public class HomePageController {
             redirectAttributes.addFlashAttribute("error", "Invalid verification link.");
             return "redirect:/profile";
         }
+    }
+
+    @GetMapping("/search")
+    public String searchJobs(@RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "position", required = false) String position,
+            @RequestParam(value = "career", required = false) String career,
+            Model model) {
+        List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
+        model.addAttribute("hotJobPosts", hotJobPosts);
+
+        List<JobPost> jobPosts;
+        if (query != null && !query.isEmpty()) {
+            jobPosts = jobPostService.searchJobs(query);
+        } else if (location != null && !location.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByLocation(location);
+        } else if (position != null && !position.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByPosition(Position.valueOf(position));
+        } else if (career != null && !career.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByCareer(career);
+        } else {
+            jobPosts = jobPostService.getAllJobPosts();
+        }
+
+        model.addAttribute("jobPosts", jobPosts);
+
+        List<CommonCareer> careers = commonCareerService.findAll();
+        model.addAttribute("careers", careers);
+
+        return "client/homepage/search";
     }
 
 }
