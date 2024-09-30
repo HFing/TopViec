@@ -58,6 +58,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 user.setPassword(passwordEncoder.encode("default_password"));
                 user.setRoleName("USER");
                 user.setIsVerifyEmail(true);
+                user.setAvatarUrl("default_avatar.jpg");
                 userService.saveUser(user);
 
                 user = userService.getUserByEmail(email);
@@ -65,6 +66,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 userRole.setUser(user);
                 userRole.setRole(roleService.findByName("USER"));
                 userRoleService.saveUserRole(userRole);
+
             }
 
             // Log các giá trị trước khi đặt vào session

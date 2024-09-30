@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
@@ -39,6 +39,8 @@ import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
 import java.util.UUID;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -151,16 +153,36 @@ public class HomePageController {
 
         redirectAttributes.addFlashAttribute("message",
                 "Registration successful! Please check your email to verify your account.");
-        return "redirect:/login";
+        return "redirect:/profile";
     }
 
     private void sendVerificationEmail(String email, String verificationUrl) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setFrom("h5studiogl@gmail.com");
-        message.setSubject("Account Verification");
-        message.setText("Please click the following link to verify your account: " + verificationUrl);
-        mailSender.send(message);
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setFrom("h5studiogl@gmail.com");
+            helper.setSubject("Account Verification");
+
+            // HTML content for email
+            String htmlMsg = "<div style='text-align: center; font-family: Arial, sans-serif;'>"
+                    + "<h2 style='color: #333;'>Verify your email</h2>"
+                    + "<p>We've sent an email to <strong>" + email
+                    + "</strong> to verify your email address and activate your account.</p>"
+                    + "<p>The link in the email will expire in 24 hours.</p>"
+                    + "<p><a href='" + verificationUrl
+                    + "' style='color: #1a73e8; text-decoration: none;'>Click here</a> to verify your email address.</p>"
+                    + "<p>If you did not receive an email or would like to change the email address you signed up with, please contact our support team.</p>"
+                    + "</div>";
+
+            helper.setText(htmlMsg, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            // Xử lý ngoại lệ, ví dụ: ghi log hoặc thông báo lỗi
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/login")

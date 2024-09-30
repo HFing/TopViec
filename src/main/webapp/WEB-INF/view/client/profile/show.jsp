@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="split-content content-top-company-right">
                                         <c:choose>
-                                            <c:when test="${user.isVerifyEmail == false}">
+                                            <c:when test="${not user.isVerifyEmail}">
                                                 <a data-w-id="18e4c4a1-e2a5-df93-57f4-c9a8d529c360"
                                                     href="/profile/sendVerificationEmail" target="_blank"
                                                     class="card-link-wrapper weight-medium w-inline-block">

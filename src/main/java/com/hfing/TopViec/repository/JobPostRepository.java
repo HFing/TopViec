@@ -1,7 +1,8 @@
 package com.hfing.TopViec.repository;
 
+import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +29,10 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     List<JobPost> findByPosition(Position position);
 
     List<JobPost> findByCareerNameIgnoreCase(String careerName);
+
+    long countByStatus(int status);
+
+    @Query("SELECT COUNT(j) FROM JobPost j WHERE j.deadline < :date")
+    long countByDeadlineBefore(@Param("date") Date date);
 
 }

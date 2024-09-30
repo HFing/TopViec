@@ -2,6 +2,11 @@ package com.hfing.TopViec.controller.client;
 
 import java.util.Locale;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +29,10 @@ import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.UserService;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 import java.util.Collections;
 
 @Controller
@@ -46,6 +55,9 @@ public class JobController {
         this.infoResumeService = infoResumeService;
         this.userService = userService;
     }
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/job/{id}")
     public String getJobDetailPage(@PathVariable("id") Long id, Model model) {
@@ -130,8 +142,34 @@ public class JobController {
         jobPostActivity.setJobPost(jobPost);
 
         jobPostActivityService.save(jobPostActivity);
-
+        sendApplicationNotificationEmail(userEmail, jobPost.getJobName());
         return "redirect:/job/" + jobPostActivity.getJobPost().getId();
+    }
+
+    private void sendApplicationNotificationEmail(String email, String jobTitle) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setFrom("h5studiogl@gmail.com");
+            helper.setSubject("Job Application Received");
+
+            // HTML content for email
+            String htmlMsg = "<div style='text-align: center; font-family: Arial, sans-serif;'>"
+                    + "<h2 style='color: #333;'>Job Application Received</h2>"
+                    + "<p>Thank you for applying for the position of <strong>" + jobTitle + "</strong>.</p>"
+                    + "<p>We have received your application and will review it shortly.</p>"
+                    + "<p>If you have any questions, please contact our support team.</p>"
+                    + "</div>";
+
+            helper.setText(htmlMsg, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            // Xử lý ngoại lệ, ví dụ: ghi log hoặc thông báo lỗi
+            e.printStackTrace();
+        }
     }
 
 }

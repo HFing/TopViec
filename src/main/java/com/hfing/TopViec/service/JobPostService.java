@@ -1,7 +1,9 @@
 package com.hfing.TopViec.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
-
+import java.util.Date;
 import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 import com.hfing.TopViec.domain.JobPost;
@@ -71,4 +73,15 @@ public class JobPostService {
         relatedJobs.addAll(jobPostRepository.findByCareerNameIgnoreCase(jobPost.getCareer().getName()));
         return relatedJobs.stream().distinct().collect(Collectors.toList());
     }
+
+    public long countByStatus(int status) {
+        return jobPostRepository.countByStatus(status);
+    }
+
+    public long countExpiredJobPosts() {
+        LocalDate localDate = LocalDate.now();
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return jobPostRepository.countByDeadlineBefore(date);
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.hfing.TopViec.service;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -52,4 +55,19 @@ public class UserService {
         return userRepository.findByVerificationToken(token);
     }
 
+    public List<Long> getMonthlyUserCounts() {
+        List<Long> monthlyCounts = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        for (Month month : Month.values()) {
+            LocalDateTime startDate = LocalDateTime.of(now.getYear(), month, 1, 0, 0);
+            LocalDateTime endDate = startDate.plusMonths(1).minusSeconds(1);
+            Long count = userRepository.countUsersByMonth(startDate, endDate);
+            monthlyCounts.add(count);
+        }
+        return monthlyCounts;
+    }
+
+    public long countUsersByRoleName(String roleName) {
+        return userRepository.countUsersByRoleName(roleName);
+    }
 }

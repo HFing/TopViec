@@ -1,10 +1,13 @@
 package com.hfing.TopViec.service;
 
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import com.hfing.TopViec.domain.JobPostActivity;
 import com.hfing.TopViec.repository.JobPostActivityRepository;
+import java.util.Map;
 
 @Service
 public class JobPostActivityService {
@@ -44,4 +47,16 @@ public class JobPostActivityService {
                 userId);
         return jobPostActivity.isPresent();
     }
+
+    public Map<Integer, Long> getJobPostActivityCountsByStatus() {
+        List<Object[]> results = jobPostActivityRepository.countJobPostActivitiesByStatus();
+        Map<Integer, Long> statusCounts = new HashMap<>();
+        for (Object[] result : results) {
+            Integer status = (Integer) result[0];
+            Long count = (Long) result[1];
+            statusCounts.put(status, count);
+        }
+        return statusCounts;
+    }
+
 }
