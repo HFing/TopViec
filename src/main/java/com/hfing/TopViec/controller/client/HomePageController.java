@@ -244,6 +244,7 @@ public class HomePageController {
         user.setRoleName("RECRUITER");
         user.setIsActive(true);
         user.setHasCompany(true);
+        user.setIsVerifyEmail(false);
         user.setEmailNotificationActive(true);
         user.setCreateAt(LocalDateTime.now());
         userService.saveUser(user);

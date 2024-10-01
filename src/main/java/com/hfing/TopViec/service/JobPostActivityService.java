@@ -59,4 +59,29 @@ public class JobPostActivityService {
         return statusCounts;
     }
 
+    public Map<String, Integer> getMonthlyApplicantCounts(Long companyId) {
+        List<Object[]> results = jobPostActivityRepository.findMonthlyApplicantCountsByCompanyId(companyId);
+        Map<String, Integer> monthlyCounts = new HashMap<>();
+        for (Object[] result : results) {
+            Integer month = (Integer) result[0];
+            Long count = (Long) result[1];
+            monthlyCounts.put(month.toString(), count.intValue());
+        }
+        return monthlyCounts;
+    }
+
+    public Map<Integer, Long> getApplicantCountsByStatus(Long companyId) {
+        List<Object[]> results = jobPostActivityRepository.findApplicantCountsByStatusAndCompanyId(companyId);
+        Map<Integer, Long> statusCounts = new HashMap<>();
+        for (Object[] result : results) {
+            Integer status = (Integer) result[0];
+            Long count = (Long) result[1];
+            statusCounts.put(status, count);
+        }
+        return statusCounts;
+    }
+
+    public long countTotalApplicants(Long companyId) {
+        return jobPostActivityRepository.countByJobPostCompanyId(companyId);
+    }
 }

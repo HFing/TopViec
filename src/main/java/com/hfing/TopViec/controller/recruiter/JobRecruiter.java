@@ -102,8 +102,7 @@ public class JobRecruiter {
         newJobPost.setUser(user);
         newJobPost.setCompany(infoCompanyService.findByUser(user));
         newJobPost.setCreateAt(LocalDateTime.now());
-        long view = 0;
-        newJobPost.setViews(view);
+        newJobPost.setViews(Long.valueOf(0));
         newJobPost.setIsHot(false);
         newJobPost.setIsUrgent(false);
         newJobPost.setStatus(2);

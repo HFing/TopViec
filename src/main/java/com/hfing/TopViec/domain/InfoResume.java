@@ -37,7 +37,6 @@ public class InfoResume {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private String title;
-    private String slug;
     private String description;
     private BigDecimal salaryMin;
     private BigDecimal salaryMax;
@@ -58,9 +57,7 @@ public class InfoResume {
     private JobType jobType;
 
     private Boolean isActive;
-    private String imageUrl;
     private String fileUrl;
-    private String publicId;
     private String type;
 
     @ManyToOne
@@ -127,14 +124,6 @@ public class InfoResume {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getDescription() {
@@ -209,28 +198,12 @@ public class InfoResume {
         this.isActive = isActive;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public String getFileUrl() {
         return fileUrl;
     }
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
-    }
-
-    public String getPublicId() {
-        return publicId;
-    }
-
-    public void setPublicId(String publicId) {
-        this.publicId = publicId;
     }
 
     public String getType() {

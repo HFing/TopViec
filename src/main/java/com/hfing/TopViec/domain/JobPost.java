@@ -105,9 +105,6 @@ public class JobPost {
     @Column(name = "views", columnDefinition = "BIGINT DEFAULT 0")
     private Long views;
 
-    @Column(name = "shares", columnDefinition = "BIGINT DEFAULT 0")
-    private Long shares;
-
     @ManyToOne
     @JoinColumn(name = "career_id")
     private CommonCareer career;
@@ -312,14 +309,6 @@ public class JobPost {
 
     public void setViews(Long views) {
         this.views = views;
-    }
-
-    public Long getShares() {
-        return shares;
-    }
-
-    public void setShares(Long shares) {
-        this.shares = shares;
     }
 
     public CommonCareer getCareer() {

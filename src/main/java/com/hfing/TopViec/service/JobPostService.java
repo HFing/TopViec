@@ -1,6 +1,7 @@
 package com.hfing.TopViec.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Date;
@@ -84,4 +85,16 @@ public class JobPostService {
         return jobPostRepository.countByDeadlineBefore(date);
     }
 
+    public long countApprovedJobPosts(Long companyId) {
+        return jobPostRepository.countByCompanyIdAndStatus(companyId, 1);
+    }
+
+    public long countPendingJobPosts(Long companyId) {
+        return jobPostRepository.countByCompanyIdAndStatus(companyId, 2); // Assuming 2 is the status for pending
+    }
+
+    public long countExpiredJobPosts(Long companyId) {
+        LocalDateTime now = LocalDateTime.now();
+        return jobPostRepository.countByCompanyIdAndDeadlineBefore(companyId, now);
+    }
 }

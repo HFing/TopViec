@@ -33,9 +33,6 @@ public class CommonLocation {
     @JoinColumn(name = "district_id")
     private CommonDistrict district;
 
-    @Column(name = "address", length = 255)
-    private String address;
-
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<InfoCompany> companies;
@@ -73,14 +70,6 @@ public class CommonLocation {
 
     public void setCompanies(List<InfoCompany> companies) {
         this.companies = companies;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public List<JobPost> getJobPosts() {
