@@ -14,7 +14,18 @@
                 <meta name="author" content="" />
                 <title>Dashboard</title>
                 <link href="/admin/css/styles.css" rel="stylesheet" />
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <style>
+                    .alert-popup {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 1050;
+                        width: auto;
+                        max-width: 300px;
+                    }
+                </style>
             </head>
 
             <body class="sb-nav-fixed">
@@ -22,6 +33,11 @@
                 <div id="layoutSidenav">
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Job</h1>
@@ -34,9 +50,39 @@
 
                                 <div class="col-12 mx-auto">
                                     <div class="d-flex justify-content-between">
+                                        <form class="w-100 ms-3" method="get" action="/admin/job/search">
+                                            <div class="row g-2">
+                                                <div class="col-md-4">
+                                                    <select class="form-select" id="company" name="company">
+                                                        <option value="" selected>Select Company</option>
+                                                        <c:forEach var="company" items="${companies}">
+                                                            <option value="${company.id}">${company.companyName}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select class="form-select" id="status" name="status">
+                                                        <option value="" selected>Select Status</option>
+                                                        <option value="1">Approved</option>
+                                                        <option value="2">Pending</option>
+                                                        <option value="0">Rejected</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button class="btn btn-warning w-100" type="submit">
+                                                        <i class="bi bi-search"></i> Search
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </br>
+                                    <div class="d-flex justify-content-between">
                                         <h3>Table Jobs</h3>
                                         <a href="/admin/job/create" class="btn btn-primary">Create</a>
                                     </div>
+
 
                                     <hr />
                                     <table class="table table-hover table-bordered">
@@ -97,6 +143,14 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/admin/js/scripts.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        // Tự động ẩn thông báo sau 5 giây
+                        setTimeout(function () {
+                            $(".alert-popup").alert('close');
+                        }, 3000);
+                    });
+                </script>
             </body>
 
             </html>

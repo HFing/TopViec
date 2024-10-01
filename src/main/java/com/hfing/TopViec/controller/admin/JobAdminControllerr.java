@@ -2,6 +2,10 @@ package com.hfing.TopViec.controller.admin;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +26,10 @@ import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.UserService;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,31 +42,98 @@ public class JobAdminControllerr {
     private final CommonCityService commonCityService;
     private final InfoCompanyService companyService;
     private final CommonLocationService commonLocationService;
+    private final InfoCompanyService infoCompanyService;
 
     public JobAdminControllerr(UserService userService, JobPostService jobPostService,
             CommonCareerService commonCareerService, CommonCityService commonCityService,
-            InfoCompanyService companyService, CommonLocationService commonLocationService) {
+            InfoCompanyService companyService, CommonLocationService commonLocationService,
+            InfoCompanyService infoCompanyService) {
         this.userService = userService;
         this.jobPostService = jobPostService;
         this.commonCareerService = commonCareerService;
         this.commonCityService = commonCityService;
         this.companyService = companyService;
         this.commonLocationService = commonLocationService;
+        this.infoCompanyService = infoCompanyService;
     }
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/admin/job")
     public String getJobAdminPage(Model model) {
         model.addAttribute("jobList", jobPostService.getAllJobPosts());
         model.addAttribute("jobPost", new JobPost());
+        model.addAttribute("companies", infoCompanyService.getAllCompanies());
+        return "admin/job/show";
+    }
+
+    @GetMapping("/admin/job/search")
+    public String searchJobAdminPage(@RequestParam(required = false) Long company,
+            @RequestParam(required = false) Integer status,
+            Model model) {
+        List<JobPost> jobPosts = jobPostService.searchJobPosts(company, status);
+        model.addAttribute("jobList", jobPosts);
+        model.addAttribute("companies", infoCompanyService.getAllCompanies());
+        model.addAttribute("jobPost", new JobPost());
         return "admin/job/show";
     }
 
     @PostMapping("/admin/job/updateStatus")
-    public String updateJobStatus(@RequestParam("id") Long jobPostId, @RequestParam("status") int status) {
+    public String updateJobStatus(@RequestParam("id") Long jobPostId,
+            @RequestParam("status") int status,
+            RedirectAttributes redirectAttributes) {
         JobPost jobPost = jobPostService.getJobPostById(jobPostId);
         jobPost.setStatus(status);
         jobPostService.saveJobPost(jobPost);
+
+        String userEmail = jobPost.getUser().getEmail();
+        String jobTitle = jobPost.getJobName();
+        String statusText = getStatusText(status);
+
+        sendStatusUpdateEmail(userEmail, jobTitle, statusText);
+
+        redirectAttributes.addFlashAttribute("message", "Job status updated successfully!");
         return "redirect:/admin/job";
+    }
+
+    private void sendStatusUpdateEmail(String email, String jobTitle, String status) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setFrom("h5studiogl@gmail.com");
+            helper.setSubject("Job Post Status Update");
+
+            // HTML content for email
+            String htmlMsg = "<div style='text-align: center; font-family: Arial, sans-serif;'>"
+                    + "<h2 style='color: #333;'>Job Post Status Update</h2>"
+                    + "<p>The status of your job post <strong>" + jobTitle + "</strong> has been updated to <strong>"
+                    + status + "</strong>.</p>"
+                    + "<p>If you have any questions, please contact our support team.</p>"
+                    + "</div>";
+
+            helper.setText(htmlMsg, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            // Handle exception, e.g., log or notify
+            e.printStackTrace();
+        }
+    }
+
+    private String getStatusText(int status) {
+        switch (status) {
+            case 1:
+                return "Approved";
+            case 2:
+                return "Pending";
+            case 0:
+                return "Rejected";
+            default:
+                return "Unknown";
+        }
     }
 
     @GetMapping("/admin/job/{id}")

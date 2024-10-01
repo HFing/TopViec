@@ -97,4 +97,8 @@ public class JobPostService {
         LocalDateTime now = LocalDateTime.now();
         return jobPostRepository.countByCompanyIdAndDeadlineBefore(companyId, now);
     }
+
+    public List<JobPost> searchJobPosts(Long companyId, Integer status) {
+        return jobPostRepository.searchJobPosts(companyId, status);
+    }
 }

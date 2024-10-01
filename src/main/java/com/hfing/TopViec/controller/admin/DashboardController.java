@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hfing.TopViec.repository.InfoCompanyRepository;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;

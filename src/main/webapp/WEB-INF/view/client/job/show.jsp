@@ -70,6 +70,31 @@
                         text-decoration: none;
                         cursor: pointer;
                     }
+
+                    .contact-info {
+                        background-color: #f9f9f9;
+                        padding: 15px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        margin-top: 20px;
+                    }
+
+                    .contact-info p {
+                        margin: 5px 0;
+                    }
+
+                    .contact-info strong {
+                        color: #333;
+                    }
+
+                    .contact-info .contact-label {
+                        font-weight: bold;
+                        color: #555;
+                    }
+
+                    .contact-info .contact-value {
+                        color: #1a73e8;
+                    }
                 </style>
             </head>
 
@@ -183,6 +208,17 @@
                                             <div class="w-richtext">
                                                 ${jobPost.jobRequirement}
                                             </div>
+
+                                            <h2 class="title h3-size job-rich-text">Contact</h2>
+                                            <div class="w-richtext contact-info">
+                                                <p><span class="contact-label">Name:</span> <span
+                                                        class="contact-value">${jobPost.contactPersonName}</span></p>
+                                                <p><span class="contact-label">Phone:</span> <span
+                                                        class="contact-value">${jobPost.contactPersonPhone}</span></p>
+                                                <p><span class="contact-label">Email:</span> <span
+                                                        class="contact-value">${jobPost.contactPersonEmail}</span></p>
+                                            </div>
+
                                             <c:choose>
                                                 <c:when test="${hasApplied}">
                                                     <a href="javascript:void(0);"

@@ -1,9 +1,7 @@
 package com.hfing.TopViec.controller.recruiter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -132,13 +130,7 @@ public class CandidateRecruiterController {
 
     @PostMapping("/recruiter/candidate/unsave/{id}")
     public String unsaveResume(@PathVariable("id") Long id, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = null;
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            userEmail = userDetails.getUsername();
-        }
-        User user = userService.getUserByEmail(userEmail);
+
         infoResumeSavedService.deleteById(id);
 
         return "redirect:/recruiter/candidate/save";

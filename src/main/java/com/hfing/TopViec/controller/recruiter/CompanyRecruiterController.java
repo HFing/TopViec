@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
@@ -89,7 +89,7 @@ public class CompanyRecruiterController {
             @RequestParam("companyImage") MultipartFile companyImage,
             @RequestParam("city") Long cityId,
             @RequestParam("district") Long districtId,
-            @RequestParam("employeeSize.id") Long employeeSizeId) {
+            @RequestParam("employeeSize.id") Long employeeSizeId, RedirectAttributes redirectAttributes) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
@@ -136,6 +136,7 @@ public class CompanyRecruiterController {
         existingCompany.setUser(user);
 
         infoCompanyService.saveInfoCompany(existingCompany);
+        redirectAttributes.addFlashAttribute("message", "Company updated successfully!");
         return "redirect:/recruiter/company";
     }
 

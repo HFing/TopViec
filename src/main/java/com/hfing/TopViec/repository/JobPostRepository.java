@@ -38,4 +38,10 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     long countByCompanyIdAndStatus(Long companyId, int status);
 
     long countByCompanyIdAndDeadlineBefore(Long companyId, LocalDateTime deadline);
+
+    @Query("SELECT jp FROM JobPost jp WHERE " +
+            "(:companyId IS NULL OR jp.company.id = :companyId) AND " +
+            "(:status IS NULL OR jp.status = :status)")
+    List<JobPost> searchJobPosts(@Param("companyId") Long companyId,
+            @Param("status") Integer status);
 }

@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -76,6 +75,10 @@ public class JobController {
         User user = userService.getUserByEmail(userEmail);
 
         JobPost jobPost = jobPostService.getJobPostById(id);
+
+        jobPost.setViews(jobPost.getViews() + 1);
+        jobPostService.saveJobPost(jobPost);
+
         java.text.NumberFormat numberFormat = java.text.NumberFormat.getInstance(new Locale("vi", "VN"));
         String formattedSalaryMax = numberFormat.format(jobPost.getSalaryMax());
         model.addAttribute("city", commonCityService.findById(jobPost.getLocation().getCity().getId()));

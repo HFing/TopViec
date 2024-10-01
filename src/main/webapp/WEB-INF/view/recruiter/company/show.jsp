@@ -15,25 +15,59 @@
                 <link href="/recruiter/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <!-- Quill CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
                 <!-- Quill JS -->
                 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+                <style>
+                    .alert-popup {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 1050;
+                        width: auto;
+                        max-width: 300px;
+                    }
+                </style>
                 <script>
                     $(document).ready(() => {
-                        const avatarFile = $("#avatarFile");
-                        const orgImage = "${newUser.avatarUrl}";
-                        if (orgImage) {
-                            const imgURL = "/images/avatar/" + orgImage;
-                            $("#avatarPreview").attr("src", imgURL);
-                            $("#avatarPreview").css({ "display": "block" });
+                        // Company Image Preview
+                        const companyImage = $("#companyImage");
+                        const existingCompanyImage = "${existingCompany.companyImageUrl}";
+                        if (existingCompanyImage) {
+                            const imgURL = "/images/company/" + existingCompanyImage;
+                            $("#companyImagePreview").attr("src", imgURL);
+                            $("#companyImagePreview").css({ "display": "block" });
                         }
-                        avatarFile.change(function (e) {
+                        companyImage.change(function (e) {
                             const imgURL = URL.createObjectURL(e.target.files[0]);
-                            $("#avatarPreview").attr("src", imgURL);
-                            $("#avatarPreview").css({ "display": "block" });
+                            $("#companyImagePreview").attr("src", imgURL);
+                            $("#companyImagePreview").css({ "display": "block" });
+                        });
+
+                        // Company Cover Image Preview
+                        const companyCover = $("#companyCover");
+                        const existingCompanyCoverImage = "${existingCompany.companyCoverImageUrl}";
+                        if (existingCompanyCoverImage) {
+                            const imgURL = "/images/companycover/" + existingCompanyCoverImage;
+                            $("#companyCoverPreview").attr("src", imgURL);
+                            $("#companyCoverPreview").css({ "display": "block" });
+                        }
+                        companyCover.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#companyCoverPreview").attr("src", imgURL);
+                            $("#companyCoverPreview").css({ "display": "block" });
                         });
                     });
+
+
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            $(".alert-popup").alert('close');
+                        }, 3000);
+                    });
+
                 </script>
             </head>
 
@@ -42,6 +76,11 @@
                 <div id="layoutSidenav">
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Company</h1>
