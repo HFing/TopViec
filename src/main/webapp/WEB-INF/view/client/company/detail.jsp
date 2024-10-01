@@ -8,17 +8,8 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
             <link rel="stylesheet" href="/client/css/style.css">
+
             <style>
-                #companyImageSlider figure {
-                    display: none;
-                    transition: opacity 0.5s ease-in-out;
-                }
-
-                #companyImageSlider figure.active {
-                    display: block;
-                    opacity: 1;
-                }
-
                 .backlink {
                     display: flex;
                     align-items: center;
@@ -39,6 +30,65 @@
                 .backlink:hover .arrow {
                     transform: translateX(-5px);
                     color: rgb(0, 97, 255);
+                }
+
+                .slider {
+                    position: relative;
+                    width: 100%;
+                    max-width: 600px;
+                    margin: auto;
+                    overflow: hidden;
+                    border-radius: 10px;
+                }
+
+                .slides {
+                    display: flex;
+                    transition: transform 0.5s ease-in-out;
+                }
+
+                .slides img {
+                    width: 100%;
+                    border-radius: 10px;
+                }
+
+                .prev,
+                .next {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: white;
+                    border: none;
+                    padding: 10px;
+                    cursor: pointer;
+                    border-radius: 50%;
+                }
+
+                .prev {
+                    left: 10px;
+                }
+
+                .next {
+                    right: 10px;
+                }
+
+                .dots {
+                    text-align: center;
+                    padding: 10px;
+                }
+
+                .dot {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    margin: 5px;
+                    background-color: #bbb;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+
+                .dot.active {
+                    background-color: #717171;
                 }
             </style>
         </head>
@@ -117,7 +167,7 @@
                                     </a><a data-w-tab="Company Perks" class="company-tab-link w-inline-block w-tab-link"
                                         tabindex="-1" id="w-tabs-0-data-w-tab-2" href="#w-tabs-0-data-w-pane-2"
                                         role="tab" aria-controls="w-tabs-0-data-w-pane-2" aria-selected="false">
-                                        <div>Company perks &amp; benefits</div>
+                                        <div>Company Image</div>
                                     </a></div>
                                 <div class="company-tabs-content w-tab-content">
                                     <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
@@ -265,12 +315,7 @@
                                             <div class="rich-text w-richtext">
 
                                                 <p>${company.description}</p>
-                                                <figure style="max-width:1306px"
-                                                    class="w-richtext-align-fullwidth w-richtext-figure-type-image">
-                                                    <div><img
-                                                            src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c4fc44bc856c896ee119_image-about-company-job-board-x.jpg"
-                                                            loading="lazy" alt=""></div>
-                                                </figure>
+
                                             </div>
                                             <div class="company-about-social-media-bottom-wrapper">
                                                 <div class="company-about-social-media-text-wrapper">
@@ -297,23 +342,21 @@
                                         aria-labelledby="w-tabs-0-data-w-tab-2">
                                         <h2 class="title h3-size company-perks">Webflow job openings</h2>
                                         <div class="company-perks-columns w-row">
-                                            <div class="company-perks-column-1 w-col w-col-6">
-                                                <div class="company-perks-rich-text w-richtext">
-                                                    <ul role="list">
-                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
-                                                        <li>Duis aute irure dolor in reprehenderit in voluptate</li>
-                                                        <li>Neque sodales ut etiam sit amet nisl purus on</li>
-                                                    </ul>
+                                            <div class="slider">
+                                                <div class="slides">
+                                                    <c:forEach var="image" items="${images}">
+                                                        <img src="/images/companyimg/${image.imageUrl}"
+                                                            alt="Company Image">
+                                                    </c:forEach>
                                                 </div>
+                                                <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+                                                <button class="next" onclick="moveSlide(1)">&#10095;</button>
                                             </div>
-                                            <div class="company-perks-column-2 w-col w-col-6">
-                                                <div class="company-perks-rich-text w-richtext">
-                                                    <ul role="list">
-                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
-                                                        <li>Excepteur sint occaecat cupidatat non proident</li>
-                                                        <li>Ut enim ad minim veniam, quis nostrud exercitation</li>
-                                                    </ul>
-                                                </div>
+                                            <div class="dots">
+                                                <c:forEach var="image" items="${images}" varStatus="status">
+                                                    <span class="dot"
+                                                        onclick="currentSlide(${status.index + 1})"></span>
+                                                </c:forEach>
                                             </div>
                                         </div>
                                     </div>
@@ -391,27 +434,34 @@
                 });
             </script>
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const slider = document.getElementById('companyImageSlider');
-                    const images = slider.getElementsByTagName('figure');
-                    let currentIndex = 0;
+                let slideIndex = 1;
+                showSlides(slideIndex);
 
-                    function showImage(index) {
-                        for (let i = 0; i < images.length; i++) {
-                            images[i].classList.remove('active');
-                        }
-                        images[index].classList.add('active');
+                function moveSlide(n) {
+                    showSlides(slideIndex += n);
+                }
+
+                function currentSlide(n) {
+                    showSlides(slideIndex = n);
+                }
+
+                function showSlides(n) {
+                    let i;
+                    let slides = document.getElementsByClassName("slides")[0].children;
+                    let dots = document.getElementsByClassName("dot");
+                    if (n > slides.length) { slideIndex = 1 }
+                    if (n < 1) { slideIndex = slides.length }
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
                     }
-
-                    document.getElementById('nextBtn').addEventListener('click', function () {
-                        currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
-                        showImage(currentIndex);
-                    });
-
-                    // Hiển thị ảnh đầu tiên
-                    showImage(currentIndex);
-                });
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex - 1].style.display = "block";
+                    dots[slideIndex - 1].className += " active";
+                }
             </script>
+
         </body>
 
 
