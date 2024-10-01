@@ -125,7 +125,7 @@ public class CompanyAdminController {
         model.addAttribute("userName", userName);
         CommonLocation location = company.getLocation();
         model.addAttribute("location", location);
-        model.addAttribute("address", location.getAddress());
+
         return "admin/company/detail";
     }
 
