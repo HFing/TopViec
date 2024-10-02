@@ -10,6 +10,23 @@
                 <title>Document</title>
                 <link rel="stylesheet" href="/client/css/style.css">
                 <style>
+                    #cart-container {
+                        position: fixed;
+                        top: 0;
+                        right: 0;
+                        height: 100%;
+                        width: auto;
+                        /* Giữ nguyên chiều rộng */
+                        z-index: 1000;
+                        /* Đảm bảo phần tử nằm trên các phần tử khác */
+                        background-color: white;
+                        /* Đặt màu nền nếu cần */
+                        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+                        /* Thêm bóng đổ nếu cần */
+                        overflow-y: auto;
+                        /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao */
+                    }
+
                     .backlink {
                         display: flex;
                         align-items: center;
@@ -255,12 +272,13 @@
                                     </div>
                                     <div class="card job-post-sidebar last">
                                         <div class="image-wrapper card-job-post-sidebar-icon"><img
-                                                src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/6527690e2dea9c09529345d7_webflow-logo-jobs.svg"
-                                                alt="" class="image card-job-post-sidebar-icon"></div>
+                                                src="/images/company/${jobPost.company.companyImageUrl}" alt=""
+                                                class="image card-job-post-sidebar-icon"></div>
                                         <div class="card-job-post-sidebar-content">
                                             <div class="card-job-post-sidebar-title-about-company-wrapper">
                                                 <h3 class="title h4-size card-job-post-sidebar-about-company">About</h3>
-                                                <h3 class="title h4-size card-job-post-sidebar-about-company">Webflow
+                                                <h3 class="title h4-size card-job-post-sidebar-about-company">
+                                                    ${jobPost.company.companyName}
                                                 </h3>
                                             </div>
                                             <p class="paragraph card-job-post-sidebar">Lorem ipsum dolor sit amet,
@@ -315,7 +333,8 @@
                                         <div class="card-job-post-sidebar-content">
                                             <div class="card-job-post-sidebar-title-about-company-wrapper">
                                                 <h3 class="title h4-size card-job-post-sidebar-about-company">About</h3>
-                                                <h3 class="title h4-size card-job-post-sidebar-about-company">Webflow
+                                                <h3 class="title h4-size card-job-post-sidebar-about-company">
+                                                    ${jobPost.company.companyName}
                                                 </h3>
                                             </div>
                                             <p class="paragraph card-job-post-sidebar">Lorem ipsum dolor sit amet,
@@ -394,6 +413,20 @@
                         }
                     }
                 </script>
+
+                <script>
+                    document.getElementById('open-cart-button').addEventListener('click', function (event) {
+                        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+                        var cartContainer = document.getElementById('cart-container');
+                        if (cartContainer.style.display === 'none' || cartContainer.style.display === '') {
+                            cartContainer.style.display = 'block';
+                        } else {
+                            cartContainer.style.display = 'none';
+                        }
+                    });
+                </script>
+
+
             </body>
 
 

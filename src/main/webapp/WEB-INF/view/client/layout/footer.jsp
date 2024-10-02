@@ -6,7 +6,7 @@
             <div class="container-default w-container">
                 <div data-w-id="c1f46375-416a-e1fd-79e1-2ba39e96c173" class="footer-content-top"
                     style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                    <div class="footer-main-content"><a href="/home" class="footer-logo-container w-inline-block"><img
+                    <div class="footer-main-content"><a href="/" class="footer-logo-container w-inline-block"><img
                                 src="/client/img/imgclient/logoTopViec.png" alt="Top Viec - Logo"
                                 class="footer-logo"></a>
                         <p class="paragraph footer-main-content-paragraph">Join our newsletter and receive the best job
@@ -43,7 +43,7 @@
                             <div class="title footer-menu">Pages</div>
                             <div class="footer-menu-content">
                                 <ul role="list" class="footer-nav w-list-unstyled">
-                                    <li class="footer-nav-item"><a href="/home" class="footer-nav-link">Home</a></li>
+                                    <li class="footer-nav-item"><a href="/" class="footer-nav-link">Home</a></li>
                                     <li class="footer-nav-item"><a href="/about" class="footer-nav-link">About us</a>
                                     </li>
                                     <li class="footer-nav-item"><a
