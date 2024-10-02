@@ -37,6 +37,7 @@ public class CommonLocation {
     private List<InfoCompany> companies;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<JobPost> jobPosts;
 
     public Long getId() {

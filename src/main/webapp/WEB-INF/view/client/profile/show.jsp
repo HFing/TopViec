@@ -97,8 +97,7 @@
                                             <c:otherwise>
                                                 <div class="card-link-wrapper weight-medium w-inline-block">
                                                     <div class="card-link" style="color: rgb(0, 97, 255);">Account
-                                                        Verified
-                                                    </div>
+                                                        Verified</div>
                                                     <div class="card-link-arrow"
                                                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                                         <div class="card-link-arrow-1"

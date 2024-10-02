@@ -117,6 +117,7 @@ public class ProfileController {
 
         User user = userService.getUserByEmail(userEmail);
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
+        model.addAttribute("user", user);
         model.addAttribute("jobSeekerProfile", jobSeekerProfile);
 
         return "client/profile/show";
@@ -258,6 +259,7 @@ public class ProfileController {
         model.addAttribute("infoResume", infoResume);
         model.addAttribute("newInfoResume", new InfoResume());
         model.addAttribute("infoResumeMain", infoResumeMain);
+        model.addAttribute("user", user);
 
         return "client/profile/resume";
     }
@@ -650,9 +652,15 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            userEmail = userDetails.getUsername();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
         }
         User user = userService.getUserByEmail(userEmail);
 
@@ -720,9 +728,15 @@ public class ProfileController {
         // Lấy thông tin người dùng hiện tại
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            userEmail = userDetails.getUsername();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
         }
         User user = userService.getUserByEmail(userEmail);
 

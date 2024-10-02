@@ -9,7 +9,13 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Document</title>
                 <link rel="stylesheet" href="/client/css/style.css">
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <style>
+                    .contact-info {
+                        margin: 10px auto;
+                        padding: 0px 10px;
+                    }
+
                     #cart-container {
                         position: fixed;
                         top: 0;
@@ -88,29 +94,15 @@
                         cursor: pointer;
                     }
 
-                    .contact-info {
-                        background-color: #f9f9f9;
-                        padding: 15px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        margin-top: 20px;
-                    }
 
-                    .contact-info p {
-                        margin: 5px 0;
-                    }
 
-                    .contact-info strong {
-                        color: #333;
-                    }
-
-                    .contact-info .contact-label {
-                        font-weight: bold;
-                        color: #555;
-                    }
-
-                    .contact-info .contact-value {
-                        color: #1a73e8;
+                    .alert-popup {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 1050;
+                        width: auto;
+                        max-width: 300px;
                     }
                 </style>
             </head>
@@ -120,6 +112,11 @@
 
                 <div class="section job-post">
                     <div class="container-default w-container">
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
                         <div class="backlink-wrapper">
                             <a href="/" class="backlink">
                                 <div class="arrow">&#9664;</div>Back to homepage
@@ -226,15 +223,22 @@
                                                 ${jobPost.jobRequirement}
                                             </div>
 
+
                                             <h2 class="title h3-size job-rich-text">Contact</h2>
-                                            <div class="w-richtext contact-info">
-                                                <p><span class="contact-label">Name:</span> <span
-                                                        class="contact-value">${jobPost.contactPersonName}</span></p>
-                                                <p><span class="contact-label">Phone:</span> <span
-                                                        class="contact-value">${jobPost.contactPersonPhone}</span></p>
-                                                <p><span class="contact-label">Email:</span> <span
-                                                        class="contact-value">${jobPost.contactPersonEmail}</span></p>
+                                            <div class="w-richtext contact-info card">
+                                                <div class="contact-info">
+                                                    <p><span class="contact-label">Name:</span> <span
+                                                            class="contact-value">${jobPost.contactPersonName}</span>
+                                                    </p>
+                                                    <p><span class="contact-label">Phone:</span> <span
+                                                            class="contact-value">${jobPost.contactPersonPhone}</span>
+                                                    </p>
+                                                    <p><span class="contact-label">Email:</span> <span
+                                                            class="contact-value">${jobPost.contactPersonEmail}</span>
+                                                    </p>
+                                                </div>
                                             </div>
+                                            </br>
 
                                             <c:choose>
                                                 <c:when test="${hasApplied}">
@@ -423,6 +427,15 @@
                         } else {
                             cartContainer.style.display = 'none';
                         }
+                    });
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        // Tự động ẩn thông báo sau 5 giây
+                        setTimeout(function () {
+                            $(".alert-popup").alert('close');
+                        }, 3000);
                     });
                 </script>
 

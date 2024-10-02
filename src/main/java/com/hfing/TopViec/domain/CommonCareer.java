@@ -2,7 +2,7 @@ package com.hfing.TopViec.domain;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +26,9 @@ public class CommonCareer {
 
     @OneToMany(mappedBy = "career")
     private Set<JobPost> jobPosts;
+
+    @OneToMany(mappedBy = "career", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Notification> notifications;
 
     // Getters and Setters
 
@@ -75,5 +78,13 @@ public class CommonCareer {
 
     public void setJobPosts(Set<JobPost> jobPosts) {
         this.jobPosts = jobPosts;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

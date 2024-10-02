@@ -59,6 +59,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 user.setRoleName("USER");
                 user.setIsVerifyEmail(true);
                 user.setAvatarUrl("default_avatar.jpg");
+                user.setPhone("Not updated");
                 userService.saveUser(user);
 
                 user = userService.getUserByEmail(email);
@@ -79,7 +80,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             session.setAttribute("avatarUrl", user.getAvatarUrl());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("role", user.getRoleName());
-
+            session.setAttribute("phone", user.getPhone());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // Chuyển hướng đến trang chính

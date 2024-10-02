@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import com.hfing.TopViec.domain.JobPost;
@@ -118,7 +120,7 @@ public class JobController {
     @PostMapping("/job/apply")
     public String applyForJob(@ModelAttribute("jobPostActivity") JobPostActivity jobPostActivity,
             @RequestParam("jobPostId") Long jobPostId,
-            Model model) {
+            Model model, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
         if (authentication != null) {
@@ -146,6 +148,7 @@ public class JobController {
 
         jobPostActivityService.save(jobPostActivity);
         sendApplicationNotificationEmail(userEmail, jobPost.getJobName());
+        redirectAttributes.addFlashAttribute("message", "Apply Your CV successfully!");
         return "redirect:/job/" + jobPostActivity.getJobPost().getId();
     }
 

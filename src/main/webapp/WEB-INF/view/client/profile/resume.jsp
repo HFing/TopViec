@@ -138,22 +138,42 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="split-content content-top-company-right"><a
-                                                data-w-id="18e4c4a1-e2a5-df93-57f4-c9a8d529c360"
-                                                href="${company.websiteUrl}" target="_blank"
-                                                class="card-link-wrapper weight-medium w-inline-block">
-                                                <div class="card-link" style="color: rgb(0, 97, 255);">Visit Website
-                                                </div>
-                                                <div class="card-link-arrow"
-                                                    style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                                                    <div class="card-link-arrow-1"
-                                                        style="background-color: rgb(0, 97, 255);"></div>
-                                                    <div class="card-link-arrow-2"
-                                                        style="background-color: rgb(0, 97, 255);"></div>
-                                                    <div class="card-link-arrow-3"
-                                                        style="background-color: rgb(0, 97, 255);"></div>
-                                                </div>
-                                            </a>
+                                        <div class="split-content content-top-company-right">
+                                            <c:choose>
+                                                <c:when test="${not user.isVerifyEmail}">
+                                                    <a data-w-id="18e4c4a1-e2a5-df93-57f4-c9a8d529c360"
+                                                        href="/profile/sendVerificationEmail" target="_blank"
+                                                        class="card-link-wrapper weight-medium w-inline-block">
+                                                        <div class="card-link" style="color: rgb(0, 97, 255);">Verify
+                                                            Your
+                                                            Account</div>
+                                                        <div class="card-link-arrow"
+                                                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                            <div class="card-link-arrow-1"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                            <div class="card-link-arrow-2"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                            <div class="card-link-arrow-3"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                        </div>
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="card-link-wrapper weight-medium w-inline-block">
+                                                        <div class="card-link" style="color: rgb(0, 97, 255);">Account
+                                                            Verified</div>
+                                                        <div class="card-link-arrow"
+                                                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                            <div class="card-link-arrow-1"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                            <div class="card-link-arrow-2"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                            <div class="card-link-arrow-3"
+                                                                style="background-color: rgb(0, 97, 255);"></div>
+                                                        </div>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>

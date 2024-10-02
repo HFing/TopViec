@@ -252,6 +252,7 @@
                 <script>
                     function fetchDistricts() {
                         var cityId = document.getElementById("city").value;
+                        console.log("Selected City ID:", cityId); // Kiểm tra giá trị của cityId
                         var districtSelect = document.getElementById("district");
 
                         // Clear existing options
@@ -266,12 +267,19 @@
                                 return response.json();
                             })
                             .then(data => {
-                                data.forEach(district => {
+                                console.log("Fetched Districts:", data); // Kiểm tra dữ liệu trả về từ API
+                                if (data.length === 0) {
                                     var option = document.createElement("option");
-                                    option.value = district.id;
-                                    option.text = district.name;
+                                    option.text = "No districts available";
                                     districtSelect.appendChild(option);
-                                });
+                                } else {
+                                    data.forEach(district => {
+                                        var option = document.createElement("option");
+                                        option.value = district.id;
+                                        option.text = district.name;
+                                        districtSelect.appendChild(option);
+                                    });
+                                }
                             })
                             .catch(error => console.error('Error fetching districts:', error));
                     }

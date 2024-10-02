@@ -15,10 +15,30 @@
                 <meta name="author" content="" />
                 <title>Dashboard</title>
                 <link href="/recruiter/css/styles.css" rel="stylesheet" />
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
                     rel="stylesheet">
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Quill CSS -->
+                <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+                <!-- Quill JS -->
+                <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+                <style>
+                    .alert-popup {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 1050;
+                        width: auto;
+                        max-width: 300px;
+                    }
+
+                    .modal-dialog-custom {
+                        max-width: 800px;
+                        /* Điều chỉnh chiều rộng theo ý bạn */
+                    }
+                </style>
             </head>
 
             <body class="sb-nav-fixed">
@@ -26,6 +46,11 @@
                 <div id="layoutSidenav">
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Find Candidate</h1>
@@ -127,8 +152,11 @@
 
 
 
-                                                        <a href="/recruiter/candidate/sendMail/${infoResume.resume.id}"
-                                                            class="btn btn-secondary btn-sm">
+                                                        <a href="#" class="btn btn-secondary btn-sm"
+                                                            data-bs-toggle="modal" data-bs-target="#sendMailModal"
+                                                            data-resume-id="${jobPostActivity.resume.id}"
+                                                            data-user-name="${jobPostActivity.resume.user.fullName}"
+                                                            data-user-email="${jobPostActivity.resume.user.email}">
                                                             <i class="bi bi-envelope"></i> Send Mail
                                                         </a>
                                                     </td>
@@ -143,9 +171,92 @@
                         <jsp:include page="../layout/footer.jsp" />
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-custom">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="sendMailForm" method="post" action="/recruiter/candidate/sendMail">
+                                    <div class="mb-3">
+                                        <label for="recipientName" class="form-label">Recipient Name</label>
+                                        <input type="text" class="form-control" id="recipientName" name="recipientName"
+                                            readonly="true" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipientEmail" class="form-label">Recipient Email</label>
+                                        <input type="email" class="form-control" id="recipientEmail"
+                                            name="recipientEmail" readonly="true" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="emailSubject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" id="emailSubject" name="emailSubject"
+                                            required="true" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="emailContent" class="form-label">Content</label>
+                                        <div id="emailContent" style="height: 200px;"></div>
+                                        <input type="hidden" id="hiddenEmailContent" name="emailContent" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quill CSS -->
+                <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+                <!-- Quill JS -->
+                <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/recruiter/js/scripts.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        // Tự động ẩn thông báo sau 5 giây
+                        setTimeout(function () {
+                            $(".alert-popup").alert('close');
+                        }, 3000);
+                    });
+
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Initialize Quill editor
+                        var quill = new Quill('#emailContent', {
+                            theme: 'snow'
+                        });
+
+                        // Handle modal show event
+                        var sendMailModal = document.getElementById('sendMailModal');
+                        sendMailModal.addEventListener('show.bs.modal', function (event) {
+                            var button = event.relatedTarget;
+                            var resumeId = button.getAttribute('data-resume-id');
+                            var userName = button.getAttribute('data-user-name');
+                            var userEmail = button.getAttribute('data-user-email');
+
+                            var recipientNameInput = sendMailModal.querySelector('#recipientName');
+                            var recipientEmailInput = sendMailModal.querySelector('#recipientEmail');
+
+                            recipientNameInput.value = userName;
+                            recipientEmailInput.value = userEmail;
+                        });
+
+                        var sendMailForm = document.getElementById('sendMailForm');
+                        sendMailForm.addEventListener('submit', function (event) {
+                            var hiddenEmailContent = document.getElementById('hiddenEmailContent');
+                            hiddenEmailContent.value = quill.root.innerHTML;
+                        });
+                    });
+
+                </script>
 
 
             </body>

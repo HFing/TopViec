@@ -1223,7 +1223,6 @@
                                         newDetail.classList.add('card', 'post-job-form-card');
                                         newDetail.setAttribute('data-experience-detail-id', data.id);
                                         newDetail.innerHTML = `
-                                        <div class="card post-job-form-card">
                                             <div class="input-wrapper">
                                                 <div class="experience-detail" data-experience-detail-id="\${data.id}">
                                                     <p data-experience-detail-job-name="\${data.id}">Job Name: \${jobName}</p>
@@ -1237,7 +1236,6 @@
                                                     <button class="button-secondary small w-button" onclick="deleteExperience(\${data.id});">Delete</button>
                                                 </div>
                                             </div>
-                                        </div>
                                     `;
                                         experienceDetails.appendChild(newDetail);
 

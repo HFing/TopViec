@@ -15,6 +15,7 @@ import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.JobPost;
+import com.hfing.TopViec.domain.Notification;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
@@ -27,6 +28,7 @@ import com.hfing.TopViec.service.CommonDistrictService;
 import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostService;
+import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,10 +43,12 @@ public class JobRecruiter {
     private final CommonCityService commonCityService;
     private final CommonLocationService commonLocationService;
     private final CommonDistrictService commonDistrictService;
+    private final NotificationService notificationService;
 
     public JobRecruiter(UserService userService, JobPostService jobPostService, InfoCompanyService infoCompanyService,
             CommonCareerService commonCareerService, CommonCityService commonCityService,
-            CommonLocationService commonLocationService, CommonDistrictService commonDistrictService) {
+            CommonLocationService commonLocationService, CommonDistrictService commonDistrictService,
+            NotificationService notificationService) {
         this.userService = userService;
         this.jobPostService = jobPostService;
         this.infoCompanyService = infoCompanyService;
@@ -52,6 +56,7 @@ public class JobRecruiter {
         this.commonCityService = commonCityService;
         this.commonLocationService = commonLocationService;
         this.commonDistrictService = commonDistrictService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/recruiter/job")
@@ -107,6 +112,15 @@ public class JobRecruiter {
         newJobPost.setIsUrgent(false);
         newJobPost.setStatus(2);
         jobPostService.saveJobPost(newJobPost);
+
+        Notification notification = new Notification();
+        notification.setUser(userService.getUserByEmail("admin@gmail.com"));
+        notification.setCity(newJobPost.getLocation().getCity());
+        notification.setCareer(newJobPost.getCareer());
+        notification.setPosition(newJobPost.getPosition().getDisplayName());
+        notification.setJobName(newJobPost.getJobName() + " - " + newJobPost.getCompany().getCompanyName());
+        notification.setExperience(newJobPost.getExperience().getDisplayName());
+        notificationService.saveNotification(notification);
 
         return "redirect:/recruiter/job";
     }
