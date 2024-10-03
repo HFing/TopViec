@@ -20,6 +20,7 @@ import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
 import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.JobPost;
+import com.hfing.TopViec.domain.JobPostActivity;
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
@@ -30,6 +31,7 @@ import com.hfing.TopViec.service.CommonDistrictService;
 import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.EmployeeSizeService;
 import com.hfing.TopViec.service.InfoCompanyService;
+import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
@@ -42,6 +44,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.hfing.TopViec.domain.ChatHistory;
+import com.hfing.TopViec.service.ChatHistoryService; // Tạo service để lấy lịch sử chat
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.hfing.TopViec.domain.ChatMessage;
+import com.hfing.TopViec.domain.ChatRequest;
 
 @Controller
 public class HomePageController {
@@ -56,11 +64,19 @@ public class HomePageController {
     private final CommonLocationService locationService;
     private final InfoCompanyService infoCompanyService;
     private final JobPostService jobPostService;
+    private final CommonCareerService commonCareerService;
+    private final JobPostActivityService jobPostActivityService;
+
+    @Autowired
+    private ChatHistoryService chatHistoryService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
             UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
             EmployeeSizeService employeeSizeService, CommonLocationService locationService,
             InfoCompanyService infoCompanyService, JobPostService jobPostService) {
+            InfoCompanyService infoCompanyService, JobPostService jobPostService,
+            CommonCareerService commonCareerService, JavaMailSender mailSender,
+            JobPostActivityService jobPostActivityService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -71,6 +87,9 @@ public class HomePageController {
         this.locationService = locationService;
         this.infoCompanyService = infoCompanyService;
         this.jobPostService = jobPostService;
+        this.commonCareerService = commonCareerService;
+        this.mailSender = mailSender;
+        this.jobPostActivityService = jobPostActivityService;
     }
 
     @Autowired
@@ -287,6 +306,77 @@ public class HomePageController {
             redirectAttributes.addFlashAttribute("error", "Invalid verification link.");
             return "redirect:/register";
         }
+    }
+
+    @GetMapping("/search")
+    public String searchJobs(@RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "position", required = false) String position,
+            @RequestParam(value = "career", required = false) String career,
+            Model model) {
+        List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
+        model.addAttribute("hotJobPosts", hotJobPosts);
+
+        List<JobPost> jobPosts;
+        if (query != null && !query.isEmpty()) {
+            jobPosts = jobPostService.searchJobs(query);
+        } else if (location != null && !location.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByLocation(location);
+        } else if (position != null && !position.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByPosition(Position.valueOf(position));
+        } else if (career != null && !career.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByCareer(career);
+        } else {
+            jobPosts = jobPostService.getAllJobPosts();
+        }
+
+        model.addAttribute("jobPosts", jobPosts);
+
+        List<CommonCareer> careers = commonCareerService.findAll();
+        model.addAttribute("careers", careers);
+
+        return "client/homepage/search";
+    }
+
+    @GetMapping("/chat")
+    public String getChatPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email); // Lấy thông tin người dùng
+
+            // Thêm thông tin người dùng vào mô hình
+            model.addAttribute("currentUser", user); // Thêm người dùng hiện tại vào mô hình
+            // Lấy danh sách người dùng đã nhắn tin
+            List<String> users = chatHistoryService.getDistinctUsers(user.getFullName()); // Truyền tên người dùng hiện tại
+            model.addAttribute("users", users);
+
+            if (user != null) {
+                // Kiểm tra vai trò của người dùng
+                String role = user.getRoleName();
+                if ("USER".equals(role)) {
+                    // Lấy danh sách nhà tuyển dụng mà user đã apply
+                    List<InfoCompany> appliedCompanies = jobPostActivityService.getAppliedCompaniesByUser(user);
+                    model.addAttribute("appliedCompanies", appliedCompanies);
+                } else if ("RECRUITER".equals(role)) {
+                    // Lấy danh sách user đã apply tin tuyển dụng
+                    List<JobPostActivity> applicants = jobPostActivityService.getApplicantsByRecruiter(user);
+                    model.addAttribute("applicants", applicants);
+                }
+            }
+        }
+
+        return "client/chat/show"; // Trả về view chat
+    }
+
+    @PostMapping("/chat/history")
+    public ResponseEntity<?> getChatHistory(@RequestBody ChatRequest chatRequest) {
+        String sender = chatRequest.getSender();
+        String recipient = chatRequest.getRecipient();
+
+        // Xử lý logic lấy lịch sử chat
+        List<ChatMessage> chatHistory = chatHistoryService.getChatHistory(sender, recipient);
+        return ResponseEntity.ok(chatHistory);
     }
 
 }
