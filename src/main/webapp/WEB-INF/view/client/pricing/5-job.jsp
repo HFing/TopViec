@@ -17,14 +17,14 @@
                 <div data-w-id="efe6f1ea-985f-ddb3-4c77-b94ff98b0cd5"
                     style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); opacity: 1; transform-style: preserve-3d;"
                     class="card credit">
-                    <h1 class="title card-credit">5 Job credits</h1>
-                    <p class="paragraph card-credit">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam,
-                        purus sit amet luctus venenatis lectus.</p>
+                    <h1 class="title card-credit">5 Featured Job credit</h1>
+                    <p class="paragraph card-credit">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+                        aliquam, purus sit amet luctus venenatis lectus.</p>
                     <div class="w-layout-grid card-credit-features-grid">
                         <div class="credit-feature-wrapper"><img
                                 src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
                                 alt="Check Icon - Job Board X Webflow Template" class="image credit-feature-icon">
-                            <div>5 job credits</div>
+                            <div>5 featured job credit</div>
                         </div>
                         <div class="credit-feature-wrapper"><img
                                 src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
@@ -54,8 +54,9 @@
                             tortor, sit tincidunt. Rhoncus tincidunt imperdiet penatibus vitae risus, vitae.
                             <strong>Blandit auctor</strong> justo nisl massa.
                         </p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus dictum ultrices lacus sodales
-                            nunc felis eu, consectetur arcu. Vitae nulla scelerisque id pellentesque feugiat vel eu.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus dictum ultrices lacus
+                            sodales nunc felis eu, consectetur arcu. Vitae nulla scelerisque id pellentesque feugiat
+                            vel eu.</p>
                     </div>
                 </div>
                 <div data-w-id="f5b486e6-4014-931d-4010-8bdca4769789"
@@ -65,15 +66,15 @@
                         class="card pay-credit">
                         <div class="pay-credit-content-top">
                             <h2 class="title h4-size">Pay your job credit</h2>
-                            <p class="paragraph pay-credit">Lorem ipsum dolor sit amet, consecteturol adipiscing elit.
-                                Cras lectus duis ornare.</p>
+                            <p class="paragraph pay-credit">Lorem ipsum dolor sit amet, consecteturol adipiscing
+                                elit. Cras lectus duis ornare.</p>
                             <div data-wf-sku-bindings="%5B%7B%22from%22%3A%22f_price_%22%2C%22to%22%3A%22innerHTML%22%7D%5D"
-                                class="title h2-size pay-credit-price">$&nbsp;399.00&nbsp;USD</div>
+                                class="title h2-size pay-credit-price">199,000&nbsp;VND</div>
                         </div>
                         <div class="credit-add-cart">
                             <form data-node-type="commerce-add-to-cart-form"
-                                data-commerce-sku-id="60ca4a86055418092c2c94bb" data-loading-text="Adding to cart..."
-                                data-commerce-product-id="60ca4a859076c47b9692406d"
+                                data-commerce-sku-id="60ca4b7f48288a4a8ad5c500" data-loading-text="Adding to cart..."
+                                data-commerce-product-id="60ca4b7f317fed539551b71e"
                                 class="w-commerce-commerceaddtocartform credit-add-cart-default-state">
                                 <div class="credit-add-cart-buttons-wrapper"><input type="submit"
                                         data-node-type="commerce-add-to-cart-button"
@@ -83,23 +84,10 @@
                                         data-default-text="Buy now" data-subscription-text="Subscribe now"
                                         aria-busy="false" aria-haspopup="false"
                                         class="w-commerce-commercebuynowbutton button-secondary full-width credit-add-cart-button w-dyn-hide"
-                                        href="/checkout">Buy now</a></div>
+                                        href="/checkout">Pay now</a></div>
                             </form>
-                            <div style="display:none" class="w-commerce-commerceaddtocartoutofstock empty-state small"
-                                tabindex="0">
-                                <div>This product is out of stock.</div>
-                            </div>
-                            <div aria-live="" data-node-type="commerce-add-to-cart-error" style="display:none"
-                                class="w-commerce-commerceaddtocarterror error-message">
-                                <div data-node-type="commerce-add-to-cart-error"
-                                    data-w-add-to-cart-quantity-error="Product is not available in this quantity."
-                                    data-w-add-to-cart-general-error="Something went wrong when adding this item to the cart."
-                                    data-w-add-to-cart-mixed-cart-error="You can’t purchase another product with a subscription."
-                                    data-w-add-to-cart-buy-now-error="Something went wrong when trying to purchase this item."
-                                    data-w-add-to-cart-checkout-disabled-error="Checkout is disabled on this site."
-                                    data-w-add-to-cart-select-all-options-error="Please select an option in each set.">
-                                    Product is not available in this quantity.</div>
-                            </div>
+
+
                         </div>
                     </div>
                 </div>

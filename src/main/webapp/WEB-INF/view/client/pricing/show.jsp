@@ -36,7 +36,7 @@
                                         class="image card-credit-item-icon"
                                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                 </div>
-                                <h2 class="title h3-size card-credit-item">1 Job credit</h2>
+                                <h2 class="title h3-size card-credit-item">1 Featured Job credit</h2>
                                 <p class="paragraph card-credit-item-summary">1 featured job credit that can be used
                                     to feature one job opening.</p>
                             </div>
@@ -47,7 +47,7 @@
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
                                             alt="Check Icon - Job Board X Webflow Template"
                                             class="image credit-feature-icon">
-                                        <div>1 job credit</div>
+                                        <div>1 job feature credit</div>
                                     </div>
                                     <div class="credit-feature-wrapper"><img
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div data-wf-sku-bindings="%5B%7B%22from%22%3A%22f_price_%22%2C%22to%22%3A%22innerHTML%22%7D%5D"
-                                    class="card-credit-item-price">$&nbsp;99.00&nbsp;USD</div>
+                                    class="card-credit-item-price">99,000&nbsp;VND</div>
                                 <div class="button-primary full-width">Purchase credit</div>
                             </div>
                         </a></div>
@@ -89,7 +89,7 @@
                                         class="image card-credit-item-icon"
                                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                 </div>
-                                <h2 class="title h3-size card-credit-item">3 Job credits</h2>
+                                <h2 class="title h3-size card-credit-item">3 Featured Job credits</h2>
                                 <p class="paragraph card-credit-item-summary">3 featured job credits that can be
                                     used to feature 3 job openings.</p>
                             </div>
@@ -100,7 +100,7 @@
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
                                             alt="Check Icon - Job Board X Webflow Template"
                                             class="image credit-feature-icon">
-                                        <div>3 job credits</div>
+                                        <div>3 featured job credits</div>
                                     </div>
                                     <div class="credit-feature-wrapper"><img
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div data-wf-sku-bindings="%5B%7B%22from%22%3A%22f_price_%22%2C%22to%22%3A%22innerHTML%22%7D%5D"
-                                    class="card-credit-item-price">$&nbsp;199.00&nbsp;USD</div>
+                                    class="card-credit-item-price">149,000&nbsp;VND</div>
                                 <div class="button-primary full-width">Purchase credit</div>
                             </div>
                         </a></div>
@@ -142,7 +142,8 @@
                                         class="image card-credit-item-icon"
                                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                                 </div>
-                                <h2 style="color:white" class="title h3-size card-credit-item">5 Job credits</h2>
+                                <h2 style="color:white" class="title h3-size card-credit-item">5 Featured Job credits
+                                </h2>
                                 <p style="color:white" class="paragraph card-credit-item-summary">5 featured job
                                     credits that can be used to feature 5 job openings.</p>
                             </div>
@@ -153,7 +154,7 @@
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
                                             alt="Check Icon - Job Board X Webflow Template"
                                             class="image credit-feature-icon">
-                                        <div>5 job credits</div>
+                                        <div>5 job featured credits</div>
                                     </div>
                                     <div style="color:white" class="credit-feature-wrapper"><img
                                             src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60ca5000c1298fa4b65f2643_icon-1-check-job-board-x-template.svg"
@@ -181,7 +182,7 @@
                                     </div>
                                 </div>
                                 <div data-wf-sku-bindings="%5B%7B%22from%22%3A%22f_price_%22%2C%22to%22%3A%22innerHTML%22%7D%5D"
-                                    style="color:white" class="card-credit-item-price">$&nbsp;399.00&nbsp;USD</div>
+                                    style="color:white" class="card-credit-item-price">199,000&nbsp;VND</div>
                                 <div style="color:#0061ff;background-color:white" class="button-primary full-width">
                                     Purchase credit</div>
                             </div>

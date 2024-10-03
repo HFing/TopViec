@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.JobPostActivity;
 import java.util.List;
 
@@ -26,4 +28,10 @@ public interface JobPostActivityRepository extends JpaRepository<JobPostActivity
     List<Object[]> findApplicantCountsByStatusAndCompanyId(@Param("companyId") Long companyId);
 
     long countByJobPostCompanyId(Long companyId);
+
+    @Query("SELECT DISTINCT i FROM JobPostActivity j JOIN j.jobPost p JOIN p.company i WHERE j.user.id = :userId")
+    List<InfoCompany> findAppliedCompaniesByUser(@Param("userId") Long userId);
+
+    @Query("SELECT j FROM JobPostActivity j WHERE j.jobPost.id = :recruiterId")
+    List<JobPostActivity> findApplicantsByRecruiter(@Param("recruiterId") Long recruiterId);
 }

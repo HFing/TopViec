@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+
+import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.JobPostActivity;
+import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.repository.JobPostActivityRepository;
 import java.util.Map;
 
@@ -83,5 +86,15 @@ public class JobPostActivityService {
 
     public long countTotalApplicants(Long companyId) {
         return jobPostActivityRepository.countByJobPostCompanyId(companyId);
+    }
+
+    public List<InfoCompany> getAppliedCompaniesByUser(User user) {
+        // Logic để lấy danh sách nhà tuyển dụng mà user đã apply
+        return jobPostActivityRepository.findAppliedCompaniesByUser(user.getId());
+    }
+
+    public List<JobPostActivity> getApplicantsByRecruiter(User recruiter) {
+        // Logic để lấy danh sách user đã apply tin tuyển dụng
+        return jobPostActivityRepository.findApplicantsByRecruiter(recruiter.getId());
     }
 }

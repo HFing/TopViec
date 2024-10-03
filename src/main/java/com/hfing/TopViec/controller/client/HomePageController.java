@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -17,24 +18,31 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.hfing.TopViec.domain.ChatHistory;
+import com.hfing.TopViec.domain.ChatMessage;
+import com.hfing.TopViec.domain.ChatRequest;
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.CommonLocation;
 import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.JobPost;
+import com.hfing.TopViec.domain.JobPostActivity;
 import com.hfing.TopViec.domain.Role;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.UserRole;
 import com.hfing.TopViec.domain.dto.RegisterDTO;
 import com.hfing.TopViec.domain.dto.RegisterRecruiterDTO;
 import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.service.ChatHistoryService;
 import com.hfing.TopViec.service.CommonCareerService;
 import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.CommonDistrictService;
 import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.EmployeeSizeService;
 import com.hfing.TopViec.service.InfoCompanyService;
+import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.RoleService;
@@ -47,6 +55,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -66,12 +75,16 @@ public class HomePageController {
     private final JobPostService jobPostService;
     private final CommonCareerService commonCareerService;
     private final NotificationService notificationService;
+    private final ChatHistoryService chatHistoryService;
+    private final JobPostActivityService jobPostActivityService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
             UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
             EmployeeSizeService employeeSizeService, CommonLocationService locationService,
             InfoCompanyService infoCompanyService, JobPostService jobPostService,
-            CommonCareerService commonCareerService, NotificationService notificationService) {
+            CommonCareerService commonCareerService,
+            NotificationService notificationService, ChatHistoryService chatHistoryService,
+            JobPostActivityService jobPostActivityService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -84,6 +97,8 @@ public class HomePageController {
         this.jobPostService = jobPostService;
         this.commonCareerService = commonCareerService;
         this.notificationService = notificationService;
+        this.chatHistoryService = chatHistoryService;
+        this.jobPostActivityService = jobPostActivityService;
     }
 
     @Autowired
@@ -378,4 +393,41 @@ public class HomePageController {
         return "client/homepage/search";
     }
 
+    @GetMapping("/chat")
+    public String getChatPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName();
+            User user = userService.getUserByEmail(email); // Lấy thông tin người dùng
+            // Thêm thông tin người dùng vào mô hình
+            model.addAttribute("currentUser", user); // Thêm người dùng hiện tại vào mô hình
+            // Lấy danh sách người dùng đã nhắn tin
+            List<String> users = chatHistoryService.getDistinctUsers(user.getFullName()); // Truyền tên người dùng hiện
+                                                                                          // tại
+            model.addAttribute("users", users);
+            if (user != null) {
+                // Kiểm tra vai trò của người dùng
+                String role = user.getRoleName();
+                if ("USER".equals(role)) {
+                    // Lấy danh sách nhà tuyển dụng mà user đã apply
+                    List<InfoCompany> appliedCompanies = jobPostActivityService.getAppliedCompaniesByUser(user);
+                    model.addAttribute("appliedCompanies", appliedCompanies);
+                } else if ("RECRUITER".equals(role)) {
+                    // Lấy danh sách user đã apply tin tuyển dụng
+                    List<JobPostActivity> applicants = jobPostActivityService.getApplicantsByRecruiter(user);
+                    model.addAttribute("applicants", applicants);
+                }
+            }
+        }
+        return "client/chat/show"; // Trả về view chat
+    }
+
+    @PostMapping("/chat/history")
+    public ResponseEntity<?> getChatHistory(@RequestBody ChatRequest chatRequest) {
+        String sender = chatRequest.getSender();
+        String recipient = chatRequest.getRecipient();
+        // Xử lý logic lấy lịch sử chat
+        List<ChatHistory> chatHistory = chatHistoryService.getChatHistory(sender, recipient);
+        return ResponseEntity.ok(chatHistory);
+    }
 }

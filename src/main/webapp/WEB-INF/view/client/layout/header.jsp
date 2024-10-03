@@ -268,6 +268,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item-wrapper"><a href="/contact" class="nav-link">Contact</a></li>
+                                <li class="nav-item-wrapper"><a href="/chat" class="nav-link">Chat</a></li>
                                 <li class="nav-item-wrapper button-mobile"><a href="/post-a-job"
                                         class="button-primary header-button button-mobile w-button">Post a job</a></li>
                             </ul>
