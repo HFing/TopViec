@@ -9,7 +9,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +36,7 @@ import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.EmployeeSizeService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostService;
+import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.RoleService;
 import com.hfing.TopViec.service.UserRoleService;
 import com.hfing.TopViec.service.UserService;
@@ -62,12 +65,13 @@ public class HomePageController {
     private final InfoCompanyService infoCompanyService;
     private final JobPostService jobPostService;
     private final CommonCareerService commonCareerService;
+    private final NotificationService notificationService;
 
     public HomePageController(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService,
             UserRoleService userRoleService, CommonCityService cityService, CommonDistrictService districtService,
             EmployeeSizeService employeeSizeService, CommonLocationService locationService,
             InfoCompanyService infoCompanyService, JobPostService jobPostService,
-            CommonCareerService commonCareerService, JavaMailSender mailSender) {
+            CommonCareerService commonCareerService, NotificationService notificationService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -79,7 +83,7 @@ public class HomePageController {
         this.infoCompanyService = infoCompanyService;
         this.jobPostService = jobPostService;
         this.commonCareerService = commonCareerService;
-        this.mailSender = mailSender;
+        this.notificationService = notificationService;
     }
 
     @Autowired
@@ -97,12 +101,34 @@ public class HomePageController {
 
     @GetMapping("/")
     public String getHomePage(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        User user = userService.getUserByEmail(userEmail);
+
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
+
         List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
         List<JobPost> jobPosts = jobPostService.getNonHotJobPostsWithStatusOne();
         model.addAttribute("hotJobPosts", hotJobPosts);
         model.addAttribute("jobPosts", jobPosts);
 
         List<CommonCareer> careers = commonCareerService.findAll();
+
         model.addAttribute("careers", careers);
         return "client/homepage/show";
     }

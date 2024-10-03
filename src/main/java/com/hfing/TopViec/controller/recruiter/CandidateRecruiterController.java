@@ -223,15 +223,17 @@ public class CandidateRecruiterController {
     @PostMapping("/recruiter/candidate/updateStatus")
     public String updateStatus(@RequestParam("activityId") Long activityId, @RequestParam("status") int status,
             RedirectAttributes redirectAttributes) {
+
         JobPostActivity jobPostActivity = jobPostActivityService.findById(activityId);
         if (jobPostActivity != null) {
             jobPostActivity.setStatus(status);
             jobPostActivityService.save(jobPostActivity);
         }
-
+        String statusMessage = getStatusMessage(status);
         Notification notification = new Notification();
         notification.setCreateAt(LocalDateTime.now());
-        notification.setJobName(jobPostActivity.getJobPost().getJobName());
+        notification.setJobName(jobPostActivity.getJobPost().getCompany().getCompanyName() + " has confirmed: "
+                + statusMessage + " - " + jobPostActivity.getJobPost().getJobName());
         notification.setUser(jobPostActivity.getUser());
         notification.setCity(jobPostActivity.getJobPost().getLocation().getCity());
         notification.setCareer(jobPostActivity.getJobPost().getCareer());

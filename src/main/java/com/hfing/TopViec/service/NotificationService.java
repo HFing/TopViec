@@ -3,6 +3,7 @@ package com.hfing.TopViec.service;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.hfing.TopViec.domain.Notification;
+import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.repository.NotificationRepository;
 
 @Service
@@ -27,5 +28,13 @@ public class NotificationService {
 
     public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
+    }
+
+    public List<Notification> getNotificationsByUser(User user) {
+        return notificationRepository.findByUserOrderByCreateAtDesc(user);
+    }
+
+    public long countNotificationsByUser(User user) {
+        return notificationRepository.countByUser(user);
     }
 }

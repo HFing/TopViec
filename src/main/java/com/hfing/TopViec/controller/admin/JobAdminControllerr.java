@@ -15,6 +15,8 @@ import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.InfoCompany;
 import com.hfing.TopViec.domain.JobPost;
+import com.hfing.TopViec.domain.Notification;
+import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
 import com.hfing.TopViec.domain.enums.JobType;
@@ -25,6 +27,7 @@ import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostService;
+import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.UserService;
 
 import jakarta.mail.MessagingException;
@@ -43,11 +46,12 @@ public class JobAdminControllerr {
     private final InfoCompanyService companyService;
     private final CommonLocationService commonLocationService;
     private final InfoCompanyService infoCompanyService;
+    private final NotificationService notificationService;
 
     public JobAdminControllerr(UserService userService, JobPostService jobPostService,
             CommonCareerService commonCareerService, CommonCityService commonCityService,
             InfoCompanyService companyService, CommonLocationService commonLocationService,
-            InfoCompanyService infoCompanyService) {
+            InfoCompanyService infoCompanyService, NotificationService notificationService) {
         this.userService = userService;
         this.jobPostService = jobPostService;
         this.commonCareerService = commonCareerService;
@@ -55,6 +59,7 @@ public class JobAdminControllerr {
         this.companyService = companyService;
         this.commonLocationService = commonLocationService;
         this.infoCompanyService = infoCompanyService;
+        this.notificationService = notificationService;
     }
 
     @Autowired
@@ -92,7 +97,13 @@ public class JobAdminControllerr {
         String statusText = getStatusText(status);
 
         sendStatusUpdateEmail(userEmail, jobTitle, statusText);
-
+        User user = userService.getUserById(jobPost.getUser().getId());
+        Notification notification = new Notification();
+        notification.setCreateAt(LocalDateTime.now());
+        notification.setUser(user);
+        notification.setJobName("Your job post " + jobTitle + " has been updated to " + statusText);
+        notification.setCareer(jobPost.getCareer());
+        notificationService.saveNotification(notification);
         redirectAttributes.addFlashAttribute("message", "Job status updated successfully!");
         return "redirect:/admin/job";
     }

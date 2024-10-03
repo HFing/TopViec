@@ -23,12 +23,14 @@ import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.JobPostActivity;
+import com.hfing.TopViec.domain.Notification;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.service.CommonCityService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobPostService;
+import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.UserService;
 
 import jakarta.mail.MessagingException;
@@ -45,16 +47,18 @@ public class JobController {
     private final JobPostActivityService jobPostActivityService;
     private final InfoResumeService infoResumeService;
     private final UserService userService;
+    private final NotificationService notificationService;
 
     public JobController(JobPostService jobPostService, CommonCityService commonCityService,
             InfoCompanyService infoCompanyService, JobPostActivityService jobPostActivityService,
-            InfoResumeService infoResumeService, UserService userService) {
+            InfoResumeService infoResumeService, UserService userService, NotificationService notificationService) {
         this.jobPostService = jobPostService;
         this.commonCityService = commonCityService;
         this.infoCompanyService = infoCompanyService;
         this.jobPostActivityService = jobPostActivityService;
         this.infoResumeService = infoResumeService;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     @Autowired
@@ -147,6 +151,14 @@ public class JobController {
         jobPostActivity.setJobPost(jobPost);
 
         jobPostActivityService.save(jobPostActivity);
+        Notification notification = new Notification();
+        notification.setCreateAt(LocalDateTime.now());
+        notification.setUser(jobPost.getCompany().getUser());
+        notification.setCareer(jobPost.getCareer());
+        notification.setJobName(user.getFullName() + " has applied for " + jobPost.getJobName());
+        notification.setExperience(jobPost.getExperience().getDisplayName());
+        notificationService.saveNotification(notification);
+
         sendApplicationNotificationEmail(userEmail, jobPost.getJobName());
         redirectAttributes.addFlashAttribute("message", "Apply Your CV successfully!");
         return "redirect:/job/" + jobPostActivity.getJobPost().getId();
