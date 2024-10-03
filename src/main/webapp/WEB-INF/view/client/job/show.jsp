@@ -93,17 +93,6 @@
                         text-decoration: none;
                         cursor: pointer;
                     }
-
-
-
-                    .alert-popup {
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        z-index: 1050;
-                        width: auto;
-                        max-width: 300px;
-                    }
                 </style>
             </head>
 
@@ -113,8 +102,9 @@
                 <div class="section job-post">
                     <div class="container-default w-container">
                         <c:if test="${not empty message}">
-                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
-                                ${message}
+                            <div class="alert-popup" role="alert">
+                                <span class="icon">✔️</span>
+                                <span>${message}</span>
                             </div>
                         </c:if>
                         <div class="backlink-wrapper">
@@ -389,7 +379,7 @@
                             <!-- Trường ẩn để truyền jobPostId -->
                             <input type="hidden" name="jobPostId" value="${jobPost.id}" />
 
-                            <button type="submit" class="button-primary small w-button">Save</button>
+                            <button type="submit" class="button-primary small w-button">Apply</button>
                         </form:form>
                     </div>
                 </div>
@@ -431,13 +421,19 @@
                 </script>
 
                 <script>
-                    $(document).ready(function () {
-                        // Tự động ẩn thông báo sau 5 giây
+                    document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(function () {
-                            $(".alert-popup").alert('close');
-                        }, 3000);
+                            var alertPopup = document.querySelector('.alert-popup');
+                            if (alertPopup) {
+                                alertPopup.classList.add('hide');
+                                setTimeout(function () {
+                                    alertPopup.remove();
+                                }, 500); // Thời gian để hoàn thành hiệu ứng mờ dần
+                            }
+                        }, 3000); // 3 giây
                     });
                 </script>
+
 
 
             </body>

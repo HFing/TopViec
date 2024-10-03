@@ -340,7 +340,7 @@ public class HomePageController {
             userService.saveUser(user);
             System.out.println("Account verified successfully for token: " + token);
             redirectAttributes.addFlashAttribute("message", "Account verified successfully!");
-            return "redirect:/login";
+            return "redirect:/profile";
         } else {
             System.out.println("Invalid verification link for token: " + token);
             redirectAttributes.addFlashAttribute("error", "Invalid verification link.");

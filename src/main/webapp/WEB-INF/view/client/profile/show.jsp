@@ -8,40 +8,26 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
             <link rel="stylesheet" href="/client/css/style.css">
-            <style>
-                .backlink {
-                    display: flex;
-                    align-items: center;
-                    text-decoration: none;
-                    color: inherit;
-                    transition: color 0.3s ease;
-                }
 
-                .arrow {
-                    margin-right: 10px;
-                    transition: transform 0.3s ease, color 0.3s ease;
-                }
-
-                .backlink:hover {
-                    color: rgb(0, 97, 255);
-                }
-
-                .backlink:hover .arrow {
-                    transform: translateX(-5px);
-                    color: rgb(0, 97, 255);
-                }
-            </style>
         </head>
 
         <body>
             <jsp:include page="../layout/header.jsp" />
 
+
             <div class="section company">
                 <div class="container-default w-container">
                     <div class="backlink-wrapper">
+
                         <a href="/" class="backlink">
                             <div class="arrow">&#9664;</div>Back to HomePage
                         </a>
+                        <c:if test="${not empty message}">
+                            <div class="alert-popup" role="alert">
+                                <span class="icon">✔️</span>
+                                <span>${message}</span>
+                            </div>
+                        </c:if>
                     </div>
                     <div data-w-id="dd895fd4-7865-6962-cee0-3a705bd5c5dc"
                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); opacity: 1; transform-style: preserve-3d;"
@@ -392,6 +378,19 @@
                 src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
                 type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
                 crossorigin="anonymous"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    setTimeout(function () {
+                        var alertPopup = document.querySelector('.alert-popup');
+                        if (alertPopup) {
+                            alertPopup.classList.add('hide');
+                            setTimeout(function () {
+                                alertPopup.remove();
+                            }, 500); // Thời gian để hoàn thành hiệu ứng mờ dần
+                        }
+                    }, 3000); // 3 giây
+                });
+            </script>
 
         </body>
 

@@ -6049,6 +6049,61 @@ figcaption {
     line-height: 1.125em;
 }
 
+/* back link */
+.backlink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.arrow {
+    margin-right: 10px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.backlink:hover {
+    color: rgb(0, 97, 255);
+}
+
+.backlink:hover .arrow {
+    transform: translateX(-5px);
+    color: rgb(0, 97, 255);
+}
+
+/* thong bao */
+.alert-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    /* Màu nền */
+    color: white;
+    /* Màu chữ */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    /* Chiều rộng tối đa */
+}
+
+.alert-popup .icon {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.alert-popup.hide {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+
 .cart-container {
     position: fixed;
     top: 0;

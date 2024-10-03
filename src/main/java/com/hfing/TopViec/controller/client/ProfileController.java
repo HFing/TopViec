@@ -11,8 +11,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonLocation;
@@ -59,7 +66,7 @@ import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
-
+import java.util.UUID;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -98,6 +105,9 @@ public class ProfileController {
         this.infoAdvancedSkillService = infoAdvancedSkillService;
         this.uploadService = uploadService;
     }
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/profile")
     public String getProfilePage(Model model) {
@@ -873,5 +883,44 @@ public class ProfileController {
     public ResponseEntity<?> deleteAdvancedSkillDetail(@PathVariable("id") Long id) {
         infoAdvancedSkillService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ok");
+    }
+
+    @GetMapping("/profile/sendVerificationEmail")
+    public String sendVerificationEmail(RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+        User user = userService.getUserByEmail(userEmail);
+        if (user != null && !user.getIsVerifyEmail()) {
+            // Generate verification token
+            String token = UUID.randomUUID().toString();
+            String verificationUrl = "http://localhost:8080/verify?token=" + token;
+            // Save token to user
+            user.setVerificationToken(token);
+            userService.saveUser(user);
+            // Send verification email
+            sendVerificationEmail(user.getEmail(), verificationUrl);
+        }
+        redirectAttributes.addFlashAttribute("message", "Verification email has been sent to your email address.");
+
+        return "redirect:/profile";
+    }
+
+    private void sendVerificationEmail(String email, String verificationUrl) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom("h5studiogl@gmail.com");
+        message.setSubject("Account Verification");
+        message.setText("Please click the following link to verify your account: " + verificationUrl);
+        mailSender.send(message);
     }
 }
