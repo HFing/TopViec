@@ -449,7 +449,7 @@
                                                         data-wf-collection="database.commerceOrder.userItems"
                                                         data-wf-template-id="wf-template-86d01ae5-f4f5-e0fe-d623-45a4fc1f5cf4">
                                                         <c:forEach var="notification" items="${notifications}">
-                                                            <div class="w-commerce-commercecartitem cart-item">
+                                                            <div data-noti-delete-id="${notification.id}" class="w-commerce-commercecartitem cart-item">
                                                                 <div class="order-item-wrapper"><a
                                                                         data-wf-bindings="%5B%7B%22dataWHref%22%3A%7B%22type%22%3A%22FullSlug%22%2C%22filter%22%3A%7B%22type%22%3A%22identity%22%2C%22params%22%3A%5B%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.product.fullSlug%22%7D%7D%5D"
                                                                         href="/product/5-job-credits"
@@ -482,7 +482,7 @@
                                                                     data-wf-cart-action="remove-item"
                                                                     data-commerce-sku-id="60ca4a86055418092c2c94bb"
                                                                     aria-label="Remove item from cart">
-                                                                    <div>Remove</div>
+                                                                    <div onclick="removeNoti('${notification.id}')">Remove</div>
                                                                 </a><input
                                                                     data-wf-bindings="%5B%7B%22value%22%3A%7B%22type%22%3A%22Number%22%2C%22filter%22%3A%7B%22type%22%3A%22numberPrecision%22%2C%22params%22%3A%5B%220%22%2C%22numberPrecision%22%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.count%22%7D%7D%2C%7B%22data-commerce-sku-id%22%3A%7B%22type%22%3A%22ItemRef%22%2C%22filter%22%3A%7B%22type%22%3A%22identity%22%2C%22params%22%3A%5B%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.sku.id%22%7D%7D%5D"
                                                                     class="w-commerce-commercecartquantity input cart-item-quantity"
@@ -634,4 +634,38 @@
                     console.error('Element with class cart-close-button or cart-container not found.');
                 }
             });
+
+            // remove noti
+            function removeNoti(id) {
+                fetch(`/notifications/` + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            if (response.status === 404) {
+                                throw new Error('Kỹ năng không tồn tại.');
+                            } else {
+                                throw new Error('Có lỗi xảy ra.');
+                            }
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        reRenderNotification(id);
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                    });
+            }
+
+            function reRenderNotification(id) {
+                const dataNoti = document.querySelector('[data-noti-delete-id="' + Number.parseInt(id) + '"]');
+                console.log("remove educationDetail", dataNoti)
+                if (dataNoti) {
+                    dataNoti.remove();
+                }
+            }
         </script>
