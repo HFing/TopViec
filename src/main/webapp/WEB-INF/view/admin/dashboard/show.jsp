@@ -59,9 +59,7 @@
                                         <div class="card-body">
                                             <i class="fas fa-users"></i> Total Applicants: ${allApplicantsCount}
                                         </div>
-                                        <div class="card-footer d-flex align-items-center justify-content-between">
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -53,13 +53,13 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/recruiter/company">Company Information</a>
                                 <a class="nav-link" href="/recruiter/company/image">Image Company</a>
-                                <a class="nav-link" href="">Accounts</a>
-                                <a class="nav-link" href="">Settings</a>
+                                <!-- <a class="nav-link" href="">Accounts</a>
+                                <a class="nav-link" href="">Settings</a> -->
                             </nav>
                         </div>
 
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                        <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                             aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Pages
@@ -97,7 +97,7 @@
                                     </nav>
                                 </div>
                             </nav>
-                        </div>
+                        </div> -->
                         <!-- <div class="sb-sidenav-menu-heading">Addons</div>
                         <a class="nav-link" href="charts.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

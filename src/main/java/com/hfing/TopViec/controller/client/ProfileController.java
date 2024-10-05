@@ -46,6 +46,7 @@ import com.hfing.TopViec.domain.InfoEducationDetail;
 import com.hfing.TopViec.domain.InfoExperienceDetail;
 import com.hfing.TopViec.domain.InfoLanguageSkill;
 import com.hfing.TopViec.domain.InfoResume;
+import com.hfing.TopViec.domain.JobPostActivity;
 import com.hfing.TopViec.domain.JobSeekerProfile;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
@@ -63,10 +64,10 @@ import com.hfing.TopViec.service.InfoEducationDetailService;
 import com.hfing.TopViec.service.InfoExperienceDetailService;
 import com.hfing.TopViec.service.InfoLanguageSkillService;
 import com.hfing.TopViec.service.InfoResumeService;
+import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
-import java.util.UUID;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -84,6 +85,7 @@ public class ProfileController {
     private final InfoLanguageSkillService infoLanguageSkillService;
     private final InfoAdvancedSkillService infoAdvancedSkillService;
     private final UploadService uploadService;
+    private final JobPostActivityService jobPostActivityService;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
@@ -91,7 +93,8 @@ public class ProfileController {
             InfoExperienceDetailService infoExperienceDetailService,
             InfoEducationDetailService infoEducationDetailService,
             InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
-            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService) {
+            InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService,
+            JobPostActivityService jobPostActivityService) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -104,6 +107,7 @@ public class ProfileController {
         this.infoLanguageSkillService = infoLanguageSkillService;
         this.infoAdvancedSkillService = infoAdvancedSkillService;
         this.uploadService = uploadService;
+        this.jobPostActivityService = jobPostActivityService;
     }
 
     @Autowired
@@ -127,10 +131,39 @@ public class ProfileController {
 
         User user = userService.getUserByEmail(userEmail);
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
+
+        List<JobPostActivity> appliedJobs = jobPostActivityService.findByUserId(user.getId());
+        model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("user", user);
         model.addAttribute("jobSeekerProfile", jobSeekerProfile);
 
         return "client/profile/show";
+    }
+
+    @PostMapping("/profile/upload-avatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile file, RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        User user = userService.getUserByEmail(userEmail);
+
+        String avatarUrl = uploadService.handleSaveUploadFile(file, "avatar");
+        user.setAvatarUrl(avatarUrl);
+        userService.saveUser(user);
+        redirectAttributes.addFlashAttribute("message", "Avatar updated successfully!");
+
+        return "redirect:/profile";
     }
 
     @GetMapping("/profile/accountsettings")

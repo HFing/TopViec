@@ -22,6 +22,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Job
                         </a>
+                        <a class="nav-link" href="/admin/bot">
+                            <div class="sb-nav-link-icon"><i class="fas fa-robot"></i></div>
+                            Bot
+                        </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLocations" aria-expanded="false" aria-controls="collapseLocations">
@@ -37,6 +41,19 @@
                             </nav>
                         </div>
 
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCandidate" aria-expanded="false" aria-controls="collapseCandidate">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                            Candidates
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseCandidate" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/admin/candidate/save">Saved Profiles</a>
+                                <a class="nav-link" href="/admin/candidate">Find New Candidates</a>
+                            </nav>
+                        </div>
 
 
                         <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

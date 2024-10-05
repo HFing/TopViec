@@ -150,4 +150,23 @@ public class JobPostActivity {
         this.isDeleted = isDeleted;
     }
 
+    public String getStatusText() {
+        switch (status) {
+            case 1:
+                return "Pending Confirmation";
+            case 2:
+                return "Contacted";
+            case 3:
+                return "Tested";
+            case 4:
+                return "Interviewed";
+            case 5:
+                return "Hired";
+            case 0:
+                return "Not Hired";
+            default:
+                return "Unknown Status";
+        }
+    }
+
 }

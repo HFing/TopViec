@@ -40,9 +40,16 @@
                         </div>
                         <div class="company-content">
                             <div class="content-top company">
-                                <div class="image-wrapper company"><img src="/images/avatar/${avatarUrl}"
-                                        alt="${user.fullName}" class="image company">
+                                <div class="image-wrapper company"
+                                    onclick="document.getElementById('fileInput').click();">
+                                    <img src="/images/avatar/${user.avatarUrl}" alt="${user.fullName}"
+                                        class="image company">
+                                    <input type="file" id="fileInput" accept="image/*" onchange="uploadImage(event)">
                                 </div>
+                                <form id="uploadForm" action="/profile/upload-avatar" method="post"
+                                    enctype="multipart/form-data" style="display: none;">
+                                    <input type="file" name="avatar" id="fileInputHidden">
+                                </form>
                                 <div class="company-content-top-wrapper">
                                     <div class="split-content content-top-company-left">
                                         <h1 class="title h2-size company">${fullName}</h1>
@@ -310,49 +317,103 @@
                                     <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
                                         id="w-tabs-0-data-w-pane-0" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-0">
-                                        <h2 class="title h3-size company-job-openings">Webflow job openings</h2>
+                                        <h2 class="title h3-size company-job-openings">Applied Jobs</h2>
                                         <div class="w-dyn-list">
-                                            <div class="card job-empty-state w-dyn-empty">
-                                                <div class="job-empty-state-wrapper">
-                                                    <div class="image-wrapper job-empty-state-icon"><img
-                                                            alt="Search Icon - Job Board X Webflow Template"
-                                                            src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
-                                                            class="image job-empty-state"></div>
-                                                    <div class="job-empty-state-content">
-                                                        <h3 class="title h2-size job-empty-state">No job openings
-                                                            available</h3>
-                                                        <p class="paragraph job-empty-state">Want to stay up to date
-                                                            of
-                                                            all new job openings popin up? Subscribe to our
-                                                            newsletter
-                                                            to receive great jobs every week.</p>
-                                                        <div class="job-empty-state-form-block w-form">
-                                                            <form id="wf-form-Job-Empty-State-Form"
-                                                                name="wf-form-Job-Empty-State-Form"
-                                                                data-name="Job Empty State Form" method="get"
-                                                                class="job-empty-state-form"
-                                                                data-wf-page-id="60c7a4d437554c8630b53ab2"
-                                                                data-wf-element-id="93a9aff5-cc15-0ba3-947d-b091b4bbaf0b"
-                                                                aria-label="Job Empty State Form"><input
-                                                                    class="input job-empty-state w-input"
-                                                                    maxlength="256" name="Email" data-name="Email"
-                                                                    placeholder="Subscribe to our newsletter"
-                                                                    type="email" id="email" required=""><input
-                                                                    type="submit" data-wait="Please wait..."
-                                                                    class="button-primary small job-empty-state w-button"
-                                                                    value="Subscribe"></form>
-                                                            <div class="success-message w-form-done" tabindex="-1"
-                                                                role="region" aria-label="Job Empty State Form success">
-                                                                <div>Thanks for joining our newsletter.</div>
-                                                            </div>
-                                                            <div class="error-message w-form-fail" tabindex="-1"
-                                                                role="region" aria-label="Job Empty State Form failure">
-                                                                <div>Oops! Something went wrong.</div>
+
+
+
+                                            <c:choose>
+                                                <c:when test="${empty appliedJobs}">
+                                                    <div class="card job-empty-state w-dyn-empty">
+                                                        <div class="job-empty-state-wrapper">
+                                                            <div class="image-wrapper job-empty-state-icon"><img
+                                                                    alt="Search Icon - Job Board X Webflow Template"
+                                                                    src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
+                                                                    class="image job-empty-state"></div>
+                                                            <div class="job-empty-state-content">
+                                                                <h3 class="title h2-size job-empty-state">No jobs you
+                                                                    have
+                                                                    applied for</h3>
+                                                                <p class="paragraph job-empty-state">You can also
+                                                                    explore new
+                                                                    job opportunities and apply for jobs that match your
+                                                                    skills
+                                                                    and interests.</p>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="jobActivity" items="${appliedJobs}">
+                                                        <div role="listitem" class="job-item w-dyn-item">
+                                                            <a href="/job/${jobActivity.jobPost.id}"
+                                                                class="card job w-inline-block">
+                                                                <div class="split-content card-job-left">
+                                                                    <div class="image-wrapper card-job">
+                                                                        <img src="/images/company/${jobActivity.jobPost.company.companyImageUrl}"
+                                                                            alt="${jobActivity.jobPost.jobName}"
+                                                                            class="image card-job"
+                                                                            style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                                    </div>
+                                                                    <div class="card-job-title-wrapper">
+                                                                        <h3 class="title h6-size card-job"
+                                                                            style="color: rgb(23, 23, 40);">
+                                                                            ${jobActivity.jobPost.jobName}
+                                                                        </h3>
+                                                                        <div class="card-link-wrapper">
+                                                                            <div class="card-link">
+                                                                                ${jobActivity.jobPost.company.companyName}
+                                                                            </div>
+                                                                            <div class="card-link-arrow"
+                                                                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                                                <div class="card-link-arrow-1"></div>
+                                                                                <div class="card-link-arrow-2"></div>
+                                                                                <div class="card-link-arrow-3"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="split-content card-job-right">
+                                                                    <div class="card-job-category-wrapper">
+                                                                        <div class="card-job-category-title-wrapper">
+                                                                            <img src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc5172557266c1162fc4_icon-1-job-categories-job-board-x-template.svg"
+                                                                                alt="Location Icon - Job Board X Webflow Template"
+                                                                                class="card-job-category-title-icon">
+                                                                            <div>Location</div>
+                                                                        </div>
+                                                                        <div class="card-job-category-text">
+                                                                            ${jobActivity.jobPost.typeOfWorkplace.displayName}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-job-category-wrapper">
+                                                                        <div class="card-job-category-title-wrapper">
+                                                                            <img src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51b6792171f081ab50_icon-2-job-categories-job-board-x-template.svg"
+                                                                                alt="Graph Icon - Job Board X Webflow Template"
+                                                                                class="card-job-category-title-icon">
+                                                                            <div>Level</div>
+                                                                        </div>
+                                                                        <div class="card-job-category-text">
+                                                                            ${jobActivity.jobPost.position.displayName}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-job-category-wrapper">
+                                                                        <div class="card-job-category-title-wrapper">
+                                                                            <img src="https://assets-global.website-files.com/60c77302fcfa2b84ab595f64/60c7dc51c1dfba2485657961_icon-3-job-categories-job-board-x-template.svg"
+                                                                                alt="Portfolio Icon - Job Board X Webflow Template"
+                                                                                class="card-job-category-title-icon">
+                                                                            <div>Status</div>
+                                                                        </div>
+                                                                        <div class="card-job-category-text">
+                                                                            ${jobActivity.statusText}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <div role="navigation" aria-label="List"
                                                 class="w-pagination-wrapper pagination"></div>
                                         </div>
@@ -390,6 +451,13 @@
                         }
                     }, 3000); // 3 giây
                 });
+            </script>
+            <script>
+                function uploadImage(event) {
+                    const fileInput = document.getElementById('fileInputHidden');
+                    fileInput.files = event.target.files;
+                    document.getElementById('uploadForm').submit();
+                }
             </script>
 
         </body>

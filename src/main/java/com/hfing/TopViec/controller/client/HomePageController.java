@@ -18,9 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import com.hfing.TopViec.domain.ChatHistory;
-import com.hfing.TopViec.domain.ChatMessage;
 import com.hfing.TopViec.domain.ChatRequest;
 import com.hfing.TopViec.domain.CommonCareer;
 import com.hfing.TopViec.domain.CommonCity;

@@ -8,13 +8,15 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Chat Interface</title>
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                 <link rel="stylesheet" href="/client/css/style.css">
                 <style>
                     body {
                         font-family: Arial, sans-serif;
-                        background-color: #fff;
+                        background-color: #f5f7fa;
                         height: 100vh;
+                        margin: 0;
+                        padding: 0;
                     }
 
                     .section.chat {
@@ -26,14 +28,17 @@
                     .chat-wrapper {
                         margin: auto;
                         background-color: #fff;
-                        border-left: 1px solid #ddd;
-                        border-right: 1px solid #ddd;
                         height: 100vh;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        border-radius: 10px;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                        display: flex;
+                        overflow: hidden;
                     }
 
                     .chat-columns {
                         padding: 0px;
+                        display: flex;
+                        flex: 1;
                     }
 
                     .column {
@@ -42,12 +47,20 @@
 
                     .users-list,
                     .companies-list {
+                        background-color: #fff;
                         border: 1px solid #ddd;
+                        border-radius: 10px;
+                        padding: 20px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
                     }
 
                     .list-group-item {
                         border: none;
                         padding: 10px;
+                        background-color: #fff;
+                        margin-bottom: 10px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                        border-radius: 10px;
                     }
 
                     .list-group-item img {
@@ -58,25 +71,28 @@
                     }
 
                     .chat-box {
-                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        background-color: #f9f9f9;
                         padding: 20px;
-
+                        border: 1px solid #ddd;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
                     }
 
                     .chat-box-container {
-                        display: none;
-                        /* Ẩn chat box ban đầu */
+                        display: block;
                     }
 
                     .chat-box-header {
-                        font-size: 24px;
+                        font-size: 20px;
                         font-weight: bold;
                         margin-bottom: 20px;
                         color: #333;
                         display: flex;
                         align-items: center;
-                        padding: 15px;
+                        padding: 10px;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        background-color: #fff;
+                        border-radius: 10px;
                     }
 
                     .chat-box-header img {
@@ -88,60 +104,65 @@
 
                     .chat-box-header span {
                         font-size: 18px;
-                        font-weight: normal;
                         color: #555;
                     }
 
                     .chat-messages {
-                        padding: 20px;
+                        background-color: #fff;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        padding: 15px;
+                        height: 400px;
                         overflow-y: auto;
-                        max-height: 500px;
+                        margin-bottom: 15px;
                     }
 
                     .form-control {
                         border-radius: 20px;
                         padding: 10px;
+                        background-color: #fff;
                     }
 
                     .send-button {
                         border-radius: 20px;
                         padding: 10px 20px;
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+
+                    .send-button:hover {
+                        background-color: #0056b3;
+                    }
+
+                    .message-left,
+                    .message-right {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 15px;
                     }
 
                     .message-left {
                         background-color: #f1f1f1;
                         padding: 10px;
                         border-radius: 20px;
-                        margin-bottom: 10px;
                         text-align: left;
-                        width: 50%;
-                        float: left;
-                        clear: both;
-                    }
-
-                    .message-left img {
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        margin-right: 10px;
+                        width: fit-content;
                     }
 
                     .message-right {
                         background-color: #e9ecef;
                         padding: 10px;
                         border-radius: 20px;
-                        margin-bottom: 10px;
                         text-align: right;
-                        width: 50%;
-                        float: right;
-                        clear: both;
+                        width: fit-content;
+                        margin-left: auto;
                     }
 
+                    .message-left img,
                     .message-right img {
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
-                        margin-left: auto;
                         margin-right: 10px;
                     }
                 </style>
@@ -149,7 +170,7 @@
 
             <body>
                 <div class="section chat">
-                    <div class="chat-wrapper">
+                    <div class="container-fluid chat-wrapper">
                         <div class="row chat-columns">
                             <div class="col-md-4 column users-list">
                                 <h2 class="title">Users List</h2>

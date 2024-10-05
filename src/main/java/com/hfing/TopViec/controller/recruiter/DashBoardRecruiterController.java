@@ -48,9 +48,15 @@ public class DashBoardRecruiterController {
         InfoCompany company = infoCompanyService.findByUser(user);
         Map<String, Integer> monthlyUserCounts = jobPostActivityService.getMonthlyApplicantCounts(company.getId());
 
-        try {
+        // In ra giá trị của monthlyUserCounts
+        System.out.println(">>>>> monthlyUserCounts: " + monthlyUserCounts);
 
+        try {
             String monthlyUserCountsJson = new ObjectMapper().writeValueAsString(monthlyUserCounts);
+
+            // In ra giá trị của monthlyUserCountsJson
+            System.out.println(">>>> monthlyUserCountsJson: " + monthlyUserCountsJson);
+
             model.addAttribute("monthlyUserCounts", monthlyUserCountsJson);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

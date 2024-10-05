@@ -51,9 +51,7 @@
                                 <div class="card-body">
                                     <i class="fas fa-users"></i> Total Applicants: ${allApplicantsCount}
                                 </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -571,10 +569,10 @@
         </div>
     </div>
     <script type="application/json" id="monthlyUserCounts">
-        [[${monthlyUserCounts}]]
+        ${monthlyUserCounts}
     </script>
     <script type="application/json" id="jobPostActivityCountsByStatus">
-        [[${jobPostActivityCountsByStatus}]]
+        ${jobPostActivityCountsByStatus}
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
