@@ -75,6 +75,10 @@
                                                             class="btn btn-warning mx-2">Update</a>
                                                         <a href="/recruiter/job/delete?id=${jobPost.id}"
                                                             class="btn btn-danger">Delete</a>
+                                                        <a href="/recruiter/job/toggleHot?id=${jobPost.id}"
+                                                            class="btn btn-info mx-2">
+                                                            ${jobPost.isHot ? 'Unmark Hot' : 'Mark Hot'}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

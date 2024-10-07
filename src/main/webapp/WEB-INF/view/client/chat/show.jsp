@@ -8,15 +8,13 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Chat Interface</title>
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
                 <link rel="stylesheet" href="/client/css/style.css">
                 <style>
                     body {
                         font-family: Arial, sans-serif;
-                        background-color: #f5f7fa;
+                        background-color: #fff;
                         height: 100vh;
-                        margin: 0;
-                        padding: 0;
                     }
 
                     .section.chat {
@@ -28,17 +26,15 @@
                     .chat-wrapper {
                         margin: auto;
                         background-color: #fff;
+                        border-left: 1px solid #ddd;
+                        border-right: 1px solid #ddd;
                         height: 100vh;
-                        border-radius: 10px;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                        display: flex;
-                        overflow: hidden;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                     }
 
                     .chat-columns {
-                        padding: 0px;
-                        display: flex;
-                        flex: 1;
+                        height: 100vh;
+                        overflow-y: auto;
                     }
 
                     .column {
@@ -47,20 +43,12 @@
 
                     .users-list,
                     .companies-list {
-                        background-color: #fff;
                         border: 1px solid #ddd;
-                        border-radius: 10px;
-                        padding: 20px;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
                     }
 
                     .list-group-item {
                         border: none;
                         padding: 10px;
-                        background-color: #fff;
-                        margin-bottom: 10px;
-                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                        border-radius: 10px;
                     }
 
                     .list-group-item img {
@@ -71,28 +59,25 @@
                     }
 
                     .chat-box {
-                        border-radius: 10px;
-                        background-color: #f9f9f9;
-                        padding: 20px;
                         border: 1px solid #ddd;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                        padding: 20px;
+
                     }
 
                     .chat-box-container {
-                        display: block;
+                        display: none;
+                        /* Ẩn chat box ban đầu */
                     }
 
                     .chat-box-header {
-                        font-size: 20px;
+                        font-size: 24px;
                         font-weight: bold;
                         margin-bottom: 20px;
                         color: #333;
                         display: flex;
                         align-items: center;
-                        padding: 10px;
+                        padding: 15px;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        background-color: #fff;
-                        border-radius: 10px;
                     }
 
                     .chat-box-header img {
@@ -104,73 +89,74 @@
 
                     .chat-box-header span {
                         font-size: 18px;
+                        font-weight: normal;
                         color: #555;
                     }
 
                     .chat-messages {
-                        background-color: #fff;
-                        border: 1px solid #ddd;
-                        border-radius: 10px;
-                        padding: 15px;
-                        height: 400px;
+                        padding: 20px;
                         overflow-y: auto;
-                        margin-bottom: 15px;
+                        max-height: 500px;
                     }
 
                     .form-control {
                         border-radius: 20px;
                         padding: 10px;
-                        background-color: #fff;
                     }
 
                     .send-button {
                         border-radius: 20px;
                         padding: 10px 20px;
-                        background-color: #007bff;
-                        color: #fff;
-                    }
-
-                    .send-button:hover {
-                        background-color: #0056b3;
-                    }
-
-                    .message-left,
-                    .message-right {
-                        display: flex;
-                        align-items: center;
-                        margin-bottom: 15px;
                     }
 
                     .message-left {
                         background-color: #f1f1f1;
                         padding: 10px;
                         border-radius: 20px;
+                        margin-bottom: 10px;
                         text-align: left;
-                        width: fit-content;
+                        width: 50%;
+                        float: left;
+                        clear: both;
+                    }
+
+                    .message-left img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        margin-right: 10px;
                     }
 
                     .message-right {
                         background-color: #e9ecef;
                         padding: 10px;
                         border-radius: 20px;
+                        margin-bottom: 10px;
                         text-align: right;
-                        width: fit-content;
-                        margin-left: auto;
+                        width: 50%;
+                        float: right;
+                        clear: both;
                     }
 
-                    .message-left img,
                     .message-right img {
                         width: 40px;
                         height: 40px;
                         border-radius: 50%;
+                        margin-left: auto;
                         margin-right: 10px;
+                    }
+
+                    .message-right span,
+                    .message-left span {
+                        display: block;
+                        font-size: 11px;
                     }
                 </style>
             </head>
 
             <body>
                 <div class="section chat">
-                    <div class="container-fluid chat-wrapper">
+                    <div class="chat-wrapper">
                         <div class="row chat-columns">
                             <div class="col-md-4 column users-list">
                                 <h2 class="title">Users List</h2>
@@ -195,6 +181,7 @@
                                     <div class="chat-messages">
 
                                     </div>
+
                                     <div class="input-group mb-3">
                                         <input type="text" placeholder="Type a message..."
                                             class="form-control chat-input">
@@ -203,6 +190,7 @@
                                                 onclick="sendMessage()">Send</button>
                                         </div>
                                     </div>
+
                                 </div>
 
                             </div>
@@ -300,7 +288,7 @@
                         currentRecipient.fullName = name;
                         currentRecipient.avatar = avatar;
                         document.querySelector('.chat-box-header .username').innerText = name; // Cập nhật tên người nhận
-                        document.querySelector('.chat-box-header img').src = '/images/avatar/' + avatar; // Cập nhật avatar người nhận
+                        document.querySelector('.chat-box-header img').src = '/images/company/' + avatar; // Cập nhật avatar người nhận
                         document.querySelector('.chat-messages').innerHTML = ''; // Xóa tin nhắn cũ
                         document.querySelector('.chat-box-container').style.display = 'block'; // Hiển thị chat box
                     }
@@ -388,5 +376,4 @@
 
 
             </html>
-
             </rewritten_file>

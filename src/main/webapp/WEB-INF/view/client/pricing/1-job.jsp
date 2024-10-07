@@ -72,20 +72,14 @@
                                 class="title h2-size pay-credit-price">99,000&nbsp;VND</div>
                         </div>
                         <div class="credit-add-cart">
-                            <form data-node-type="commerce-add-to-cart-form"
-                                data-commerce-sku-id="60ca4b7f48288a4a8ad5c500" data-loading-text="Adding to cart..."
-                                data-commerce-product-id="60ca4b7f317fed539551b71e"
-                                class="w-commerce-commerceaddtocartform credit-add-cart-default-state">
+                            <form class="w-commerce-commerceaddtocartform credit-add-cart-default-state">
                                 <div class="credit-add-cart-buttons-wrapper">
-                                    <input type="submit" data-node-type="commerce-add-to-cart-button"
-                                        data-loading-text="Adding to cart..." aria-busy="false" aria-haspopup="dialog"
+                                    <input type="submit"
                                         class="w-commerce-commerceaddtocartbutton button-primary full-width credit-add-cart-button"
                                         value="Add to Cart">
-                                    <button type="button" data-node-type="commerce-buy-now-button"
-                                        data-default-text="Pay now" data-subscription-text="Subscribe now"
-                                        aria-busy="false" aria-haspopup="false"
+                                    <button type="button"
                                         class="w-commerce-commercebuynowbutton button-secondary full-width credit-add-cart-button"
-                                        onclick="redirectToVNPay('12345', 99000)">Pay now</button>
+                                        onclick="redirectToPayPal('12345', '99.00')">Pay now</button>
                                 </div>
                             </form>
                         </div>
@@ -101,12 +95,19 @@
         type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
     <script>
-        function redirectToVNPay(orderId, amount) {
+        function redirectToPayPal(orderId, amount) {
+            console.log("Order ID:", orderId);
+            console.log("Amount:", amount);
+
             const encodedOrderId = encodeURIComponent(orderId);
             const encodedAmount = encodeURIComponent(amount);
-            const url = `/create-payment?orderId=\${encodedOrderId}&amount=\${encodedAmount}`;
-            window.location.href = url;
+            const url = `/create-paypal-payment?orderId=12345&amount=4`;
+
+            console.log("Redirecting to URL:", url);
+            window.location.href = url; // Bỏ comment để thực hiện chuyển hướng
         }
+
+
     </script>
 </body>
 

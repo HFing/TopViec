@@ -360,7 +360,14 @@ public class HomePageController {
             userService.saveUser(user);
             System.out.println("Account verified successfully for token: " + token);
             redirectAttributes.addFlashAttribute("message", "Account verified successfully!");
-            return "redirect:/profile";
+            if ("USER".equals(user.getRoleName())) {
+                return "redirect:/profile";
+            } else if ("RECRUITER".equals(user.getRoleName())) {
+                return "redirect:/recruiter";
+            } else {
+                // Default redirect if role is not recognized
+                return "redirect:/";
+            }
         } else {
             System.out.println("Invalid verification link for token: " + token);
             redirectAttributes.addFlashAttribute("error", "Invalid verification link.");
@@ -401,27 +408,45 @@ public class HomePageController {
     @GetMapping("/chat")
     public String getChatPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            String email = authentication.getName();
-            User user = userService.getUserByEmail(email); // Lấy thông tin người dùng
+        String userEmail = null;
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        if (userEmail != null) {
+            User user = userService.getUserByEmail(userEmail); // Lấy thông tin người dùng
+
+            if (user == null) {
+                // Xử lý khi người dùng không tồn tại
+                model.addAttribute("error", "User not found");
+                return "error"; // Trả về trang lỗi hoặc xử lý khác
+            }
+
             // Thêm thông tin người dùng vào mô hình
             model.addAttribute("currentUser", user); // Thêm người dùng hiện tại vào mô hình
+
             // Lấy danh sách người dùng đã nhắn tin
             List<String> users = chatHistoryService.getDistinctUsers(user.getFullName()); // Truyền tên người dùng hiện
                                                                                           // tại
             model.addAttribute("users", users);
-            if (user != null) {
-                // Kiểm tra vai trò của người dùng
-                String role = user.getRoleName();
-                if ("USER".equals(role)) {
-                    // Lấy danh sách nhà tuyển dụng mà user đã apply
-                    List<InfoCompany> appliedCompanies = jobPostActivityService.getAppliedCompaniesByUser(user);
-                    model.addAttribute("appliedCompanies", appliedCompanies);
-                } else if ("RECRUITER".equals(role)) {
-                    // Lấy danh sách user đã apply tin tuyển dụng
-                    List<JobPostActivity> applicants = jobPostActivityService.getApplicantsByRecruiter(user);
-                    model.addAttribute("applicants", applicants);
-                }
+
+            // Kiểm tra vai trò của người dùng
+            String role = user.getRoleName();
+            if ("USER".equals(role)) {
+                // Lấy danh sách nhà tuyển dụng mà user đã apply
+                List<InfoCompany> appliedCompanies = jobPostActivityService.getAppliedCompaniesByUser(user);
+                model.addAttribute("appliedCompanies", appliedCompanies);
+            } else if ("RECRUITER".equals(role)) {
+                // Lấy danh sách user đã apply tin tuyển dụng
+                List<JobPostActivity> applicants = jobPostActivityService.getApplicantsByRecruiter(user);
+                model.addAttribute("applicants", applicants);
             }
         }
         return "client/chat/show"; // Trả về view chat

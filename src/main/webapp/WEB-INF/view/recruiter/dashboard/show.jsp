@@ -11,6 +11,43 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="/recruiter/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <style>
+        .alert-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: auto;
+            max-width: 300px;
+        }
+
+        .verify-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding-top: 20%;
+            font-size: 24px;
+            z-index: 1000;
+        }
+
+        .verify-popup i {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -18,6 +55,11 @@
     <div id="layoutSidenav">
         <jsp:include page="../layout/sidebar.jsp" />
         <div id="layoutSidenav_content">
+            <c:if test="${not empty message}">
+                <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                    ${message}
+                </div>
+            </c:if>
             <main>
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Dashboard</h1>
@@ -568,6 +610,14 @@
             <jsp:include page="../layout/footer.jsp" />
         </div>
     </div>
+
+
+    <div id="verifyPopup" class="verify-popup">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Please verify your email!</p>
+        <a href="/recruiter/sendVerificationEmail" target="_blank" class="btn btn-primary">Verify</a>
+    </div>
+
     <script type="application/json" id="monthlyUserCounts">
         ${monthlyUserCounts}
     </script>
@@ -584,6 +634,23 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
     <script src="recruiter/js/datatables-simple-demo.js"></script>
+
+    <script>
+        window.onload = function () {
+            var isVerifyEmail = ${ isVerifyEmail };
+            if (!isVerifyEmail) {
+                document.getElementById('verifyPopup').style.display = 'block';
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                $(".alert-popup").alert('close');
+            }, 3000);
+        });
+    </script>
 </body>
 
 </html>

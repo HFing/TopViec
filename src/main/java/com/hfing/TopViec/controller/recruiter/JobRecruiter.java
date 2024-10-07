@@ -207,4 +207,12 @@ public class JobRecruiter {
         return "redirect:/recruiter/job";
     }
 
+    @GetMapping("/recruiter/job/toggleHot")
+    public String toggleHotStatus(@RequestParam("id") Long jobId) {
+        JobPost jobPost = jobPostService.getJobPostById(jobId);
+        jobPost.setIsHot(!jobPost.getIsHot()); // Đảo ngược trạng thái isHot
+        jobPostService.saveJobPost(jobPost); // Lưu thay đổi
+        return "redirect:/recruiter/job"; // Quay lại danh sách công việc
+    }
+
 }

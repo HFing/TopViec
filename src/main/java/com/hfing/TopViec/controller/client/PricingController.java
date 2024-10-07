@@ -39,29 +39,24 @@ public class PricingController {
         return "client/pricing/5-job";
     }
 
-    @GetMapping("/create-payment")
-    public String createPayment(@RequestParam("orderId") String orderId,
-            @RequestParam("amount") long amount,
+    @GetMapping("/create-paypal-payment")
+    public String createPayPalPayment(@RequestParam("orderId") String orderId,
+            @RequestParam("amount") String amount,
             RedirectAttributes redirectAttributes) {
         try {
-            String paymentUrl = vnpayService.createPaymentUrl(orderId, amount);
-            return "redirect:" + paymentUrl;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Error creating payment URL");
-            return "redirect:/error";
-        }
-    }
+            // Kiểm tra giá trị amount
+            if (amount == null || amount.isEmpty()) {
+                throw new IllegalArgumentException("Amount cannot be null or empty");
+            }
 
-    @GetMapping("/vnpay-return")
-    public String vnpayReturn(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes) {
-        // Xử lý phản hồi từ VNPay
-        String vnp_ResponseCode = params.get("vnp_ResponseCode");
-        if ("00".equals(vnp_ResponseCode)) {
-            redirectAttributes.addFlashAttribute("message", "Payment successful!");
-            return "redirect:/success";
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Payment failed!");
+            // Gọi phương thức tạo thanh toán PayPal
+            Map<String, String> paymentResponse = vnpayService.createPayPalPayment(amount,
+                    "Payment for order " + orderId, "http://localhost:8080/success", "http://localhost:8080/cancel");
+            String approvalUrl = paymentResponse.get("approvalUrl");
+            return "redirect:" + approvalUrl; // Chuyển hướng đến URL phê duyệt của PayPal
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Error creating PayPal payment");
             return "redirect:/error";
         }
     }
