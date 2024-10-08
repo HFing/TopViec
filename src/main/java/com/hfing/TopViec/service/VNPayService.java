@@ -1,25 +1,34 @@
 package com.hfing.TopViec.service;
 
-import com.hfing.TopViec.config.VNPayConfigV2;
+import com.hfing.TopViec.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.time.LocalDateTime; // Thêm import
+import com.hfing.TopViec.domain.PaymentHistory; // Thêm import
+import com.hfing.TopViec.service.PaymentHistoryService; // Thêm import
+import org.springframework.security.core.context.SecurityContextHolder; // Thêm import
+import org.springframework.security.core.userdetails.UserDetails; // Thêm import
 
 @Service
 public class VNPayService {
+    private final UserService userService; // Đảm bảo rằng userService đã được khởi tạo
 
     private final RestTemplate restTemplate;
+    private final PaymentHistoryService paymentHistoryService; // Thêm biến
 
     @Autowired
-    public VNPayService(RestTemplate restTemplate) {
+    public VNPayService(RestTemplate restTemplate, PaymentHistoryService paymentHistoryService,
+            UserService userService) { // Cập nhật constructor để bao gồm userService
         this.restTemplate = restTemplate;
+        this.paymentHistoryService = paymentHistoryService; // Khởi tạo biến
+        this.userService = userService; // Khởi tạo biến userService
     }
 
     public Map<String, String> createPayPalPayment(String price, String description, String returnUrl,
@@ -61,7 +70,13 @@ public class VNPayService {
                     .findFirst()
                     .orElse(null);
 
-            return Map.of("approvalUrl", approvalUrl, "accessToken", accessToken);
+            // Chuyển đổi amount thành String
+            return Map.of("approvalUrl", approvalUrl, "accessToken", accessToken, "amount", String.valueOf(priceInUSD)); // Trả
+                                                                                                                         // về
+                                                                                                                         // amount
+                                                                                                                         // dưới
+                                                                                                                         // dạng
+                                                                                                                         // String
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error creating PayPal payment: " + e.getMessage());
@@ -125,6 +140,30 @@ public class VNPayService {
 
             if (response.getStatusCode() == HttpStatus.OK) {
                 String state = (String) response.getBody().get("state");
+                // Lưu lịch sử thanh toán
+                if (state.equals("approved")) {
+                    // Lấy userId từ phiên đăng nhập
+                    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                    User user = userService.getUserByEmail(username); // Phương thức để lấy userId từ username
+
+                    // Lấy amount từ response
+                    List<Map<String, Object>> transactions = (List<Map<String, Object>>) response.getBody()
+                            .get("transactions");
+                    // Lấy amount từ transactions và chuyển đổi thành String
+                    double amount = Double.parseDouble(
+                            (String) ((Map<String, Object>) transactions.get(0).get("amount")).get("total")); // Chuyển
+                                                                                                              // đổi
+                                                                                                              // thành
+                                                                                                              // double
+
+                    PaymentHistory paymentHistory = new PaymentHistory();
+                    paymentHistory.setUserId(user.getId());
+                    paymentHistory.setAmount(amount);
+                    int featuredCount = amount == 4 ? 1 : amount == 8 ? 5 : 3;
+                    paymentHistory.setFeaturedCount(featuredCount);
+                    paymentHistory.setCreatedAt(LocalDateTime.now());
+                    paymentHistoryService.savePaymentHistory(paymentHistory); // Lưu lịch sử thanh toán
+                }
                 return Map.of("message", state.equals("approved") ? "Payment successful" : "Payment failed");
             } else {
                 throw new RuntimeException("Payment execution failed with status: " + response.getStatusCode());

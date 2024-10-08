@@ -16,6 +16,7 @@ import com.hfing.TopViec.domain.CommonCity;
 import com.hfing.TopViec.domain.CommonDistrict;
 import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.Notification;
+import com.hfing.TopViec.domain.PaymentHistory;
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
@@ -29,9 +30,11 @@ import com.hfing.TopViec.service.CommonLocationService;
 import com.hfing.TopViec.service.InfoCompanyService;
 import com.hfing.TopViec.service.JobPostService;
 import com.hfing.TopViec.service.NotificationService;
+import com.hfing.TopViec.service.PaymentHistoryService;
 import com.hfing.TopViec.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class JobRecruiter {
@@ -44,11 +47,12 @@ public class JobRecruiter {
     private final CommonLocationService commonLocationService;
     private final CommonDistrictService commonDistrictService;
     private final NotificationService notificationService;
+    private final PaymentHistoryService paymentHistoryService;
 
     public JobRecruiter(UserService userService, JobPostService jobPostService, InfoCompanyService infoCompanyService,
             CommonCareerService commonCareerService, CommonCityService commonCityService,
             CommonLocationService commonLocationService, CommonDistrictService commonDistrictService,
-            NotificationService notificationService) {
+            NotificationService notificationService, PaymentHistoryService paymentHistoryService) {
         this.userService = userService;
         this.jobPostService = jobPostService;
         this.infoCompanyService = infoCompanyService;
@@ -57,6 +61,7 @@ public class JobRecruiter {
         this.commonLocationService = commonLocationService;
         this.commonDistrictService = commonDistrictService;
         this.notificationService = notificationService;
+        this.paymentHistoryService = paymentHistoryService;
     }
 
     @GetMapping("/recruiter/job")
@@ -208,11 +213,32 @@ public class JobRecruiter {
     }
 
     @GetMapping("/recruiter/job/toggleHot")
-    public String toggleHotStatus(@RequestParam("id") Long jobId) {
+    public String toggleHotStatus(@RequestParam("id") Long jobId, RedirectAttributes redirectAttributes) {
         JobPost jobPost = jobPostService.getJobPostById(jobId);
         jobPost.setIsHot(!jobPost.getIsHot()); // Đảo ngược trạng thái isHot
-        jobPostService.saveJobPost(jobPost); // Lưu thay đổi
-        return "redirect:/recruiter/job"; // Quay lại danh sách công việc
+        jobPostService.saveJobPost(jobPost);
+        redirectAttributes.addFlashAttribute("message", "Update Job Hot successfully!");
+        return "redirect:/recruiter/jobhot"; // Quay lại danh sách công việc
+    }
+
+    @GetMapping("/recruiter/jobhot")
+    public String getJobHotPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+
+        User user = userService.getUserByEmail(userEmail);
+        paymentHistoryService.findByUserID(user.getId());
+        PaymentHistory paymentHistory = paymentHistoryService.findByUserID(user.getId());
+        jobPostService.getJobPostsByUserId(user.getId());
+        model.addAttribute("jobFeaturedUsed", jobPostService.getHotJobPostCountByUserId(user.getId()));
+        model.addAttribute("jobFeaturedCount", paymentHistory.getFeaturedCount());
+        model.addAttribute("jobPosts", jobPostService.getJobPostsByUserId(user.getId()));
+        return "recruiter/job/jobhot";
     }
 
 }

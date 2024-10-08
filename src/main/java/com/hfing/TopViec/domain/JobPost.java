@@ -15,7 +15,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hfing.TopViec.domain.enums.AcademicLevel;
@@ -126,6 +127,11 @@ public class JobPost {
 
     @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobPostActivity> jobPostActivities;
+
+    public String getFormattedCreateAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return createAt != null ? createAt.format(formatter) : "";
+    }
 
     public Long getId() {
         return id;

@@ -23,6 +23,12 @@
                                 <a class="nav-link" href="/recruiter/job">List Of Posts</a>
                             </nav>
                         </div>
+                        <div class="collapse" id="collapseLocations" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/recruiter/jobhot">List Of Posts Hot</a>
+                            </nav>
+                        </div>
 
 
 

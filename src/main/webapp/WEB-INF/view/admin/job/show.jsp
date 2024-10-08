@@ -100,7 +100,8 @@
                                             <c:forEach var="jobPost" items="${jobList}">
                                                 <tr>
                                                     <td>${jobPost.jobName}</td>
-                                                    <td>${jobPost.createAt}</td>
+                                                    <td>${jobPost.formattedCreateAt}</td>
+
                                                     <td>${jobPost.deadline}</td>
                                                     <td>${jobPost.views}</td>
                                                     <td>

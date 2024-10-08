@@ -15,7 +15,18 @@
                 <meta name="author" content="" />
                 <title>Dashboard</title>
                 <link href="/recruiter/css/styles.css" rel="stylesheet" />
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <style>
+                    .alert-popup {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 1050;
+                        width: auto;
+                        max-width: 300px;
+                    }
+                </style>
             </head>
 
             <body class="sb-nav-fixed">
@@ -23,6 +34,11 @@
                 <div id="layoutSidenav">
                     <jsp:include page="../layout/sidebar.jsp" />
                     <div id="layoutSidenav_content">
+                        <c:if test="${not empty message}">
+                            <div class="alert alert-success alert-dismissible fade show alert-popup" role="alert">
+                                ${message}
+                            </div>
+                        </c:if>
                         <main>
                             <div class="container-fluid px-4">
                                 <h1 class="mt-4">Manage Job</h1>
@@ -32,9 +48,15 @@
                                 </ol>
 
                                 <div class="col-12 mx-auto">
-                                    <div class="d-flex justify-content-between">
-                                        <h3>Table Jobs</h3>
-                                        <a href="/recruiter/job/create" class="btn btn-primary">Create</a>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge badge-info mr-3"
+                                            style="background-color: #17a2b8; color: white;">
+                                            Job Posts Used: ${jobFeaturedUsed}
+                                        </span>
+                                        <span class="badge badge-success"
+                                            style="background-color: #28a745; color: white;margin-left: 10px;">
+                                            Total Featured Job Posts: ${jobFeaturedCount}
+                                        </span>
                                     </div>
                                     <hr />
                                     <table class="table table-hover table-bordered">
@@ -69,13 +91,11 @@
                                                         </c:choose>
                                                     </td>
                                                     <td>
-                                                        <!-- <a href="/recruiter/jobPost/${jobPost.id}"
-                                                            class="btn btn-success">View</a> -->
-                                                        <a href="/recruiter/job/update?id=${jobPost.id}"
-                                                            class="btn btn-warning mx-2">Update</a>
-                                                        <a href="/recruiter/job/delete?id=${jobPost.id}"
-                                                            class="btn btn-danger">Delete</a>
 
+                                                        <a href="/recruiter/job/toggleHot?id=${jobPost.id}"
+                                                            class="btn btn-info mx-2">
+                                                            ${jobPost.isHot ? 'Unmark Hot' : 'Mark Hot'}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -91,6 +111,14 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                     crossorigin="anonymous"></script>
                 <script src="/recruiter/js/scripts.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        // Tự động ẩn thông báo sau 5 giây
+                        setTimeout(function () {
+                            $(".alert-popup").alert('close');
+                        }, 3000);
+                    });
+                </script>
             </body>
 
             </html>

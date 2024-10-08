@@ -101,4 +101,8 @@ public class JobPostService {
     public List<JobPost> searchJobPosts(Long companyId, Integer status) {
         return jobPostRepository.searchJobPosts(companyId, status);
     }
+
+    public long getHotJobPostCountByUserId(Long userId) {
+        return jobPostRepository.countHotJobPostsByUserId(userId);
+    }
 }
