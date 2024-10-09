@@ -49,25 +49,21 @@
                                     <li class="footer-nav-item"><a
                                             href="https://jobboardxtemplate.webflow.io/job/backend-software-engineer"
                                             class="footer-nav-link">Job post</a></li>
-                                    <li class="footer-nav-item"><a
-                                            href="https://jobboardxtemplate.webflow.io/job-location-category/remote"
-                                            class="footer-nav-link">Job post category</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Job post
+                                            category</a></li>
                                     <li class="footer-nav-item"><a href="/companies"
                                             class="footer-nav-link">Companies</a>
                                     </li>
-                                    <li class="footer-nav-item"><a
-                                            href="https://jobboardxtemplate.webflow.io/company/webflow"
-                                            class="footer-nav-link">Single company</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Single company</a>
+                                    </li>
                                 </ul>
                                 <ul role="list" class="footer-nav last w-list-unstyled">
-                                    <li class="footer-nav-item"><a href="/post-a-job" aria-current="page"
+                                    <li class="footer-nav-item"><a href="#" aria-current="page"
                                             class="footer-nav-link w--current">Post a free job</a></li>
                                     <li class="footer-nav-item"><a href="/pricing" class="footer-nav-link">Post a paid
                                             job</a></li>
-                                    <li class="footer-nav-item"><a href="/blog" class="footer-nav-link">Blog</a></li>
-                                    <li class="footer-nav-item"><a
-                                            href="https://jobboardxtemplate.webflow.io/blog/how-to-easily-collaborate-with-designers-as-a-developer"
-                                            class="footer-nav-link">Blog post</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Blog</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Blog post</a></li>
                                     <li class="footer-nav-item"><a href="/contact" class="footer-nav-link">Contact</a>
                                     </li>
                                 </ul>
@@ -79,16 +75,13 @@
                                 <ul role="list" class="footer-nav last w-list-unstyled">
                                     <li class="footer-nav-item"><a href="/utility-pages/style-guide"
                                             class="footer-nav-link">Style guide</a></li>
-                                    <li class="footer-nav-item"><a href="/utility-pages/start-here"
-                                            class="footer-nav-link">Start here</a></li>
-                                    <li class="footer-nav-item"><a href="https://jobboardxtemplate.webflow.io/404"
-                                            class="footer-nav-link">404 Not found</a></li>
-                                    <li class="footer-nav-item"><a href="https://jobboardxtemplate.webflow.io/401"
-                                            class="footer-nav-link">Password protected</a></li>
-                                    <li class="footer-nav-item"><a href="/utility-pages/licenses"
-                                            class="footer-nav-link">Licenses</a></li>
-                                    <li class="footer-nav-item"><a href="/utility-pages/changelog"
-                                            class="footer-nav-link">Changelog</a></li>
+
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">404 Not found</a>
+                                    </li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Password
+                                            protected</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Licenses</a></li>
+                                    <li class="footer-nav-item"><a href="#" class="footer-nav-link">Changelog</a></li>
                                     <li class="footer-nav-item"><a href="#" class="footer-nav-link special">HFing</a>
                                     </li>
                                 </ul>
@@ -101,22 +94,17 @@
                             <div class="footer-menu-content">
                                 <div class="w-dyn-list">
                                     <div role="list" class="footer-nav last w-dyn-items">
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-department-category/support"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="/contact"
                                                 class="footer-nav-link">Support</a>
                                         </div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-department-category/business"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
                                                 class="footer-nav-link">Business</a></div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-department-category/marketing"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
                                                 class="footer-nav-link">Marketing</a></div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-department-category/design"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
                                                 class="footer-nav-link">Design</a>
                                         </div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-department-category/development"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
                                                 class="footer-nav-link">Development</a></div>
                                     </div>
                                 </div>
@@ -127,14 +115,13 @@
                             <div class="footer-menu-content">
                                 <div class="w-dyn-list">
                                     <div role="list" class="footer-nav last w-dyn-items">
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-level-category/junior" class="footer-nav-link">Junior</a>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">Junior</a>
                                         </div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-level-category/senior" class="footer-nav-link">Senior</a>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">Senior</a>
                                         </div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-level-category/executive"
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
                                                 class="footer-nav-link">Executive</a>
                                         </div>
                                     </div>
@@ -146,17 +133,14 @@
                             <div class="footer-menu-content">
                                 <div class="w-dyn-list">
                                     <div role="list" class="footer-nav last w-dyn-items">
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-location-category/austin-tx" class="footer-nav-link">Austin,
-                                                TX</a></div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-location-category/miami-fl" class="footer-nav-link">Miami,
-                                                FL</a></div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-location-category/new-york-ny" class="footer-nav-link">New
-                                                York, NY</a></div>
-                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a
-                                                href="/job-location-category/remote" class="footer-nav-link">Remote</a>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">Ha Noi</a></div>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">TP HCM</a></div>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">Da Nang</a></div>
+                                        <div role="listitem" class="footer-nav-item w-dyn-item"><a href="#"
+                                                class="footer-nav-link">Remote</a>
                                         </div>
                                     </div>
                                 </div>

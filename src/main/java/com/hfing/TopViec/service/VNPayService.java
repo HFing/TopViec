@@ -12,9 +12,7 @@ import java.util.Map;
 import java.util.List;
 import java.time.LocalDateTime; // Thêm import
 import com.hfing.TopViec.domain.PaymentHistory; // Thêm import
-import com.hfing.TopViec.service.PaymentHistoryService; // Thêm import
 import org.springframework.security.core.context.SecurityContextHolder; // Thêm import
-import org.springframework.security.core.userdetails.UserDetails; // Thêm import
 
 @Service
 public class VNPayService {

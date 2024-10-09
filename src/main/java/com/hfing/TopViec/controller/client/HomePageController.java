@@ -145,6 +145,9 @@ public class HomePageController {
         List<CommonCareer> careers = commonCareerService.findAll();
 
         model.addAttribute("careers", careers);
+        List<InfoCompany> allCompanies = infoCompanyService.getAllCompanies();
+        List<InfoCompany> topCompanies = allCompanies.size() > 4 ? allCompanies.subList(0, 4) : allCompanies;
+        model.addAttribute("companies", topCompanies);
         return "client/homepage/show";
     }
 
