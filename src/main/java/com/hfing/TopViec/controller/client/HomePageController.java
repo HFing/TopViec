@@ -3,7 +3,7 @@ package com.hfing.TopViec.controller.client;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -139,6 +139,7 @@ public class HomePageController {
 
         List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
         List<JobPost> jobPosts = jobPostService.getNonHotJobPostsWithStatusOne();
+
         model.addAttribute("hotJobPosts", hotJobPosts);
         model.addAttribute("jobPosts", jobPosts);
 
@@ -147,6 +148,7 @@ public class HomePageController {
         model.addAttribute("careers", careers);
         List<InfoCompany> allCompanies = infoCompanyService.getAllCompanies();
         List<InfoCompany> topCompanies = allCompanies.size() > 4 ? allCompanies.subList(0, 4) : allCompanies;
+        Collections.shuffle(topCompanies);
         model.addAttribute("companies", topCompanies);
         return "client/homepage/show";
     }
