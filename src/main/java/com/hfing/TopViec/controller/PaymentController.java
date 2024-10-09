@@ -38,12 +38,12 @@ public class PaymentController {
             redirectAttributes.addFlashAttribute("transactionId", transactionId);
             redirectAttributes.addFlashAttribute("amount", amount);
             redirectAttributes.addFlashAttribute("date", date);
-
-            return "redirect:/success-final"; // Redirect to the success page
+            redirectAttributes.addFlashAttribute("message", "You have just successfully purchased a posting package!");
+            return "redirect:/recruiter/jobhot"; // Redirect to the success page
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Error executing PayPal payment");
-            return "redirect:/error"; // Redirect to the error page
+            return "redirect:/recruiter/jobhot"; // Redirect to the error page
         }
     }
 

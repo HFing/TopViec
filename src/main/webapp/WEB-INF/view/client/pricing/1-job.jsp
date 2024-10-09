@@ -74,11 +74,9 @@
                         <div class="credit-add-cart">
                             <form class="w-commerce-commerceaddtocartform credit-add-cart-default-state">
                                 <div class="credit-add-cart-buttons-wrapper">
-                                    <input type="submit"
-                                        class="w-commerce-commerceaddtocartbutton button-primary full-width credit-add-cart-button"
-                                        value="Add to Cart">
+
                                     <button type="button"
-                                        class="w-commerce-commercebuynowbutton button-secondary full-width credit-add-cart-button"
+                                        class="w-commerce-commercebuynowbutton button-primary full-width credit-add-cart-button"
                                         onclick="redirectToPayPal('12345', '99.00')">Pay now</button>
                                 </div>
                             </form>

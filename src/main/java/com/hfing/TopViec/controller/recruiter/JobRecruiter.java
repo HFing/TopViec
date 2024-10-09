@@ -123,7 +123,8 @@ public class JobRecruiter {
         notification.setCity(newJobPost.getLocation().getCity());
         notification.setCareer(newJobPost.getCareer());
         notification.setPosition(newJobPost.getPosition().getDisplayName());
-        notification.setJobName(newJobPost.getJobName() + " - " + newJobPost.getCompany().getCompanyName());
+        notification.setJobName(newJobPost.getJobName() + " - " + newJobPost.getCompany().getCompanyName()
+                + " just posted a job ad that needs your approval.");
         notification.setExperience(newJobPost.getExperience().getDisplayName());
         notificationService.saveNotification(notification);
 
@@ -214,11 +215,39 @@ public class JobRecruiter {
 
     @GetMapping("/recruiter/job/toggleHot")
     public String toggleHotStatus(@RequestParam("id") Long jobId, RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userEmail = userDetails.getUsername();
+        }
+        User user = userService.getUserByEmail(userEmail);
+        PaymentHistory paymentHistory = paymentHistoryService.findByUserID(user.getId());
         JobPost jobPost = jobPostService.getJobPostById(jobId);
-        jobPost.setIsHot(!jobPost.getIsHot()); // Đảo ngược trạng thái isHot
-        jobPostService.saveJobPost(jobPost);
-        redirectAttributes.addFlashAttribute("message", "Update Job Hot successfully!");
-        return "redirect:/recruiter/jobhot"; // Quay lại danh sách công việc
+
+        long jobFeaturedCount = (paymentHistory != null) ? paymentHistory.getFeaturedCount() : 0;
+        long jobFeaturedUsed = jobPostService.getHotJobPostCountByUserId(user.getId());
+        if (jobPost.getIsHot()) {
+            jobPost.setIsHot(false);
+            jobPostService.saveJobPost(jobPost);
+            redirectAttributes.addFlashAttribute("message", "Update Job Hot successfully!");
+            return "redirect:/recruiter/jobhot";
+        }
+
+        // Kiểm tra số lượng Job Hot còn lại
+        if (jobFeaturedCount == 0) {
+            redirectAttributes.addFlashAttribute("message", "You have no Job Hot left!");
+            return "redirect:/recruiter/jobhot";
+        } else if (jobFeaturedUsed >= jobFeaturedCount) {
+            redirectAttributes.addFlashAttribute("message", "You have used all Job Hot!");
+            return "redirect:/recruiter/jobhot";
+        } else {
+            jobPost.setIsHot(true); // Đặt trạng thái isHot thành true
+            jobPostService.saveJobPost(jobPost);
+            redirectAttributes.addFlashAttribute("message", "Update Job Hot successfully!");
+            return "redirect:/recruiter/jobhot"; // Quay lại danh sách công việc
+        }
+
     }
 
     @GetMapping("/recruiter/jobhot")
@@ -235,8 +264,9 @@ public class JobRecruiter {
         paymentHistoryService.findByUserID(user.getId());
         PaymentHistory paymentHistory = paymentHistoryService.findByUserID(user.getId());
         jobPostService.getJobPostsByUserId(user.getId());
+        long jobFeaturedCount = (paymentHistory != null) ? paymentHistory.getFeaturedCount() : 0;
         model.addAttribute("jobFeaturedUsed", jobPostService.getHotJobPostCountByUserId(user.getId()));
-        model.addAttribute("jobFeaturedCount", paymentHistory.getFeaturedCount());
+        model.addAttribute("jobFeaturedCount", jobFeaturedCount);
         model.addAttribute("jobPosts", jobPostService.getJobPostsByUserId(user.getId()));
         return "recruiter/job/jobhot";
     }
