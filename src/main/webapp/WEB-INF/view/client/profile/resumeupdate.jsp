@@ -324,14 +324,12 @@
                                                         <label for="occupation">Occupation</label>
                                                         <div class="display-value" id="occupation">
                                                             ${infoResumeShow.career != null ? infoResumeShow.career.name
-                                                            :
-                                                            'Not
-                                                            updated'}
+                                                            : 'Not updated'}
                                                         </div>
                                                     </div>
                                                     <div class="input-wrapper">
-                                                        <label for="work-location">Work Location</label>
-                                                        <div class="display-value" id="work-location">
+                                                        <label for="work-location-city">Work Location</label>
+                                                        <div class="display-value" id="work-location-city">
                                                             ${infoResumeShow.city != null ? infoResumeShow.city.name :
                                                             'Not
                                                             updated'}
@@ -340,26 +338,19 @@
                                                     <div class="input-wrapper">
                                                         <label for="desired-salary">Desired Salary</label>
                                                         <div class="display-value" id="desired-salary">
-                                                            ${infoResumeShow.salaryMin != null ?
-                                                            infoResumeShow.salaryMin :
-                                                            'Not
-                                                            updated'} -
-                                                            ${infoResumeShow.salaryMax != null ?
-                                                            infoResumeShow.salaryMax :
-                                                            'Not
-                                                            updated'}
+                                                            ${infoResumeShow.formattedSalary}
                                                         </div>
                                                     </div>
                                                     <div class="input-wrapper">
                                                         <label for="workplace">Workplace</label>
-                                                        <div class="display-value" id="workplace">
+                                                        <div class="display-value" id="type-of-workplace">
                                                             ${infoResumeShow.typeOfWorkplace != null ?
                                                             infoResumeShow.typeOfWorkplace : 'Not updated'}
                                                         </div>
                                                     </div>
                                                     <div class="input-wrapper">
                                                         <label for="employment-type">Employment Type</label>
-                                                        <div class="display-value" id="employment-type">
+                                                        <div class="display-value" id="employment-typeBack">
                                                             ${infoResumeShow.jobType != null ? infoResumeShow.jobType :
                                                             'Not
                                                             updated'}
@@ -1156,17 +1147,16 @@
                                 // Cập nhật giá trị trên trang mà không cần tải lại
                                 updateElementText('desired-position', data.title);
                                 updateElementText('desired-level', data.position);
-                                updateElementText('academic-level', data.academicLevel);
+                                updateElementText('educational-background', data.academicLevel);
                                 updateElementText('experience', data.experience);
-                                if (data.careers && data.careers.name) {
-                                    updateElementText('occupation', data.careers.name);
-                                } else {
-                                    console.error('Career data is missing or invalid.');
-                                }
-                                updateElementText('city', data.city.name);
+
+                                updateElementText('occupation', data.career);
+                                console.log(data.city);
+                                updateElementText('work-location-city', data.city);
                                 updateElementText('type-of-workplace', data.typeOfWorkplace);
-                                updateElementText('job-type', data.jobType);
+                                updateElementText('employment-typeBack', data.jobType);
                                 updateElementText('career-objective', data.description);
+                                updateElementText('desired-salary', data.formattedSalary);
                                 closeModal();
                             })
                             .catch(error => console.error('Error:', error));

@@ -2,6 +2,9 @@ package com.hfing.TopViec.domain;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,12 +25,15 @@ public class CommonCareer {
     private String name;
 
     @OneToMany(mappedBy = "career")
+    @JsonIgnore
     private Set<InfoResume> resumes;
 
     @OneToMany(mappedBy = "career")
+    @JsonIgnore
     private Set<JobPost> jobPosts;
 
     @OneToMany(mappedBy = "career", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Notification> notifications;
 
     // Getters and Setters

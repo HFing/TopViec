@@ -105,6 +105,12 @@
                             <a href="/" class="backlink">
                                 <div class="arrow">&#9664;</div>Back to HomePage
                             </a>
+                            <c:if test="${not empty message}">
+                                <div class="alert-popup" role="alert">
+                                    <span class="icon">✔️</span>
+                                    <span>${message}</span>
+                                </div>
+                            </c:if>
                         </div>
                         <div data-w-id="dd895fd4-7865-6962-cee0-3a705bd5c5dc"
                             style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); opacity: 1; transform-style: preserve-3d;"
@@ -523,6 +529,19 @@
                     }
                 </script>
 
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        setTimeout(function () {
+                            var alertPopup = document.querySelector('.alert-popup');
+                            if (alertPopup) {
+                                alertPopup.classList.add('hide');
+                                setTimeout(function () {
+                                    alertPopup.remove();
+                                }, 500); // Thời gian để hoàn thành hiệu ứng mờ dần
+                            }
+                        }, 3000); // 3 giây
+                    });
+                </script>
 
 
             </body>

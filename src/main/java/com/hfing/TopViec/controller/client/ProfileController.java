@@ -382,7 +382,7 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/resume/resume-update")
-    public String getResumeUpdatePage(Model model) {
+    public String getResumeUpdatePage(Model model, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = null;
         if (authentication != null) {
@@ -396,7 +396,12 @@ public class ProfileController {
             }
         }
         User user = userService.getUserByEmail(userEmail);
+
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
+        if (jobSeekerProfile == null) {
+            redirectAttributes.addFlashAttribute("message", "You need to update your profile first!");
+            return "redirect:/profile/resume";
+        }
         String cityName = jobSeekerProfile.getLocation().getCity() != null
                 ? jobSeekerProfile.getLocation().getCity().getName()
                 : "Chưa cập nhật";
@@ -511,17 +516,25 @@ public class ProfileController {
             infoResume.setUpdateAt(java.time.LocalDateTime.now());
             infoResumeService.save(infoResume);
         }
+        Optional<CommonCareer> optionalCareer = commonCareerService.findById(infoResume.getCareer().getId());
+        CommonCareer career = optionalCareer.orElse(null);
+        commonCityService.findById(infoResume.getCity().getId());
 
+        String careerName = career.getName();
+        CommonCity city = commonCityService.findById(infoResume.getCity().getId());
+        String cityName = city.getName();
         Map<String, Object> response = new HashMap<>();
         response.put("title", infoResume.getTitle());
         response.put("position", infoResume.getPosition());
         response.put("academicLevel", infoResume.getAcademicLevel());
         response.put("experience", infoResume.getExperience());
-        response.put("career", infoResume.getCareer());
-        response.put("city", infoResume.getCity());
+
+        response.put("career", careerName);
+        response.put("city", cityName);
         response.put("typeOfWorkplace", infoResume.getTypeOfWorkplace());
         response.put("jobType", infoResume.getJobType());
         response.put("description", infoResume.getDescription());
+        response.put("formattedSalary", infoResume.getFormattedSalary());
         return ResponseEntity.ok(response);
     }
 
