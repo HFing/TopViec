@@ -2,6 +2,7 @@ package com.hfing.TopViec.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "payment_history")
@@ -14,6 +15,11 @@ public class PaymentHistory {
     private Double amount; // Số tiền thanh toán
     private Integer featuredCount; // Số lượng featured
     private LocalDateTime createdAt; // Thời gian tạo
+
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return createdAt != null ? createdAt.format(formatter) : "";
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -55,4 +61,5 @@ public class PaymentHistory {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 }

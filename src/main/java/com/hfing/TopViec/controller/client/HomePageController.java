@@ -394,8 +394,11 @@ public class HomePageController {
         } else if (career != null && !career.isEmpty()) {
             jobPosts = jobPostService.searchJobsByCareer(career);
         } else {
-            jobPosts = jobPostService.getAllJobPosts();
+            jobPosts = jobPostService.getActiveJobPosts();
         }
+
+        // Loại bỏ các JobPost đã có trong hotJobPosts
+        jobPosts.removeAll(hotJobPosts);
 
         model.addAttribute("jobPosts", jobPosts);
 

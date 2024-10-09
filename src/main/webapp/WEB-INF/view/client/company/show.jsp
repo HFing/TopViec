@@ -111,8 +111,8 @@
                                 <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     Tincidunt
                                     sit
-                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
-                                    class="button-primary w-button">Post a free job</a>
+                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a
+                                    href="/recruiter/job/create" class="button-primary w-button">Post a free job</a>
                             </div>
                         </div>
                     </div>

@@ -105,4 +105,9 @@ public class JobPostService {
     public long getHotJobPostCountByUserId(Long userId) {
         return jobPostRepository.countHotJobPostsByUserId(userId);
     }
+
+    public List<JobPost> getActiveJobPosts() {
+        return jobPostRepository.findByStatus(1);
+    }
+
 }

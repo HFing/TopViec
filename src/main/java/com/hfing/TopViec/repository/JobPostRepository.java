@@ -47,4 +47,6 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
         @Query("SELECT COUNT(jp) FROM JobPost jp WHERE jp.user.id = :userId AND jp.isHot = true")
         long countHotJobPostsByUserId(@Param("userId") Long userId);
+
+        List<JobPost> findByStatus(int status);
 }

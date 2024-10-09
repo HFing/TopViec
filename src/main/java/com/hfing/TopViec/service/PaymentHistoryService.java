@@ -23,4 +23,12 @@ public class PaymentHistoryService {
     public PaymentHistory findByUserID(Long userId) {
         return paymentHistoryRepository.findByUserId(userId);
     }
+
+    public List<PaymentHistory> getAll() {
+        return paymentHistoryRepository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        paymentHistoryRepository.deleteById(id);
+    }
 }

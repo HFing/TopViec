@@ -155,7 +155,7 @@
                     style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
                     <h2 class="title cta">Post a free job</h2>
                     <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit
-                        venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
+                        venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/recruiter/job/create"
                         class="button-primary w-button">Post a free job</a>
                 </div>
             </div>

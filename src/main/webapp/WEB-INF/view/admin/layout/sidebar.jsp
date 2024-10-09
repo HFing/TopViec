@@ -22,6 +22,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Job
                         </a>
+                        <a class="nav-link" href="/admin/invoice">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                            Invoice
+                        </a>
                         <a class="nav-link" href="/admin/bot">
                             <div class="sb-nav-link-icon"><i class="fas fa-robot"></i></div>
                             Bot

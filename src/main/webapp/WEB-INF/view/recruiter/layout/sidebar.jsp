@@ -48,6 +48,22 @@
                         </div>
 
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseManageInvoices" aria-expanded="false"
+                            aria-controls="collapseManageInvoices">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                            Manage Invoices
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseManageInvoices" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/recruiter/invoices">Invoices</a>
+                                <a class="nav-link" href="/pricing">Buy Job Hot</a>
+
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseManageAccounts" aria-expanded="false"
                             aria-controls="collapseManageAccounts">
                             <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
@@ -63,6 +79,9 @@
                                 <a class="nav-link" href="">Settings</a> -->
                             </nav>
                         </div>
+
+
+
 
 
                         <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"

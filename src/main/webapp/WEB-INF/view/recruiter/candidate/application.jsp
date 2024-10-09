@@ -53,11 +53,11 @@
                         </c:if>
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Find Candidate</h1>
+                                <h1 class="mt-4">Candidate Apply</h1>
 
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Find Candidate</li>
+                                    <li class="breadcrumb-item active">Candidate Apply</li>
                                 </ol>
 
                                 <div class="col-12 mx-auto">
@@ -113,7 +113,7 @@
                                                         (${jobPostActivity.resume.user.fullName})
                                                     </td>
                                                     <td>${jobPostActivity.resume.position.displayName}</td>
-                                                    <td>${jobPostActivity.createAt}</td>
+                                                    <td>${jobPostActivity.formattedCreateAt}</td>
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${jobPostActivity.resume.fileUrl == null}">
