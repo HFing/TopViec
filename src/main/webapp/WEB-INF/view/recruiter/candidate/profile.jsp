@@ -47,8 +47,17 @@
                                     <div class="row mb-4">
                                         <div class="col-12 d-flex justify-content-start">
                                             <button class="btn btn-outline-secondary me-2" onclick="printDiv()">
-                                                <i class="bi bi-file-earmark"></i> Tải CV
+                                                <i class="bi bi-file-earmark"></i> Dowload CV
                                             </button>
+                                            <form:form method="post" action="/recruiter/candidate/save"
+                                                modelAttribute="infoResumeSaved">
+                                                <form:hidden path="resume.id" value="${candidate.id}" />
+                                                <button type="submit" class="btn btn-outline-secondary me-2">
+                                                    <i
+                                                        class="bi ${isSaved ? 'bi-heart-fill text-danger' : 'bi-heart'}"></i>
+                                                    Save
+                                                </button>
+                                            </form:form>
 
 
 
