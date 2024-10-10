@@ -267,7 +267,7 @@
                                                     </div>
                                                     <div class="card-job-post-category-text">${infoResume.salaryMax
                                                         != null ?
-                                                        infoResume.salaryMax :
+                                                        infoResume.formattedSalaryMax :
                                                         'Not
                                                         updated'} VND</div>
                                                 </div>
@@ -306,9 +306,9 @@
                                                                         data-id="${resume.id}">
                                                                         <p>CV Name: ${resume.title}</p>
                                                                         <p>Desired Level: ${resume.position}</p>
-                                                                        <p>Last Update: ${resume.updateAt}</p>
-                                                                        <button type="button"
-                                                                            class="button-secondary small w-button">Edit</button>
+                                                                        <p>Create At: ${resume.formattedUpdateAt}</p>
+                                                                        <!-- <button type="button"
+                                                                            class="button-secondary small w-button">Edit</button> -->
                                                                         <form
                                                                             action="/profile/resume/delete/${resume.id}"
                                                                             method="post" style="display:inline;">

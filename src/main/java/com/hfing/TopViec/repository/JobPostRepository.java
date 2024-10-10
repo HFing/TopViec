@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
 
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
@@ -49,4 +50,6 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
         long countHotJobPostsByUserId(@Param("userId") Long userId);
 
         List<JobPost> findByStatus(int status);
+
+        List<JobPost> findByTypeOfWorkplace(TypeOfWorkplace typeOfWorkplace);
 }

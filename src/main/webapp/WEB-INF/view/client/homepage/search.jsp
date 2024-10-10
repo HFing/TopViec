@@ -73,55 +73,23 @@
                                                 <h4 class="title featured-companies">Featured companies</h4>
                                                 <div class="w-dyn-list">
                                                     <div role="list" class="featured-companies-grid w-dyn-items">
-                                                        <div role="listitem" class="featured-company-item w-dyn-item"><a
-                                                                href="/company/facebook"
-                                                                class="featured-company-wrapper w-inline-block">
-                                                                <div class="featured-company-content">
-                                                                    <div class="image-wrapper featured-company"><img
-                                                                            src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c84897b7ea2081168fe5_icon-7-company-job-board-x-template.svg"
-                                                                            alt="Facebook"
-                                                                            class="image featured-company"></div>
-                                                                    <h5 class="title featured-company">Facebook</h5>
-                                                                </div>
-                                                                <div class="arrow">&#9654;</div>
-                                                            </a>
-                                                        </div>
-                                                        <div role="listitem" class="featured-company-item w-dyn-item"><a
-                                                                href="/company/twitter"
-                                                                class="featured-company-wrapper w-inline-block">
-                                                                <div class="featured-company-content">
-                                                                    <div class="image-wrapper featured-company"><img
-                                                                            src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c829d7c3af7b0d61137c_icon-6-company-job-board-x-template.svg"
-                                                                            alt="Twitter"
-                                                                            class="image featured-company"></div>
-                                                                    <h5 class="title featured-company">Twitter</h5>
-                                                                </div>
-                                                                <div class="arrow">&#9654;</div>
-                                                            </a></div>
-                                                        <div role="listitem" class="featured-company-item w-dyn-item"><a
-                                                                href="/company/google"
-                                                                class="featured-company-wrapper w-inline-block">
-                                                                <div class="featured-company-content">
-                                                                    <div class="image-wrapper featured-company"><img
-                                                                            src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c7ea645b46e9836da40c_icon-4-company-job-board-x-template.svg"
-                                                                            alt="Google" class="image featured-company">
+                                                        <c:forEach var="company" items="${companies}">
+                                                            <div role="listitem"
+                                                                class="featured-company-item w-dyn-item"><a
+                                                                    href="/companies/${company.id}"
+                                                                    class="featured-company-wrapper w-inline-block">
+                                                                    <div class="featured-company-content">
+                                                                        <div class="image-wrapper featured-company"><img
+                                                                                src="/images/company/${company.companyImageUrl}"
+                                                                                alt="Facebook"
+                                                                                class="image featured-company"></div>
+                                                                        <h5 class="title featured-company">
+                                                                            ${company.companyName}</h5>
                                                                     </div>
-                                                                    <h5 class="title featured-company">Google</h5>
-                                                                </div>
-                                                                <div class="arrow">&#9654;</div>
-                                                            </a></div>
-                                                        <div role="listitem" class="featured-company-item w-dyn-item"><a
-                                                                href="/company/youtube"
-                                                                class="featured-company-wrapper w-inline-block">
-                                                                <div class="featured-company-content">
-                                                                    <div class="image-wrapper featured-company"><img
-                                                                            src="https://assets-global.website-files.com/60c77302fcfa2bdb6e595f76/60c7c77c645b466dd56da3b0_icon-3-company-job-board-x-template.svg"
-                                                                            alt="Youtube"
-                                                                            class="image featured-company"></div>
-                                                                    <h5 class="title featured-company">Youtube</h5>
-                                                                </div>
-                                                                <div class="arrow">&#9654;</div>
-                                                            </a></div>
+                                                                    <div class="arrow">&#9654;</div>
+                                                                </a>
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,8 +128,8 @@
                                 <h2 class="title cta">Post a free job</h2>
                                 <p class="paragraph cta">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     Tincidunt sit
-                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a href="/post-a-job"
-                                    class="button-primary w-button">Post a free job</a>
+                                    venenatis, vulputate tristique fringilla ut. Vitae pulvina.</p><a
+                                    href="/recruiter/job" class="button-primary w-button">Post a free job</a>
                             </div>
                         </div>
                     </div>

@@ -58,7 +58,7 @@
                                                                 </div>
                                                                 <div role="listitem"
                                                                     class="jobs-filters-dropdown-link-item w-dyn-item">
-                                                                    <a href="/job-location-category/remote"
+                                                                    <a href="/search?typeOfWorkplace=REMOTE"
                                                                         class="dropdown-nav-link"
                                                                         tabindex="0">Remote</a>
                                                                 </div>
@@ -187,33 +187,30 @@
                                                             <li class="dropdown-nav-item"><a href="/about"
                                                                     class="dropdown-nav-link" tabindex="0">About us</a>
                                                             </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="https://jobboardxtemplate.webflow.io/job/backend-software-engineer"
+                                                            <li class="dropdown-nav-item"><a href="/recruiter/job"
                                                                     class="dropdown-nav-link" tabindex="0">Job post</a>
                                                             </li>
                                                             <li class="dropdown-nav-item"><a
-                                                                    href="https://jobboardxtemplate.webflow.io/job-location-category/remote"
+                                                                    href="/search?typeOfWorkplace=REMOTE"
                                                                     class="dropdown-nav-link" tabindex="0">Job post
                                                                     category</a></li>
                                                             <li class="dropdown-nav-item"><a href="/companies"
                                                                     class="dropdown-nav-link" tabindex="0">Companies</a>
                                                             </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="https://jobboardxtemplate.webflow.io/company/webflow"
+                                                            <li class="dropdown-nav-item"><a href="#"
                                                                     class="dropdown-nav-link" tabindex="0">Single
                                                                     company</a></li>
                                                         </ul>
                                                         <ul role="list" class="dropdown-nav last">
-                                                            <li class="dropdown-nav-item"><a href="/post-a-job"
+                                                            <li class="dropdown-nav-item"><a href="/recruiter/job"
                                                                     class="dropdown-nav-link" tabindex="0">Post a free
                                                                     job</a></li>
                                                             <li class="dropdown-nav-item"><a href="/pricing"
                                                                     class="dropdown-nav-link" tabindex="0">Post a paid
                                                                     job</a></li>
-                                                            <li class="dropdown-nav-item"><a href="/blog"
+                                                            <li class="dropdown-nav-item"><a href="#"
                                                                     class="dropdown-nav-link" tabindex="0">Blog</a></li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="https://jobboardxtemplate.webflow.io/blog/how-to-easily-collaborate-with-designers-as-a-developer"
+                                                            <li class="dropdown-nav-item"><a href="#"
                                                                     class="dropdown-nav-link" tabindex="0">Blog post</a>
                                                             </li>
                                                             <li class="dropdown-nav-item"><a href="/contact"
@@ -229,37 +226,22 @@
                                                     <div class="title h5-size dropdown-nav-title">Utility Pages</div>
                                                     <div class="dropdown-nav-content">
                                                         <ul role="list" class="dropdown-nav last">
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="/utility-pages/style-guide"
+                                                            <li class="dropdown-nav-item"><a href="#"
                                                                     class="dropdown-nav-link" tabindex="0">Style
                                                                     guide</a>
                                                             </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="/utility-pages/start-here"
-                                                                    class="dropdown-nav-link" tabindex="0">Start
-                                                                    here</a>
-                                                            </li>
+
                                                             <li class="dropdown-nav-item"><a
                                                                     href="https://jobboardxtemplate.webflow.io/404"
                                                                     class="dropdown-nav-link" tabindex="0">404 Not
                                                                     found</a>
                                                             </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="https://jobboardxtemplate.webflow.io/401"
-                                                                    class="dropdown-nav-link" tabindex="0">Password
-                                                                    protected</a></li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="/utility-pages/licenses"
-                                                                    class="dropdown-nav-link" tabindex="0">Licenses</a>
-                                                            </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="/utility-pages/changelog"
-                                                                    class="dropdown-nav-link" tabindex="0">Changelog</a>
-                                                            </li>
-                                                            <li class="dropdown-nav-item"><a
-                                                                    href="https://brixtemplates.com/more-templates"
+
+
+
+                                                            <li class="dropdown-nav-item"><a href="#"
                                                                     class="dropdown-nav-link special"
-                                                                    tabindex="0">Browse&nbsp;more templates</a></li>
+                                                                    tabindex="0">HFing</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -449,7 +431,8 @@
                                                         data-wf-collection="database.commerceOrder.userItems"
                                                         data-wf-template-id="wf-template-86d01ae5-f4f5-e0fe-d623-45a4fc1f5cf4">
                                                         <c:forEach var="notification" items="${notifications}">
-                                                            <div data-noti-delete-id="${notification.id}" class="w-commerce-commercecartitem cart-item">
+                                                            <div data-noti-delete-id="${notification.id}"
+                                                                class="w-commerce-commercecartitem cart-item">
                                                                 <div class="order-item-wrapper"><a
                                                                         data-wf-bindings="%5B%7B%22dataWHref%22%3A%7B%22type%22%3A%22FullSlug%22%2C%22filter%22%3A%7B%22type%22%3A%22identity%22%2C%22params%22%3A%5B%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.product.fullSlug%22%7D%7D%5D"
                                                                         href="/product/5-job-credits"
@@ -482,7 +465,8 @@
                                                                     data-wf-cart-action="remove-item"
                                                                     data-commerce-sku-id="60ca4a86055418092c2c94bb"
                                                                     aria-label="Remove item from cart">
-                                                                    <div onclick="removeNoti('${notification.id}')">Remove</div>
+                                                                    <div onclick="removeNoti('${notification.id}')">
+                                                                        Remove</div>
                                                                 </a><input
                                                                     data-wf-bindings="%5B%7B%22value%22%3A%7B%22type%22%3A%22Number%22%2C%22filter%22%3A%7B%22type%22%3A%22numberPrecision%22%2C%22params%22%3A%5B%220%22%2C%22numberPrecision%22%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.count%22%7D%7D%2C%7B%22data-commerce-sku-id%22%3A%7B%22type%22%3A%22ItemRef%22%2C%22filter%22%3A%7B%22type%22%3A%22identity%22%2C%22params%22%3A%5B%5D%7D%2C%22dataPath%22%3A%22database.commerceOrder.userItems.0.sku.id%22%7D%7D%5D"
                                                                     class="w-commerce-commercecartquantity input cart-item-quantity"

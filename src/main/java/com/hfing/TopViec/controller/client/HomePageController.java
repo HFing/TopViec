@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Collections;
+import java.util.Comparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,6 +35,7 @@ import com.hfing.TopViec.domain.UserRole;
 import com.hfing.TopViec.domain.dto.RegisterDTO;
 import com.hfing.TopViec.domain.dto.RegisterRecruiterDTO;
 import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
 import com.hfing.TopViec.service.ChatHistoryService;
 import com.hfing.TopViec.service.CommonCareerService;
 import com.hfing.TopViec.service.CommonCityService;
@@ -385,7 +387,22 @@ public class HomePageController {
             @RequestParam(value = "location", required = false) String location,
             @RequestParam(value = "position", required = false) String position,
             @RequestParam(value = "career", required = false) String career,
+            @RequestParam(value = "typeOfWorkplace", required = false) String typeOfWorkplace,
             Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        User user = userService.getUserByEmail(userEmail);
         List<JobPost> hotJobPosts = jobPostService.getHotJobPosts();
         model.addAttribute("hotJobPosts", hotJobPosts);
 
@@ -398,6 +415,8 @@ public class HomePageController {
             jobPosts = jobPostService.searchJobsByPosition(Position.valueOf(position));
         } else if (career != null && !career.isEmpty()) {
             jobPosts = jobPostService.searchJobsByCareer(career);
+        } else if (typeOfWorkplace != null && !typeOfWorkplace.isEmpty()) {
+            jobPosts = jobPostService.searchJobsByTypeOfWorkplace(TypeOfWorkplace.valueOf(typeOfWorkplace));
         } else {
             jobPosts = jobPostService.getActiveJobPosts();
         }
@@ -405,11 +424,28 @@ public class HomePageController {
         // Loại bỏ các JobPost đã có trong hotJobPosts
         jobPosts.removeAll(hotJobPosts);
 
+        // Sắp xếp jobPosts theo thuộc tính isUrgent
+        jobPosts.sort(new Comparator<JobPost>() {
+            @Override
+            public int compare(JobPost jp1, JobPost jp2) {
+                return Boolean.compare(jp2.getIsUrgent(), jp1.getIsUrgent());
+            }
+        });
+
         model.addAttribute("jobPosts", jobPosts);
 
         List<CommonCareer> careers = commonCareerService.findAll();
         model.addAttribute("careers", careers);
 
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
+
+        List<InfoCompany> allCompanies = infoCompanyService.getAllCompanies();
+        List<InfoCompany> topCompanies = allCompanies.size() > 4 ? allCompanies.subList(0, 4) : allCompanies;
+        Collections.shuffle(topCompanies);
+        model.addAttribute("companies", topCompanies);
         return "client/homepage/search";
     }
 

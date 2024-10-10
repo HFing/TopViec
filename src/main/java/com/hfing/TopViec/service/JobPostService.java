@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 import com.hfing.TopViec.domain.JobPost;
 import com.hfing.TopViec.domain.enums.Position;
+import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
 import com.hfing.TopViec.repository.JobPostRepository;
 
 @Service
@@ -108,6 +109,10 @@ public class JobPostService {
 
     public List<JobPost> getActiveJobPosts() {
         return jobPostRepository.findByStatus(1);
+    }
+
+    public List<JobPost> searchJobsByTypeOfWorkplace(TypeOfWorkplace typeOfWorkplace) {
+        return jobPostRepository.findByTypeOfWorkplace(typeOfWorkplace);
     }
 
 }

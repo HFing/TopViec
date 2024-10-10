@@ -36,7 +36,7 @@
                                             Nang</a>
                                     </div>
                                     <div role="listitem" class="jobs-filters-dropdown-link-item w-dyn-item">
-                                        <a href="/job-location-category/remote" class="dropdown-nav-link"
+                                        <a href="/search?typeOfWorkplace=REMOTE" class="dropdown-nav-link"
                                             tabindex="0">Remote</a>
                                     </div>
                                 </div>

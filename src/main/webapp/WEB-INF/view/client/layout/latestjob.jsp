@@ -4,6 +4,45 @@
             <h2 class="title jobs">Latest jobs</h2>
             <div class="w-dyn-list">
                 <div role="list" class="jobs-grid w-dyn-items">
+                    <c:if test="${empty jobPosts}">
+                        <div class="card job-empty-state w-dyn-empty">
+                            <div class="job-empty-state-wrapper">
+                                <div class="image-wrapper job-empty-state-icon"><img
+                                        alt="Search Icon - Job Board X Webflow Template"
+                                        src="https://cdn.prod.website-files.com/60c77302fcfa2b84ab595f64/60c94c777132722f6ab7e8b6_icon-job-empty-job-board-x-template.svg"
+                                        class="image job-empty-state"></div>
+                                <div class="job-empty-state-content">
+                                    <h3 class="title h2-size job-empty-state">Couldn't find the job you were looking
+                                        for?</h3>
+                                    <p class="paragraph job-empty-state">Want to stay up to
+                                        date of
+                                        all new job openings popin up? Subscribe to our
+                                        newsletter
+                                        to receive great jobs every week.</p>
+                                    <div class="job-empty-state-form-block w-form">
+                                        <form id="wf-form-Job-Empty-State-Form" name="wf-form-Job-Empty-State-Form"
+                                            data-name="Job Empty State Form" method="get" class="job-empty-state-form"
+                                            data-wf-page-id="60c7a4d437554c8630b53ab2"
+                                            data-wf-element-id="93a9aff5-cc15-0ba3-947d-b091b4bbaf0b"
+                                            aria-label="Job Empty State Form"><input
+                                                class="input job-empty-state w-input" maxlength="256" name="Email"
+                                                data-name="Email" placeholder="Subscribe to our newsletter" type="email"
+                                                id="email" required=""><input type="submit" data-wait="Please wait..."
+                                                class="button-primary small job-empty-state w-button" value="Subscribe">
+                                        </form>
+                                        <div class="success-message w-form-done" tabindex="-1" role="region"
+                                            aria-label="Job Empty State Form success">
+                                            <div>Thanks for joining our newsletter.</div>
+                                        </div>
+                                        <div class="error-message w-form-fail" tabindex="-1" role="region"
+                                            aria-label="Job Empty State Form failure">
+                                            <div>Oops! Something went wrong.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
                     <c:forEach var="job" items="${jobPosts}">
                         <div role="listitem" class="job-item w-dyn-item">
                             <a href="job/${job.id}" class="card job w-inline-block ${job.isUrgent ? 'latest' : ''}">
@@ -425,12 +464,11 @@
                             </div>
                         </a></div> -->
                 </div>
-                <div role="navigation" aria-label="List" class="w-pagination-wrapper pagination"><a
-                        href="?ea8d9d2b_page=2" aria-label="Next Page"
-                        class="w-pagination-next button-secondary pagination">
-                        <div class="w-inline-block">Next</div>
+                <div role="navigation" aria-label="List" class="w-pagination-wrapper pagination">
+                    <a href="/search" aria-label="Next Page" class="w-pagination-next button-secondary pagination">
+                        <div class="w-inline-block">See All</div>
                     </a>
-                    <link rel="prerender" href="?ea8d9d2b_page=2">
+                    <link rel="prerender" href="/search">
                 </div>
             </div>
         </div>

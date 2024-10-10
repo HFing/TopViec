@@ -22,7 +22,8 @@ import com.hfing.TopViec.domain.enums.Experience;
 import com.hfing.TopViec.domain.enums.JobType;
 import com.hfing.TopViec.domain.enums.Position;
 import com.hfing.TopViec.domain.enums.TypeOfWorkplace;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -93,6 +94,14 @@ public class InfoResume {
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InfoResumeSaved> savedByCompanies;
+
+    public String getFormattedUpdateAt() {
+        if (updateAt == null) {
+            return "Not available";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return updateAt.format(formatter);
+    }
 
     public Long getId() {
         return id;
@@ -300,6 +309,15 @@ public class InfoResume {
         String formattedMin = formatter.format(salaryMin.divide(BigDecimal.valueOf(1000000)));
         String formattedMax = formatter.format(salaryMax.divide(BigDecimal.valueOf(1000000)));
         return String.format("%s - %s Million", formattedMin, formattedMax);
+    }
+
+    public String getFormattedSalaryMax() {
+        if (salaryMax == null) {
+            return "Not available";
+        }
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+        formatter.setMaximumFractionDigits(0);
+        return formatter.format(salaryMax.divide(BigDecimal.valueOf(1000000))) + " Million";
     }
 
 }

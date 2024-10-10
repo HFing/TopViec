@@ -79,7 +79,10 @@ public class JobController {
             }
         }
         User user = userService.getUserByEmail(userEmail);
-
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
         JobPost jobPost = jobPostService.getJobPostById(id);
 
         jobPost.setViews(jobPost.getViews() + 1);
@@ -138,6 +141,10 @@ public class JobController {
             }
         }
         User user = userService.getUserByEmail(userEmail);
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
 
         // Thiết lập các thuộc tính bổ sung
         jobPostActivity.setCreateAt(LocalDateTime.now());

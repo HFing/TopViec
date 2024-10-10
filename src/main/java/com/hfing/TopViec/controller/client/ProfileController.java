@@ -66,6 +66,7 @@ import com.hfing.TopViec.service.InfoLanguageSkillService;
 import com.hfing.TopViec.service.InfoResumeService;
 import com.hfing.TopViec.service.JobPostActivityService;
 import com.hfing.TopViec.service.JobSeekerProfileService;
+import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -86,6 +87,7 @@ public class ProfileController {
     private final InfoAdvancedSkillService infoAdvancedSkillService;
     private final UploadService uploadService;
     private final JobPostActivityService jobPostActivityService;
+    private final NotificationService notificationService;
 
     public ProfileController(UserService userService, JobSeekerProfileService jobSeekerProfileService,
             CommonCityService commonCityService, CommonLocationService commonLocationService,
@@ -94,7 +96,7 @@ public class ProfileController {
             InfoEducationDetailService infoEducationDetailService,
             InfoCertificateService infoCertificateService, InfoLanguageSkillService infoLanguageSkillService,
             InfoAdvancedSkillService infoAdvancedSkillService, UploadService uploadService,
-            JobPostActivityService jobPostActivityService) {
+            JobPostActivityService jobPostActivityService, NotificationService notificationService) {
         this.userService = userService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.commonCityService = commonCityService;
@@ -108,6 +110,7 @@ public class ProfileController {
         this.infoAdvancedSkillService = infoAdvancedSkillService;
         this.uploadService = uploadService;
         this.jobPostActivityService = jobPostActivityService;
+        this.notificationService = notificationService;
     }
 
     @Autowired
@@ -130,6 +133,10 @@ public class ProfileController {
         }
 
         User user = userService.getUserByEmail(userEmail);
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
 
         List<JobPostActivity> appliedJobs = jobPostActivityService.findByUserId(user.getId());
@@ -182,6 +189,10 @@ public class ProfileController {
         }
 
         User user = userService.getUserByEmail(userEmail);
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
         JobSeekerProfile jobSeekerProfile = null;
         if (user != null) {
             jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
@@ -293,6 +304,10 @@ public class ProfileController {
             }
         }
         User user = userService.getUserByEmail(userEmail);
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
         InfoResume infoResume = infoResumeService.findAllByUserIdAndFileUrlIsNull(user.getId());
         List<CommonCareer> careers = commonCareerService.findAll();
         List<CommonCity> cities = commonCityService.findAll();
@@ -396,6 +411,11 @@ public class ProfileController {
             }
         }
         User user = userService.getUserByEmail(userEmail);
+
+        if (user != null) {
+            model.addAttribute("notifications", notificationService.getNotificationsByUser(user));
+            model.addAttribute("notificationCount", notificationService.countNotificationsByUser(user));
+        }
 
         JobSeekerProfile jobSeekerProfile = jobSeekerProfileService.getProfileByUserId(user.getId());
         if (jobSeekerProfile == null) {
