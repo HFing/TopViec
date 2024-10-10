@@ -33,7 +33,7 @@
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/recruiter">Dashboard</a></li>
                                     <li class="breadcrumb-item active"><a href="/recruiter/job">Job Posts</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
+                                    <li class="breadcrumb-item active">Update</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
