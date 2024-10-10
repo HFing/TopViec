@@ -41,8 +41,11 @@ public class InvoicesRecruiterController {
         }
         User user = userService.getUserByEmail(userEmail);
         PaymentHistory paymentHistory = paymentHistoryService.findByUserID(user.getId());
-        String formattedCreatedAt = paymentHistory.getFormattedCreatedAt();
-        model.addAttribute("formattedCreatedAt", formattedCreatedAt);
+        if (paymentHistory != null) {
+            String formattedCreatedAt = paymentHistory.getFormattedCreatedAt();
+            model.addAttribute("formattedCreatedAt", formattedCreatedAt);
+        }
+
         model.addAttribute("invoices", paymentHistoryService.findByUserID(user.getId()));
         return "recruiter/invoice/show";
     }

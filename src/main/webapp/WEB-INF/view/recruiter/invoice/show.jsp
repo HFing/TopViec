@@ -48,7 +48,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>${invoices.id}</td>
-                                                <td>${invoices.amount} $</td>
+                                                <td>${invoices.amount}</td>
                                                 <td>${invoices.featuredCount}</td>
                                                 <td>${formattedCreatedAt}</td>
                                             </tr>
