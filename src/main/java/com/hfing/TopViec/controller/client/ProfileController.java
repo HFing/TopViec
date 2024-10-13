@@ -21,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +50,7 @@ import com.hfing.TopViec.domain.InfoResume;
 import com.hfing.TopViec.domain.JobPostActivity;
 import com.hfing.TopViec.domain.JobSeekerProfile;
 import com.hfing.TopViec.domain.User;
+import com.hfing.TopViec.domain.dto.ChangePasswordForm;
 import com.hfing.TopViec.domain.enums.AcademicLevel;
 import com.hfing.TopViec.domain.enums.Experience;
 import com.hfing.TopViec.domain.enums.JobType;
@@ -70,6 +72,7 @@ import com.hfing.TopViec.service.NotificationService;
 import com.hfing.TopViec.service.UploadService;
 import com.hfing.TopViec.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class ProfileController {
@@ -112,6 +115,9 @@ public class ProfileController {
         this.jobPostActivityService = jobPostActivityService;
         this.notificationService = notificationService;
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -987,6 +993,72 @@ public class ProfileController {
         message.setFrom("h5studiogl@gmail.com");
         message.setSubject("Account Verification");
         message.setText("Please click the following link to verify your account: " + verificationUrl);
+        mailSender.send(message);
+    }
+
+    @GetMapping("/changePassword")
+    public String showChangePasswordPage(Model model) {
+        model.addAttribute("changePasswordForm", new ChangePasswordForm());
+
+        return "client/auth/change-password";
+    }
+
+    @PostMapping("/changePassword")
+    public String handleChangePassword(@Valid @ModelAttribute("changePasswordForm") ChangePasswordForm form,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/changePassword";
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = null;
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                userEmail = userDetails.getUsername();
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userEmail = oAuth2User.getAttribute("email");
+            }
+        }
+
+        User user = userService.getUserByEmail(userEmail);
+
+        if (!passwordEncoder.matches(form.getCurrentPassword(), user.getPassword())) {
+            redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
+            return "redirect:/changePassword";
+        }
+
+        if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("error", "New password and confirm password do not match.");
+            return "redirect:/changePassword";
+        }
+
+        userService.updatePassword(user, form.getNewPassword()); // Cập nhật mật khẩu của người dùng
+        sendPasswordChangeNotificationEmail(user.getEmail());
+        redirectAttributes.addFlashAttribute("message", "Password has been changed successfully.");
+        return "redirect:/profile";
+    }
+
+    private void sendPasswordChangeNotificationEmail(String email) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom("h5studiogl@gmail.com");
+        message.setSubject("Password Change Notification");
+
+        // Lấy thời gian hiện tại
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+
+        // Nội dung email
+        String emailContent = "Your password has been successfully changed on " + formattedDateTime + ".";
+        message.setText(emailContent);
+
         mailSender.send(message);
     }
 }

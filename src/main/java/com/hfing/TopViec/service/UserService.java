@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.hfing.TopViec.domain.User;
 import com.hfing.TopViec.domain.dto.RegisterDTO;
 import com.hfing.TopViec.repository.UserRepository;
@@ -14,6 +15,10 @@ import com.hfing.TopViec.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -69,5 +74,10 @@ public class UserService {
 
     public long countUsersByRoleName(String roleName) {
         return userRepository.countUsersByRoleName(roleName);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

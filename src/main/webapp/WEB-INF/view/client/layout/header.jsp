@@ -542,12 +542,22 @@
                                                                 <a href="/admin" class="dropdown-nav-link"
                                                                     tabindex="0">Dashboard</a>
                                                             </div>
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/changePassword" class="dropdown-nav-link"
+                                                                    tabindex="0">Change Password</a>
+                                                            </div>
                                                         </c:if>
                                                         <c:if test="${role == 'RECRUITER'}">
                                                             <div role="listitem"
                                                                 class="jobs-filters-dropdown-link-item w-dyn-item">
                                                                 <a href="/recruiter" class="dropdown-nav-link"
                                                                     tabindex="0">Dashboard</a>
+                                                            </div>
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/changePassword" class="dropdown-nav-link"
+                                                                    tabindex="0">Change Password</a>
                                                             </div>
                                                         </c:if>
                                                         <c:if test="${role == 'USER'}">
@@ -556,7 +566,13 @@
                                                                 <a href="/profile" class="dropdown-nav-link"
                                                                     tabindex="0">Profile</a>
                                                             </div>
+                                                            <div role="listitem"
+                                                                class="jobs-filters-dropdown-link-item w-dyn-item">
+                                                                <a href="/changePassword" class="dropdown-nav-link"
+                                                                    tabindex="0">Change Password</a>
+                                                            </div>
                                                         </c:if>
+
 
                                                         <div role="listitem"
                                                             class="jobs-filters-dropdown-link-item w-dyn-item">

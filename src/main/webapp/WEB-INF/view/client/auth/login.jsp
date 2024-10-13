@@ -10,6 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Document</title>
                 <link rel="stylesheet" href="client/css/style.css">
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
                 <script type="text/javascript">
                     !function (o, c) { var n = c.documentElement, t = " w-mod-"; n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch") }(window, document);
                 </script>
@@ -21,6 +22,12 @@
             <body>
                 <jsp:include page="../layout/header.jsp" />
                 <div class="section post-job">
+                    <c:if test="${not empty message}">
+                        <div class="alert-popup" role="alert">
+                            <span class="icon">✔️</span>
+                            <span>${message}</span>
+                        </div>
+                    </c:if>
                     <div data-w-id="123feafa-d91f-7738-55c7-5603506f5ee9"
                         style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); opacity: 1; transform-style: preserve-3d;"
                         class="container-medium-765px post-job">
@@ -97,6 +104,10 @@
                                                                 required="" />
                                                         </div>
                                                         <div>
+                                                            <a href="/forgot_password"
+                                                                class="forgot-password-link">Forgot your password?</a>
+                                                        </div>
+                                                        <div>
                                                             <input type="hidden" name="${_csrf.parameterName}"
                                                                 value="${_csrf.token}" />
                                                         </div>
@@ -129,6 +140,19 @@
                     src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=60c77302fcfa2b84ab595f64"
                     type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
                     crossorigin="anonymous"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        setTimeout(function () {
+                            var alertPopup = document.querySelector('.alert-popup');
+                            if (alertPopup) {
+                                alertPopup.classList.add('hide');
+                                setTimeout(function () {
+                                    alertPopup.remove();
+                                }, 500); // Thời gian để hoàn thành hiệu ứng mờ dần
+                            }
+                        }, 3000); // 3 giây
+                    });
+                </script>
             </body>
 
             </html>

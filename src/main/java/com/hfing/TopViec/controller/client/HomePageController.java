@@ -1,5 +1,6 @@
 package com.hfing.TopViec.controller.client;
 
+import java.security.SecureRandom;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -64,6 +65,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomePageController {
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -504,4 +508,60 @@ public class HomePageController {
         List<ChatHistory> chatHistory = chatHistoryService.getChatHistory(sender, recipient);
         return ResponseEntity.ok(chatHistory);
     }
+
+    @GetMapping("/forgot_password")
+    public String getResetPassPage() {
+        return "client/auth/forgot-password";
+    }
+
+    @PostMapping("/forgot_password")
+    public String handleForgotPassword(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+        if (!userService.checkEmailExist(email)) {
+            redirectAttributes.addFlashAttribute("error", "Email does not exist");
+            return "redirect:/forgot_password";
+        }
+
+        User user = userService.getUserByEmail(email);
+        String newPassword = generateRandomPassword(10); // Tạo mật khẩu ngẫu nhiên dài 10 ký tự
+        userService.updatePassword(user, newPassword);
+
+        String subject = "Your New Password";
+        String message = "Your new password is: " + newPassword;
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setFrom("h5studiogl@gmail.com");
+            helper.setSubject(subject);
+
+            // HTML content for email
+            String htmlMsg = "<div style='text-align: center; font-family: Arial, sans-serif;'>"
+                    + "<h2 style='color: #333;'>Your New Password</h2>"
+                    + "<p>Your new password is: <strong>" + newPassword + "</strong></p>"
+                    + "<p>Please change your password after logging in for security reasons.</p>"
+                    + "</div>";
+
+            helper.setText(htmlMsg, true);
+
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Failed to send email. Please try again.");
+            return "redirect:/forgot_password";
+        }
+
+        redirectAttributes.addFlashAttribute("message", "A reset password link has been sent to your email.");
+        return "redirect:/login";
+    }
+
+    private String generateRandomPassword(int length) {
+        StringBuilder password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            password.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+        }
+        return password.toString();
+    }
+
 }
