@@ -173,7 +173,7 @@
                                     <div data-w-tab="Company Jobs" class="company-tab-pane w-tab-pane w--tab-active"
                                         id="w-tabs-0-data-w-pane-0" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-0">
-                                        <h2 class="title h3-size company-job-openings">Webflow job openings</h2>
+                                        <h2 class="title h3-size company-job-openings">Job openings</h2>
                                         <div class="w-dyn-list">
                                             <c:choose>
                                                 <c:when test="${jobPosts == null || jobPosts.isEmpty()}">
@@ -340,7 +340,7 @@
                                     <div data-w-tab="Company Perks" class="company-tab-pane w-tab-pane"
                                         id="w-tabs-0-data-w-pane-2" role="tabpanel"
                                         aria-labelledby="w-tabs-0-data-w-tab-2">
-                                        <h2 class="title h3-size company-perks">Webflow job openings</h2>
+                                        <h2 class="title h3-size company-perks">Image Company</h2>
                                         <div class="company-perks-columns w-row">
                                             <div class="slider">
                                                 <div class="slides">

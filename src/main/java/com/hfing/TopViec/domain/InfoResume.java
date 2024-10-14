@@ -304,6 +304,9 @@ public class InfoResume {
     }
 
     public String getFormattedSalary() {
+        if (salaryMin == null || salaryMax == null) {
+            return "Not updated";
+        }
         NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
         formatter.setMaximumFractionDigits(0);
         String formattedMin = formatter.format(salaryMin.divide(BigDecimal.valueOf(1000000)));

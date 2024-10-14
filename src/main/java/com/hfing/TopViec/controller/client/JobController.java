@@ -158,6 +158,7 @@ public class JobController {
         jobPostActivity.setJobPost(jobPost);
 
         jobPostActivityService.save(jobPostActivity);
+        // thong bao cho cong ty
         Notification notification = new Notification();
         notification.setCreateAt(LocalDateTime.now());
         notification.setUser(jobPost.getCompany().getUser());
@@ -165,7 +166,14 @@ public class JobController {
         notification.setJobName(user.getFullName() + " has applied for " + jobPost.getJobName());
         notification.setExperience(jobPost.getExperience().getDisplayName());
         notificationService.saveNotification(notification);
-
+        // Thong bao cho admin
+        Notification notification2 = new Notification();
+        notification2.setCreateAt(LocalDateTime.now());
+        notification2.setUser(userService.getUserByEmail("admin@gmail.com"));
+        notification2.setCareer(jobPost.getCareer());
+        notification2.setJobName(user.getFullName() + " has applied for " + jobPost.getJobName());
+        notification2.setExperience(jobPost.getExperience().getDisplayName());
+        notificationService.saveNotification(notification2);
         sendApplicationNotificationEmail(userEmail, jobPost.getJobName());
         redirectAttributes.addFlashAttribute("message", "Apply Your CV successfully!");
         return "redirect:/job/" + jobPostActivity.getJobPost().getId();
