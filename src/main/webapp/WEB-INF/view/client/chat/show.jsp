@@ -181,7 +181,6 @@
                                     <div class="chat-messages">
 
                                     </div>
-
                                     <div class="input-group mb-3">
                                         <input type="text" placeholder="Type a message..."
                                             class="form-control chat-input">
@@ -190,7 +189,6 @@
                                                 onclick="sendMessage()">Send</button>
                                         </div>
                                     </div>
-
                                 </div>
 
                             </div>
@@ -288,7 +286,7 @@
                         currentRecipient.fullName = name;
                         currentRecipient.avatar = avatar;
                         document.querySelector('.chat-box-header .username').innerText = name; // Cập nhật tên người nhận
-                        document.querySelector('.chat-box-header img').src = '/images/company/' + avatar; // Cập nhật avatar người nhận
+                        document.querySelector('.chat-box-header img').src = '/images/avatar/' + avatar; // Cập nhật avatar người nhận
                         document.querySelector('.chat-messages').innerHTML = ''; // Xóa tin nhắn cũ
                         document.querySelector('.chat-box-container').style.display = 'block'; // Hiển thị chat box
                     }
@@ -376,4 +374,5 @@
 
 
             </html>
+
             </rewritten_file>
